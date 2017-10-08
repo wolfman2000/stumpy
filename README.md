@@ -1,4 +1,6 @@
-# Stumpy
+# Stumpy, a Link to the Past Item Tracker
+
+This is version 0.0.1 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.5.
 
