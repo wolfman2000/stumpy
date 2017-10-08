@@ -1,0 +1,13 @@
+:host {
+  width: 64px;
+  height: 64px;
+  display: table-cell;
+}
+:host > div {
+  width: 64px;
+  height: 64px;
+  opacity: 0.25;
+}
+:host .isActive {
+  opacity: 1;
+}
