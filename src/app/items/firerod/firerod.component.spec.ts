@@ -1,4 +1,4 @@
-import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 import { FireRodComponent } from './firerod.component';
