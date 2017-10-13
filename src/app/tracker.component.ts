@@ -4,7 +4,8 @@ import { Mode } from './mode';
 
 @Component({
   selector: 'app-randomizer-tracker',
-  templateUrl: './tracker.component.html'
+  templateUrl: './tracker.component.html',
+  styleUrls: ['./tracker.component.css']
 })
 
 export class RandomizerTrackerComponent implements OnInit, OnDestroy {

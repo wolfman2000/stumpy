@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ItemComponent } from '../item.component';
 import { InventoryService } from '../../inventory.service';
 
 @Component( {
