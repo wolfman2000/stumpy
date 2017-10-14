@@ -323,7 +323,7 @@ export class InventoryService {
   }
 
   incrementTunic(): void {
-    switch( this.tunic) {
+    switch (this.tunic) {
       case Tunic.Green:
         this.tunic = Tunic.Blue;
         break;
