@@ -15,22 +15,27 @@ export class RandomizerSettingsComponent {
   };
   modeKeys(): Array<string> {
     const values: Array<string> = [];
-    for ( let n in Mode ) {
+    for ( const n in Mode ) {
+      if ( !!n ) {
         values.push( n );
+      }
     }
 
     return values;
-  };
+  }
   currentLogic( l: GlitchLogic ): string {
     return GlitchLogic[l];
-  };
+  }
   logicKeys(): any {
-    let values: any = [];
-    for ( let n in GlitchLogic ) {
-      //  values.push( { id: n, value: GlitchLogic[n] } );
-    values.push( n );
+    const values: any = [];
+    for ( const n in GlitchLogic ) {
+      if ( !!n ) {
+        //  values.push( { id: n, value: GlitchLogic[n] } );
+        values.push( n );
+      }
     }
+
     return values;
-  };
+  }
 }
 
