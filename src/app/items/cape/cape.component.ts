@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './cape.component.html',
   styleUrls: ['../item.component.css', './cape.component.css']
 })
-export class CapeComponent implements OnInit {
+export class CapeComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class CapeComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleCape();
   }
-}
+} /* istanbul ignore next */

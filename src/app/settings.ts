@@ -1,5 +1,5 @@
-import { Mode } from './mode';
-import { GlitchLogic } from './glitch-logic';
+import { Mode } from './options/mode';
+import { GlitchLogic } from './options/glitch-logic';
 
 export class Settings {
   mode: Mode;

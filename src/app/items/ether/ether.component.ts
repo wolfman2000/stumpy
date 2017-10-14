@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './ether.component.html',
   styleUrls: ['../item.component.css', './ether.component.css']
 })
-export class EtherComponent implements OnInit {
+export class EtherComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class EtherComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleEther();
   }
-}
+} /* istanbul ignore next */

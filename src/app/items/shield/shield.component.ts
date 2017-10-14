@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 import { Shield } from './shield';
 
@@ -8,13 +8,10 @@ import { Shield } from './shield';
   templateUrl: './shield.component.html',
   styleUrls: ['../item.component.css', './shield.component.css']
 })
-export class ShieldComponent implements OnInit {
+export class ShieldComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     const shield: Shield = this.inventoryService.shield;
@@ -29,4 +26,4 @@ export class ShieldComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.incrementShield();
   }
-}
+} /* istanbul ignore next */

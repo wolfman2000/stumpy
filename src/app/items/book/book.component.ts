@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,14 +7,11 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './book.component.html',
   styleUrls: ['../item.component.css', './book.component.css']
 })
-export class BookComponent implements OnInit {
+export class BookComponent {
 
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -26,4 +23,4 @@ export class BookComponent implements OnInit {
     this.inventoryService.toggleBook();
   }
 
-}
+} /* istanbul ignore next */

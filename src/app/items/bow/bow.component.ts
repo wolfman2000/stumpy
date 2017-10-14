@@ -22,4 +22,4 @@ export class BowComponent {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleBow();
   }
-}
+} /* istanbul ignore next */

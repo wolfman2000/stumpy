@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 import { Tunic } from './tunic';
 
@@ -8,13 +8,10 @@ import { Tunic } from './tunic';
   templateUrl: './tunic.component.html',
   styleUrls: ['../item.component.css', './tunic.component.css']
 })
-export class TunicComponent implements OnInit {
+export class TunicComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     const tunic = this.inventoryService.tunic;
@@ -29,4 +26,4 @@ export class TunicComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.incrementTunic();
   }
-}
+} /* istanbul ignore next */

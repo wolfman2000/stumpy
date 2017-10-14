@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './hammer.component.html',
   styleUrls: ['../item.component.css', './hammer.component.css']
 })
-export class HammerComponent implements OnInit {
+export class HammerComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class HammerComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleHammer();
   }
-}
+} /* istanbul ignore next */

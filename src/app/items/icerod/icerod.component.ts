@@ -22,4 +22,4 @@ export class IceRodComponent {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleIceRod();
   }
-}
+} /* istanbul ignore next */

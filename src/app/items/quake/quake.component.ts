@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './quake.component.html',
   styleUrls: ['../item.component.css', './quake.component.css']
 })
-export class QuakeComponent implements OnInit {
+export class QuakeComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class QuakeComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleQuake();
   }
-}
+} /* istanbul ignore next */

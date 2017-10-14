@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,14 +7,11 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './bombos.component.html',
   styleUrls: [ '../item.component.css', './bombos.component.css']
 })
-export class BombosComponent implements OnInit {
+export class BombosComponent {
 
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -25,4 +22,4 @@ export class BombosComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleBombos();
   }
-}
+} /* istanbul ignore next */

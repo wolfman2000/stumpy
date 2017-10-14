@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Mode } from './mode';
+import { Mode } from './options/mode';
 
 @Component({
   selector: 'app-randomizer-tracker',
@@ -27,4 +27,4 @@ export class RandomizerTrackerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-}
+} /* istanbul ignore next */

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './moon-pearl.component.html',
   styleUrls: ['../item.component.css', './moon-pearl.component.css']
 })
-export class MoonPearlComponent implements OnInit {
+export class MoonPearlComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class MoonPearlComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleMoonPearl();
   }
-}
+} /* istanbul ignore next */

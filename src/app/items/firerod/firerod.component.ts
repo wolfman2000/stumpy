@@ -22,4 +22,4 @@ export class FireRodComponent {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleFireRod();
   }
-}
+} /* istanbul ignore next */

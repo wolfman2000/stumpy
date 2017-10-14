@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './mushroom.component.html',
   styleUrls: ['../item.component.css', './mushroom.component.css']
 })
-export class MushroomComponent implements OnInit {
+export class MushroomComponent{
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class MushroomComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleMushroom();
   }
-}
+} /* istanbul ignore next */
