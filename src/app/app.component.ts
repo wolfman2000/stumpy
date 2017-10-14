@@ -4,6 +4,8 @@ import { Mode } from './mode';
 import { Settings } from './settings';
 import { InventoryService } from './inventory.service';
 
+import '../assets/css/styles.css';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
