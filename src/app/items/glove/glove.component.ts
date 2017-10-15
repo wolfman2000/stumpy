@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 import { Glove } from './glove';
 
@@ -8,13 +8,10 @@ import { Glove } from './glove';
   templateUrl: './glove.component.html',
   styleUrls: ['../item.component.css', './glove.component.css']
 })
-export class GloveComponent implements OnInit {
+export class GloveComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     const glove = this.inventoryService.glove;
@@ -28,4 +25,4 @@ export class GloveComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.incrementGlove();
   }
-}
+} /* istanbul ignore next */

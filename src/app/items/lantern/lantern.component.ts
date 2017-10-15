@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './lantern.component.html',
   styleUrls: ['../item.component.css', './lantern.component.css']
 })
-export class LanternComponent implements OnInit {
+export class LanternComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class LanternComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleLantern();
   }
-}
+} /* istanbul ignore next */

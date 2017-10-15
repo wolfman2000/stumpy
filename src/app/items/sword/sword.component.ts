@@ -42,4 +42,4 @@ export class SwordComponent {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.incrementSword();
   }
-}
+} /* istanbul ignore next */

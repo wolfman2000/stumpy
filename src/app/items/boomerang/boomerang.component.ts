@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,14 +7,11 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './boomerang.component.html',
   styleUrls: ['../item.component.css', './boomerang.component.css']
 })
-export class BoomerangComponent implements OnInit {
+export class BoomerangComponent {
 
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -32,4 +29,4 @@ export class BoomerangComponent implements OnInit {
 
     this.inventoryService.toggleBlueBoomerang();
   }
-}
+} /* istanbul ignore next */

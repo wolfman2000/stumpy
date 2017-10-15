@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './silver-arrows.component.html',
   styleUrls: ['../item.component.css', './silver-arrows.component.css']
 })
-export class SilverArrowsComponent implements OnInit {
+export class SilverArrowsComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class SilverArrowsComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleSilverArrows();
   }
-}
+} /* istanbul ignore next */

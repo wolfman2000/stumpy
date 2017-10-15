@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { GlitchLogic } from './glitch-logic';
-import { Mode } from './mode';
+import { GlitchLogic } from './options/glitch-logic';
+import { Mode } from './options/mode';
 import { Settings } from './settings';
 import { InventoryService } from './inventory.service';
 
@@ -14,4 +14,4 @@ import '../assets/css/styles.css';
 
 export class AppComponent {
   title = 'Stumpy, a Link to the Past Item Tracker';
-}
+} /* istanbul ignore next */

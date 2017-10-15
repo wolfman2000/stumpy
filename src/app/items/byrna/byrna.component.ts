@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,14 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './byrna.component.html',
   styleUrls: ['../item.component.css', './byrna.component.css']
 })
-export class ByrnaComponent implements OnInit {
-
+export class ByrnaComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -25,4 +21,4 @@ export class ByrnaComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleByrna();
   }
-}
+} /* istanbul ignore next */

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './net.component.html',
   styleUrls: ['../item.component.css', './net.component.css']
 })
-export class NetComponent implements OnInit {
+export class NetComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class NetComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleNet();
   }
-}
+} /* istanbul ignore next */

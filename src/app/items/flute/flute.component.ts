@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './flute.component.html',
   styleUrls: ['../item.component.css', './flute.component.css']
 })
-export class FluteComponent implements OnInit {
+export class FluteComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class FluteComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleFlute();
   }
-}
+} /* istanbul ignore next */

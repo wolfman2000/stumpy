@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './somaria.component.html',
   styleUrls: ['../item.component.css', './somaria.component.css']
 })
-export class SomariaComponent implements OnInit {
+export class SomariaComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class SomariaComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleSomaria();
   }
-}
+} /* istanbul ignore next */

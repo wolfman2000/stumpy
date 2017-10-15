@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,14 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './bottle.component.html',
   styleUrls: ['../item.component.css', './bottle.component.css']
 })
-export class BottleComponent implements OnInit {
-
+export class BottleComponent{
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     const bottles: number = this.inventoryService.bottles;
@@ -28,4 +24,4 @@ export class BottleComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.incrementBottles();
   }
-}
+} /* istanbul ignore next */

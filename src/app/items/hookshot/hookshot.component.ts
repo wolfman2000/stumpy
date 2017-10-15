@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './hookshot.component.html',
   styleUrls: ['../item.component.css', './hookshot.component.css']
 })
-export class HookshotComponent implements OnInit {
+export class HookshotComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class HookshotComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleHookshot();
   }
-}
+} /* istanbul ignore next */

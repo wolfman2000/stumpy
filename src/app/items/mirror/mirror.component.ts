@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
@@ -7,13 +7,10 @@ import { InventoryService } from '../../inventory.service';
   templateUrl: './mirror.component.html',
   styleUrls: ['../item.component.css', './mirror.component.css']
 })
-export class MirrorComponent implements OnInit {
+export class MirrorComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}
-
-  ngOnInit() {
-  }
 
   getClasses(): any {
     return {
@@ -24,4 +21,4 @@ export class MirrorComponent implements OnInit {
   whenClicked(evt: MouseEvent) {
     this.inventoryService.toggleMirror();
   }
-}
+} /* istanbul ignore next */

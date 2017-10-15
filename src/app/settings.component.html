@@ -1,11 +1,9 @@
-<h2>Currently at {{settings.mode}} mode, using glitch logic of {{settings.logic}}.</h2>
+<h2>Currently at {{_options.modeString}} mode, using glitch logic of {{_options.logicString}}.</h2>
 
-<select [(ngModel)]="settings.mode">
-  <option *ngFor="let c of modeKeys()">{{c}}</option>
+<select [(ngModel)]="_options.mode">
+  <option *ngFor="let c of _options.modeKeys" value="{{c.value}}">{{c.label}}</option>
 </select>
 
-<select [(ngModel)]="settings.logic">
-  <option *ngFor="let c of logicKeys()">{{c}}</option>
+<select [(ngModel)]="_options.logic">
+  <option *ngFor="let c of _options.logicKeys" value="{{c.value}}">{{c.label}}</option>
 </select>
-
-
