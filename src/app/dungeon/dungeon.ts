@@ -3,6 +3,9 @@ import { Reward } from './reward';
 
 export class Dungeon {
   constructor(
+    private _dungeonName: string,
+    private _bossName: string,
+    private _reward: Reward,
     private _maxChests: number,
     private _entranceLock: EntranceLock = EntranceLock.None
   ) {
@@ -10,9 +13,11 @@ export class Dungeon {
   }
 
   private _chestCount: number;
-  private _reward: Reward;
   private _isBossDefeated: boolean;
 
+  get bossName(): string {
+    return this._bossName;
+  }
   get maxChests(): number {
     return this._maxChests;
   }
@@ -21,6 +26,19 @@ export class Dungeon {
   }
   get entranceLock(): EntranceLock {
     return this._entranceLock;
+  }
+  get isBossDefeated(): boolean {
+    return this._isBossDefeated;
+  }
+  get reward(): Reward {
+    return this._reward;
+  }
+  get hasDungeonEndingReward(): boolean {
+    return this.reward !== Reward.None;
+  }
+
+  get hasMedallionEntrance(): boolean {
+    return this.entranceLock !== EntranceLock.None;
   }
 
   decrementChestCount(): void {
@@ -43,5 +61,29 @@ export class Dungeon {
       default:
         break;
     }
+  }
+
+  cycleReward(): void {
+    switch ( this.reward ) {
+      case Reward.Unknown:
+        this._reward = Reward.GreenPendant;
+        break;
+      case Reward.GreenPendant:
+        this._reward = Reward.StandardPendant;
+        break;
+      case Reward.StandardPendant:
+        this._reward = Reward.StandardCrystal;
+        break;
+      case Reward.StandardCrystal:
+        this._reward = Reward.FairyCrystal;
+        break;
+      case Reward.FairyCrystal:
+        this._reward = Reward.Unknown;
+        break;
+    }
+  }
+
+  toggleDefeat(): void {
+    this._isBossDefeated = !this.isBossDefeated;
   }
 }

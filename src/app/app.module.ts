@@ -35,6 +35,8 @@ import { BookComponent } from './items/book/book.component';
 import { TunicComponent } from './items/tunic/tunic.component';
 import { SilverArrowsComponent } from './items/silver-arrows/silver-arrows.component';
 import { LanternComponent } from './items/lantern/lantern.component';
+import { DungeonComponent } from './dungeon/dungeon.component';
+import { CamelCasePipe } from './camel-case.pipe';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { LanternComponent } from './items/lantern/lantern.component';
     BookComponent,
     TunicComponent,
     SilverArrowsComponent,
-    LanternComponent
+    LanternComponent,
+    DungeonComponent,
+    CamelCasePipe
   ],
   imports: [
     BrowserModule,

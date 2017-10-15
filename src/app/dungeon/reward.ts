@@ -1,4 +1,5 @@
 export enum Reward {
+  None,
   Unknown,
   GreenPendant,
   StandardPendant,

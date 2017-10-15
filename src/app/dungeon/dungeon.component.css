@@ -1,0 +1,152 @@
+:host {
+  width: 64px;
+  height: 64px;
+  display: table-cell;
+}
+:host > div {
+  width: 64px;
+  height: 64px;
+}
+:host .boss {
+  width: 64px;
+  height: 64px;
+  opacity: 0.25;
+}
+:host .boss.isBeaten {
+  opacity: 1;
+}
+
+.agahnim {
+  background-image: url('/assets/bosses/agahnim0.png');
+}
+
+.agahnim.boss.isBeaten {
+  background-image: url('/assets/bosses/agahnim1.png');
+}
+
+.armosKnights {
+  background-image: url('/assets/bosses/armosKnights.png');
+}
+
+.arrghus {
+  background-image: url('/assets/bosses/arrghus.png');
+}
+
+.blind {
+  background-image: url('/assets/bosses/blind.png');
+}
+
+.helmasaurKing {
+  background-image: url('/assets/bosses/helmasaurKing.png');
+}
+
+.kholdstare {
+  background-image: url('/assets/bosses/kholdstare.png');
+}
+
+.lanmolas {
+  background-image: url('/assets/bosses/lanmolas.png');
+}
+
+.moldorm {
+  background-image: url('/assets/bosses/moldorm.png');
+}
+
+.mothula {
+  background-image: url('/assets/bosses/mothula.png');
+}
+
+.trinexx {
+  background-image: url('/assets/bosses/trinexx.png');
+}
+
+.vitreous {
+  background-image: url('/assets/bosses/vitreous.png');
+}
+
+.chest {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  bottom: 32px;
+}
+
+.chest0 {
+  background-image: url('/assets/chests/chest0.png');
+}
+
+.chest1 {
+  background-image: url('/assets/chests/chest1.png');
+}
+
+.chest2 {
+  background-image: url('/assets/chests/chest2.png');
+}
+
+.chest3 {
+  background-image: url('/assets/chests/chest3.png');
+}
+
+.chest4 {
+  background-image: url('/assets/chests/chest4.png');
+}
+
+.chest5 {
+  background-image: url('/assets/chests/chest5.png');
+}
+
+.chest6 {
+  background-image: url('/assets/chests/chest6.png');
+}
+
+.reward {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  bottom: 64px;
+  left: 32px;
+}
+
+.reward.unknown {
+  background-image: url('/assets/overlay/reward-unknown.png');
+}
+
+.reward.greenPendant {
+  background-image: url('/assets/overlay/reward-greenPendant.png');
+}
+
+.reward.standardPendant {
+  background-image: url('/assets/overlay/reward-standardPendant.png');
+}
+
+.reward.standardCrystal {
+  background-image: url('/assets/overlay/reward-standardCrystal.png');
+}
+
+.reward.fairyCrystal {
+  background-image: url('/assets/overlay/reward-fairyCrystal.png');
+}
+
+.medallion {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  bottom: 128px;
+  left: 32px;
+}
+
+.medallion.unknown {
+  background-image: url('/assets/overlay/medallion-unknown.png');
+}
+
+.medallion.bombos {
+  background-image: url('/assets/overlay/medallion-bombos.png');
+}
+
+.medallion.ether {
+  background-image: url('/assets/overlay/medallion-ether.png');
+}
+
+.medallion.quake {
+  background-image: url('/assets/overlay/medallion-quake.png');
+}
