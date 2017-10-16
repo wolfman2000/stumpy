@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Mode } from './options/mode';
+import { Location } from './dungeon/location';
 
 @Component({
   selector: 'app-randomizer-tracker',

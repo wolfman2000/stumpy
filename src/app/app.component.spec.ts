@@ -37,6 +37,7 @@ import { BookComponent } from './items/book/book.component';
 import { TunicComponent } from './items/tunic/tunic.component';
 import { SilverArrowsComponent } from './items/silver-arrows/silver-arrows.component';
 import { LanternComponent } from './items/lantern/lantern.component';
+import { DungeonComponent } from './dungeon/dungeon.component';
 
 describe( 'The application component', () => {
   let comp: AppComponent;
@@ -78,7 +79,8 @@ describe( 'The application component', () => {
         BookComponent,
         TunicComponent,
         SilverArrowsComponent,
-        LanternComponent
+        LanternComponent,
+        DungeonComponent
       ],
       imports: [
         FormsModule,

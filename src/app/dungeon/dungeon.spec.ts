@@ -1,10 +1,11 @@
 import { Dungeon } from './dungeon';
 import { EntranceLock } from './entrance-lock';
+import { Reward } from './reward';
 
 describe( 'A dungeon with no chests of randomized items and no entrance lock', () => {
   let dungeon: Dungeon;
 
-  beforeEach( () => { dungeon = new Dungeon(0); });
+  beforeEach( () => { dungeon = new Dungeon('random location', 'random name', Reward.Unknown, 0); });
 
   it( 'has a max chest count of zero forever.', () => {
     expect( dungeon.maxChests ).toEqual( 0 );
@@ -34,7 +35,7 @@ describe( 'A dungeon with no chests of randomized items and no entrance lock', (
 describe( 'A dungeon with two items inside', () => {
   let dungeon: Dungeon;
 
-  beforeEach( () => { dungeon = new Dungeon(2); });
+  beforeEach( () => { dungeon = new Dungeon('random location', 'random name', Reward.Unknown, 2); });
 
   it( 'starts with a count of two chests available.', () => {
     expect( dungeon.chestCount ).toEqual( 2 );
@@ -68,7 +69,7 @@ describe( 'A dungeon with two items inside', () => {
 describe( 'A dungeon with a medallion lock', () => {
   let dungeon: Dungeon;
 
-  beforeEach( () => { dungeon = new Dungeon(0, EntranceLock.Unknown); });
+  beforeEach( () => { dungeon = new Dungeon('random location', 'random name', Reward.Unknown, 0, EntranceLock.Unknown); });
 
   it( 'starts in the unknown phase', () => {
     expect( dungeon.entranceLock ).toBe( EntranceLock.Unknown );

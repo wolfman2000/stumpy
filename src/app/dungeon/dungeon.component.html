@@ -1,0 +1,6 @@
+<div (click)="whenClicked($event)">
+  <div [ngClass]="getBossClasses()" class="boss"></div>
+  <div *ngIf="hasChests()" [ngClass]="getChestClasses()" (click)="whenChestClicked($event)"></div>
+  <div *ngIf="hasReward()" [ngClass]="getRewardClasses()" (click)="whenRewardClicked($event)"></div>
+  <div *ngIf="hasMedallion()" [ngClass]="getMedallionClasses()" (click)="whenMedallionClicked($event)"></div>
+</div>
