@@ -36,6 +36,7 @@ import { TunicComponent } from './items/tunic/tunic.component';
 import { SilverArrowsComponent } from './items/silver-arrows/silver-arrows.component';
 import { LanternComponent } from './items/lantern/lantern.component';
 import { DungeonComponent } from './dungeon/dungeon.component';
+import { ItemComponent } from './items/item.component';
 import { CamelCasePipe } from './camel-case.pipe';
 
 @NgModule({
@@ -73,6 +74,7 @@ import { CamelCasePipe } from './camel-case.pipe';
     SilverArrowsComponent,
     LanternComponent,
     DungeonComponent,
+    ItemComponent,
     CamelCasePipe
   ],
   imports: [

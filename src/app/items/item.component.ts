@@ -3,10 +3,11 @@ import { InventoryService } from '../inventory.service';
 
 @Component( {
   selector: 'app-item',
+  template: '<div></div>',
   styleUrls: [ './item.component.css' ]
 } )
 
-export abstract class ItemComponent {
+export class ItemComponent {
   constructor(
     protected _inventoryService: InventoryService
   ) {}
@@ -15,6 +16,8 @@ export abstract class ItemComponent {
     return this._inventoryService;
   }
 
-  abstract getClasses(): any;
-  abstract whenClicked( evt: MouseEvent ): void;
+  getClasses(): any {
+  }
+  whenClicked( evt: MouseEvent ): void {
+  }
 }
