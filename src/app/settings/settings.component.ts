@@ -1,21 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Settings } from './settings';
-import { Mode } from './options/mode';
-import { GlitchLogic } from './options/glitch-logic';
-import { OptionsService } from './options/options.service';
+import { Mode } from './mode';
+import { GlitchLogic } from './glitch-logic';
+import { SettingsService } from './settings.service';
 
 @Component({
-  providers: [OptionsService],
+  providers: [SettingsService],
   selector: 'app-randomizer-settings',
   templateUrl: './settings.component.html'
 })
 
 export class RandomizerSettingsComponent implements OnInit {
   constructor(
-    private _options: OptionsService
+    private _options: SettingsService
   ) {}
 
-  options: OptionsService;
+  options: SettingsService;
 
   ngOnInit(): void {
     this.options = this._options;
