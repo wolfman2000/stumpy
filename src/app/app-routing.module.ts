@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { RandomizerSettingsComponent } from './settings.component';
+import { RandomizerSettingsComponent } from './settings/settings.component';
 import { RandomizerTrackerComponent } from './tracker.component';
 
 const routes: Routes = [

@@ -6,7 +6,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { RandomizerSettingsComponent } from './settings.component';
+import { RandomizerSettingsComponent } from './settings/settings.component';
 import { RandomizerTrackerComponent } from './tracker.component';
 import { SwordComponent } from './items/sword/sword.component';
 import { BowComponent } from './items/bow/bow.component';

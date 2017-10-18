@@ -3,8 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
+import { LocalStorageService } from './local-storage.service';
+
 import { AppComponent } from './app.component';
-import { RandomizerSettingsComponent } from './settings.component';
+import { RandomizerSettingsComponent } from './settings/settings.component';
 import { RandomizerTrackerComponent } from './tracker.component';
 import { SwordComponent } from './items/sword/sword.component';
 import { BowComponent } from './items/bow/bow.component';
@@ -82,7 +84,7 @@ import { CamelCasePipe } from './camel-case.pipe';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [LocalStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { GlitchLogic } from './options/glitch-logic';
-import { Mode } from './options/mode';
-import { Settings } from './settings';
+import { GlitchLogic } from './settings/glitch-logic';
+import { Mode } from './settings/mode';
 import { InventoryService } from './inventory.service';
 
 import '../assets/css/styles.css';

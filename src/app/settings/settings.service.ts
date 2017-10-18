@@ -1,13 +1,28 @@
 import { Injectable } from '@angular/core';
 
+import { LocalStorageService } from '../local-storage.service';
+
 import { Mode } from './mode';
 import { GlitchLogic } from './glitch-logic';
 
 @Injectable()
-export class OptionsService {
-  constructor() {
-    this.mode = Mode.Standard;
-    this.logic = GlitchLogic.None;
+export class SettingsService {
+  constructor(
+    private localStorageService: LocalStorageService
+  ) {
+    if ( !this.localStorageService.hasItem( 'mode' ) ) {
+      this.mode = Mode.Standard;
+      this.localStorageService.setItem( 'mode', this.mode + '' );
+    } else {
+      this._mode = parseInt( localStorage.getItem( 'mode' ), 10 );
+    }
+
+    if ( !this.localStorageService.hasItem( 'logic' ) ) {
+      this.logic = GlitchLogic.None;
+      this.localStorageService.setItem( 'logic', this.logic + '' );
+    } else {
+      this._logic = parseInt( localStorage.getItem( 'logic'), 10 );
+    }
   }
 
   private _mode: Mode;
@@ -18,6 +33,7 @@ export class OptionsService {
   }
   set mode(mode: Mode) {
     this._mode = mode;
+    this.localStorageService.setItem( 'mode', this.mode + '' );
   }
 
   get modeKeys(): any {
@@ -40,6 +56,7 @@ export class OptionsService {
   }
   set logic(logic: GlitchLogic) {
     this._logic = logic;
+    this.localStorageService.setItem( 'logic', this.logic + '' );
   }
 
   get logicKeys(): any {
