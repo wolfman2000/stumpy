@@ -113,7 +113,7 @@ describe( 'The application component', () => {
     expect( de.componentInstance.title ).toEqual('Stumpy, a Link to the Past Item Tracker');
   });
 
-  it( 'should have the title in a h1 tag.', () => {
-    expect( el.querySelector('h1').textContent).toContain('Welcome to Stumpy, a Link to the Past Item Tracker!');
+  it( 'should have the title in a h2 tag.', () => {
+    expect( el.querySelector('h2').textContent).toContain('Welcome to Stumpy, a Link to the Past Item Tracker!');
   });
 });

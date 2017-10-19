@@ -1,9 +1,16 @@
-<h2>Currently at {{options.modeString}} mode, using glitch logic of {{options.logicString}}.</h2>
+<div>
+  <p>
+    Select your mode.
+    <select [(ngModel)]="options.mode">
+      <option *ngFor="let c of options.modeKeys" value="{{c.value}}">{{c.label}}</option>
+    </select>
+  </p>
+</div>
 
-<select [(ngModel)]="options.mode">
-  <option *ngFor="let c of options.modeKeys" value="{{c.value}}">{{c.label}}</option>
-</select>
+<p><a routerLink="/tracker">Back to the tracker.</a></p>
 
+<!--
 <select [(ngModel)]="options.logic">
   <option *ngFor="let c of options.logicKeys" value="{{c.value}}">{{c.label}}</option>
 </select>
+-->
