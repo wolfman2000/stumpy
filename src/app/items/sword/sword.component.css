@@ -1,3 +1,7 @@
+.swordless {
+  visibility: hidden;
+}
+
 .sword1 {
   background-image: url('/assets/sword1.png');
 }

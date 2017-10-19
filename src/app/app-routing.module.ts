@@ -6,9 +6,9 @@ import { RandomizerSettingsComponent } from './settings/settings.component';
 import { RandomizerTrackerComponent } from './tracker.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/settings', pathMatch: 'full' },
+  { path: '', redirectTo: '/tracker', pathMatch: 'full' },
   { path: 'settings', component: RandomizerSettingsComponent },
-  { path: 'tracker/:mode/:logic', component: RandomizerTrackerComponent }
+  { path: 'tracker', component: RandomizerTrackerComponent }
 ];
 
 @NgModule({

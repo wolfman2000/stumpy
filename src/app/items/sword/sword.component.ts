@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
+import { SettingsService } from '../../settings/settings.service';
 import { Sword } from './sword';
+import { Mode } from '../../settings/mode';
 
 @Component( {
-  providers: [InventoryService],
+  providers: [InventoryService, SettingsService],
   selector: 'stumpy-sword',
   templateUrl: './sword.component.html',
   styleUrls: [ '../item.component.css', './sword.component.css' ]
@@ -11,12 +13,14 @@ import { Sword } from './sword';
 
 export class SwordComponent {
   constructor(
-    private inventoryService: InventoryService
+    private inventoryService: InventoryService,
+    private settingsService: SettingsService
   ) {}
 
   getClasses(): any {
     const sword = this.inventoryService.sword;
     const result: any = {
+      swordless: this.settingsService.mode === Mode.Swordless,
       isActive: sword !== Sword.None
     };
 
@@ -40,6 +44,8 @@ export class SwordComponent {
   }
 
   whenClicked(evt: MouseEvent) {
-    this.inventoryService.incrementSword();
+    if ( this.settingsService.mode !== Mode.Swordless ) {
+      this.inventoryService.incrementSword();
+    }
   }
 } /* istanbul ignore next */
