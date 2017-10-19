@@ -3,7 +3,6 @@ import { InventoryService } from '../../inventory.service';
 import { Glove } from './glove';
 
 @Component({
-  providers: [InventoryService],
   selector: 'stumpy-glove',
   templateUrl: './glove.component.html',
   styleUrls: ['../item.component.css', './glove.component.css']

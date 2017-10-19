@@ -3,7 +3,6 @@ import { InventoryService } from '../../inventory.service';
 import { Shield } from './shield';
 
 @Component({
-  providers: [InventoryService],
   selector: 'stumpy-shield',
   templateUrl: './shield.component.html',
   styleUrls: ['../item.component.css', './shield.component.css']

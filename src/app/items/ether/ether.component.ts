@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
-  providers: [InventoryService],
   selector: 'stumpy-ether',
   templateUrl: './ether.component.html',
   styleUrls: ['../item.component.css', './ether.component.css']

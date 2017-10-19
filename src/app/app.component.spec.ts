@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
+import { MapModule } from './map/map.module';
 
 import { AppComponent } from './app.component';
 import { RandomizerSettingsComponent } from './settings/settings.component';
@@ -84,7 +85,8 @@ describe( 'The application component', () => {
       ],
       imports: [
         FormsModule,
-        AppRoutingModule
+        AppRoutingModule,
+        MapModule.forRoot()
       ],
       providers: [ {
         provide: APP_BASE_HREF,

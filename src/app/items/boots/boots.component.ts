@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
-  providers: [InventoryService],
   selector: 'stumpy-boots',
   templateUrl: './boots.component.html',
   styleUrls: [ '../item.component.css', './boots.component.css']

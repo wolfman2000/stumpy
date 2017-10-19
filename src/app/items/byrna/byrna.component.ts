@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
-  providers: [InventoryService],
   selector: 'stumpy-byrna',
   templateUrl: './byrna.component.html',
   styleUrls: ['../item.component.css', './byrna.component.css']

@@ -1,9 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
 import { AppRoutingModule } from './app-routing.module';
+import { MapModule } from './map/map.module';
 
 import { LocalStorageService } from './local-storage.service';
+import { InventoryService } from './inventory.service';
+import { SettingsService } from './settings/settings.service';
 
 import { AppComponent } from './app.component';
 import { RandomizerSettingsComponent } from './settings/settings.component';
@@ -39,6 +43,7 @@ import { SilverArrowsComponent } from './items/silver-arrows/silver-arrows.compo
 import { LanternComponent } from './items/lantern/lantern.component';
 import { DungeonComponent } from './dungeon/dungeon.component';
 import { ItemComponent } from './items/item.component';
+
 import { CamelCasePipe } from './camel-case.pipe';
 
 @NgModule({
@@ -82,9 +87,10 @@ import { CamelCasePipe } from './camel-case.pipe';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MapModule.forRoot()
   ],
-  providers: [LocalStorageService],
+  providers: [InventoryService, LocalStorageService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
