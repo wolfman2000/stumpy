@@ -2,30 +2,21 @@
 
 [![Build Status](https://travis-ci.org/wolfman2000/stumpy.svg?branch=master)](https://travis-ci.org/wolfman2000/stumpy)
 
-This is version 0.1.0 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
+This is version 0.2.0 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.5.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This tracker includes one layout, with the ability to set the sword mode. The sword mode only comes into play right now if using Swordless mode.
 
-## Code scaffolding
+### Planned Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* Chest/map tracking.
+* Saving and resetting the tracker without refreshing the browser.
+* Flexible tracker layouts, whether through presets or full custom functionality.
 
-## Build
+## Releases
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Any non pre-release is designed to work with an Apache server. Simply drop the files onto your webserver, restart it, and you should be good to go. Note that new releases will completely replace the old files due to the use of hashing.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
