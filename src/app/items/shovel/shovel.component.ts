@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
-  providers: [InventoryService],
   selector: 'stumpy-shovel',
   templateUrl: './shovel.component.html',
   styleUrls: ['../item.component.css', './shovel.component.css']

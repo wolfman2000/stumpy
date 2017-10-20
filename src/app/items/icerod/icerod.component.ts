@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component( {
-  providers: [InventoryService],
   selector: 'stumpy-icerod',
   templateUrl: './icerod.component.html',
   styleUrls: ['../item.component.css', './icerod.component.css']

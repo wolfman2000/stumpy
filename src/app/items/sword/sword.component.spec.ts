@@ -14,9 +14,6 @@ describe( 'The sword component', () => {
   let el: HTMLElement;
   let inventoryService: InventoryService;
   let settingsService: SettingsService;
-  const inventoryStub: any = {
-    sword: Sword.None
-  };
   const mouseEvt = new MouseEvent('test');
 
   beforeAll(() => {
@@ -46,10 +43,7 @@ describe( 'The sword component', () => {
         declarations: [
           SwordComponent
         ],
-        providers: [ {
-          provide: InventoryService,
-          useValue: inventoryStub
-        }, {
+        providers: [InventoryService, {
           provide: SettingsService,
           useValue: settingsStub
         }, LocalStorageService]
@@ -144,10 +138,7 @@ describe( 'The sword component', () => {
         declarations: [
           SwordComponent
         ],
-        providers: [ {
-          provide: InventoryService,
-          useValue: inventoryStub
-        }, {
+        providers: [InventoryService, {
           provide: SettingsService,
           useValue: settingsStub
         }, LocalStorageService]

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
-  providers: [InventoryService],
   selector: 'stumpy-lantern',
   templateUrl: './lantern.component.html',
   styleUrls: ['../item.component.css', './lantern.component.css']

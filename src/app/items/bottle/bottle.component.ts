@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { InventoryService } from '../../inventory.service';
 
 @Component({
-  providers: [InventoryService],
   selector: 'stumpy-bottle',
   templateUrl: './bottle.component.html',
   styleUrls: ['../item.component.css', './bottle.component.css']
 })
-export class BottleComponent{
+export class BottleComponent {
   constructor(
     private inventoryService: InventoryService
   ) {}

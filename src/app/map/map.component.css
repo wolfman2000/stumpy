@@ -1,0 +1,13 @@
+.map-light {
+  width: 438px;
+  height: 442px;
+  background-image: url('/assets/overlay/light-world.png');
+  background-size: 100% 100%;
+}
+
+.map-dark {
+  width: 438px;
+  height: 442px;
+  background-image: url('/assets/overlay/dark-world.png');
+  background-size: 100% 100%;
+}

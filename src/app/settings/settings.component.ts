@@ -4,7 +4,6 @@ import { GlitchLogic } from './glitch-logic';
 import { SettingsService } from './settings.service';
 
 @Component({
-  providers: [SettingsService],
   selector: 'app-randomizer-settings',
   templateUrl: './settings.component.html'
 })

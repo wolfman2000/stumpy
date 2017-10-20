@@ -3,7 +3,6 @@ import { InventoryService } from '../../inventory.service';
 import { Tunic } from './tunic';
 
 @Component({
-  providers: [InventoryService],
   selector: 'stumpy-tunic',
   templateUrl: './tunic.component.html',
   styleUrls: ['../item.component.css', './tunic.component.css']

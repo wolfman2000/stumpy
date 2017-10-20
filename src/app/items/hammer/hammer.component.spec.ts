@@ -9,9 +9,6 @@ describe('The hammer component', () => {
   let de: DebugElement;
   let el: HTMLElement;
   let service: InventoryService;
-  const serviceStub: any = {
-    bow: false
-  };
   const mouseEvt = new MouseEvent('test');
 
   beforeEach( async(() => {
@@ -19,10 +16,7 @@ describe('The hammer component', () => {
       declarations: [
         HammerComponent
       ],
-      providers: [ {
-        provide: InventoryService,
-        useValue: serviceStub
-      }]
+      providers: [InventoryService]
     }).compileComponents();
   }));
 

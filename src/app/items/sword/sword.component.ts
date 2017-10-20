@@ -5,7 +5,6 @@ import { Sword } from './sword';
 import { Mode } from '../../settings/mode';
 
 @Component( {
-  providers: [InventoryService, SettingsService],
   selector: 'stumpy-sword',
   templateUrl: './sword.component.html',
   styleUrls: [ '../item.component.css', './sword.component.css' ]
