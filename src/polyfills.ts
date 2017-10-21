@@ -71,6 +71,7 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 // import 'intl/locale-data/jsonp/en';
 
+/* istanbul ignore if */
 if (process.env.ENV === 'production') {
   // Production
 } else {

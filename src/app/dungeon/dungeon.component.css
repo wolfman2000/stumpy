@@ -2,18 +2,35 @@
   width: 64px;
   height: 64px;
   display: table-cell;
+  position: relative;
+  cursor: pointer;
 }
-:host > div {
-  width: 64px;
-  height: 64px;
-}
-:host .boss {
+:host > .boss {
   width: 64px;
   height: 64px;
   opacity: 0.25;
 }
 :host .boss.isBeaten {
   opacity: 1;
+}
+
+:host > div {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+}
+
+:host > .chest {
+  top: 32px;
+}
+
+:host > .reward {
+  top: 32px;
+  left: 32px;
+}
+
+:host > .medallion {
+  left: 32px;
 }
 
 .agahnim {
@@ -64,13 +81,6 @@
   background-image: url('/assets/bosses/vitreous.png');
 }
 
-.chest {
-  position: relative;
-  width: 32px;
-  height: 32px;
-  bottom: 32px;
-}
-
 .chest0 {
   background-image: url('/assets/chests/chest0.png');
 }
@@ -99,14 +109,6 @@
   background-image: url('/assets/chests/chest6.png');
 }
 
-.reward {
-  position: relative;
-  width: 32px;
-  height: 32px;
-  bottom: 64px;
-  left: 32px;
-}
-
 .reward.unknown {
   background-image: url('/assets/overlay/reward-unknown.png');
 }
@@ -125,14 +127,6 @@
 
 .reward.fairyCrystal {
   background-image: url('/assets/overlay/reward-fairyCrystal.png');
-}
-
-.medallion {
-  position: relative;
-  width: 32px;
-  height: 32px;
-  bottom: 128px;
-  left: 32px;
 }
 
 .medallion.unknown {

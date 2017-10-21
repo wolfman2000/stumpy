@@ -7,7 +7,7 @@ import { EntranceLock } from './entrance-lock';
 import { CamelCasePipe } from '../camel-case.pipe';
 
 @Component({
-  providers: [DungeonService, CamelCasePipe],
+  providers: [CamelCasePipe],
   selector: 'stumpy-dungeon',
   templateUrl: './dungeon.component.html',
   styleUrls: ['./dungeon.component.css']
@@ -98,4 +98,4 @@ export class DungeonComponent implements OnInit {
 
     this.dungeon.cycleEntranceLock();
   }
-}
+} /* istanbul ignore next */
