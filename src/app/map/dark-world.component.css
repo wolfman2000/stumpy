@@ -1,6 +1,9 @@
-section {
+:host {
   width: 438px;
   height: 442px;
+}
+
+:host > * {
   background-image: url('/assets/overlay/dark-world.png');
   background-size: 100% 100%;
 }

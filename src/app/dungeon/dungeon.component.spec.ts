@@ -18,10 +18,7 @@ describe( 'The dungeon component', () => {
   beforeEach( async(() => {
     TestBed.configureTestingModule( {
       declarations: [DungeonComponent],
-      providers: [{
-        provide: DungeonService,
-        useValue: serviceStub
-      }]
+      providers: [DungeonService]
     }).compileComponents();
   }));
 

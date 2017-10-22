@@ -1,0 +1,19 @@
+.available {
+  background-color: lime;
+}
+
+.unavailable {
+  background-color: red;
+}
+
+.claimed {
+  background-color: gray;
+}
+
+div {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-size: 100% 100%;
+  background-image: url('/assets/overlay/poi.png');
+}

@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MapModule } from './map/map.module';
 
 import { LocalStorageService } from './local-storage.service';
+import { DungeonService } from './dungeon/dungeon.service';
 import { InventoryService } from './inventory.service';
 import { SettingsService } from './settings/settings.service';
 
@@ -90,7 +91,7 @@ import { CamelCasePipe } from './camel-case.pipe';
     AppRoutingModule,
     MapModule.forRoot()
   ],
-  providers: [InventoryService, LocalStorageService, SettingsService],
+  providers: [InventoryService, DungeonService, LocalStorageService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
