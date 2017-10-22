@@ -71,6 +71,28 @@ export class DungeonService {
     return this.dungeons.get(Location.TurtleRock);
   }
 
+  hasGreenPendant(): boolean {
+    const dungeons = Array.from( this.dungeons.values() );
+    if ( dungeons.some( d => d.reward === Reward.GreenPendant && d.isBossDefeated ) ) {
+      return true;
+    }
+
+    return dungeons.filter( d => d.reward !== Reward.None ).every( d => d.isBossDefeated );
+  }
+
+  hasAllPendants(): boolean {
+    const dungeons = Array.from( this.dungeons.values() );
+
+    const pendantDungeons = dungeons
+      .filter( d => d.reward === Reward.GreenPendant || d.reward === Reward.StandardPendant );
+
+    if ( pendantDungeons.length === 3 && pendantDungeons.every( d => d.isBossDefeated ) ) {
+      return true;
+    }
+
+    return dungeons.filter( d => d.reward !== Reward.None ).every( d => d.isBossDefeated );
+  }
+
   getDungeon(id: number): Dungeon {
     return this.dungeons.get(id);
   }

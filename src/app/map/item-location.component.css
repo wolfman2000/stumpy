@@ -6,12 +6,20 @@
   background-color: red;
 }
 
-.claimed {
-  background-color: gray;
+.visible {
+  background-color: orange;
+}
+
+.possible {
+  background-color: yellow;
 }
 
 .glitches {
   background-color: blue;
+}
+
+.claimed {
+  background-color: gray;
 }
 
 div {
