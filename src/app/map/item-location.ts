@@ -7,12 +7,10 @@ export class ItemLocation {
     private _left: number,
     private _top: number,
     private _availability: () => Availability,
-    private _service: any
+    private _service: any,
+    private _isOpened: boolean = false
   ) {
-    this._isOpened = false;
   }
-
-  private _isOpened: boolean;
 
   get name(): string {
     return this._name;
