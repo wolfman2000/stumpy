@@ -11,6 +11,8 @@ import { InventoryService } from '../inventory.service';
 import { DungeonService } from '../dungeon/dungeon.service';
 import { SettingsService } from '../settings/settings.service';
 
+import { ItemLocations } from './item-location.repository';
+
 import { EntranceLock } from '../dungeon/entrance-lock';
 import { Location } from '../dungeon/location';
 import { Mode } from '../settings/mode';
@@ -22,51 +24,20 @@ export class ItemLocationService {
     private _dungeons: DungeonService,
     private _settings: SettingsService
   ) {
-    this._itemLocations = new Map<LocationKey, ItemLocation>();
-    this.itemLocations.set( LocationKey.KingsTomb, new ItemLocation(
-      'King\'s Tomb',
-      'boots and titans or mirror',
-      59.5,
-      27,
-      this.isKingsTombAvailable,
-      this
-    ));
-    this.itemLocations.set( LocationKey.LightWorldSwamp, new ItemLocation(
-      'Light World Swamp',
-      '',
-      45,
-      91,
-      ItemLocationService.always,
-      this
-    ));
-    this.itemLocations.set( LocationKey.LinksHouse, new ItemLocation(
-      'Link\'s House',
-      '',
-      52.5,
-      65.3,
-      ItemLocationService.always,
-      this,
-      _settings.mode === Mode.Standard
-    ));
-    this.itemLocations.set( LocationKey.SpiralCave, new ItemLocation(
-      'Spiral Cave',
-      'East Death Mountain Access',
-      77.9,
-      6.6,
-      this.isSpiralCaveAccessible,
-      this
-    ));
-    this.itemLocations.set( LocationKey.MimicCave, new ItemLocation(
-      'Mimic Cave',
-      'mirror',
-      83,
-      6.6,
-      this.isMimicCaveAvailable,
-      this
-    ));
+    this._itemLocations = ItemLocations;
+    this._availabilityMap = new Map<LocationKey, () => Availability>(
+      [
+        [LocationKey.KingsTomb, this.isKingsTombAvailable],
+        [LocationKey.LightWorldSwamp, ItemLocationService.always],
+        [LocationKey.LinksHouse, ItemLocationService.always],
+        [LocationKey.SpiralCave, this.isSpiralCaveAccessible],
+        [LocationKey.MimicCave, this.isMimicCaveAvailable]
+      ]
+    );
   }
 
   private _itemLocations: Map<LocationKey, ItemLocation>;
+  private _availabilityMap: Map<LocationKey, () => Availability>;
 
   private static always(): Availability {
     return Availability.Available;
@@ -154,7 +125,7 @@ export class ItemLocationService {
 
   private isSpiralCaveAccessible(): Availability {
     const inventory = this._inventory;
-    if ( !(inventory.glove || inventory.flute)) {
+    if ( !(inventory.flute || inventory.glove !== Glove.None ) ) {
       return Availability.Unavailable;
     }
 
@@ -183,6 +154,10 @@ export class ItemLocationService {
     }
 
     return inventory.lantern || inventory.flute ? Availability.Available : Availability.Glitches;
+  }
+
+  getAvailability(id: LocationKey): Availability {
+    return this._availabilityMap.get(id).call(this);
   }
 
   get itemLocations(): Map<LocationKey, ItemLocation> {

@@ -44,14 +44,8 @@ describe( 'The item location service', () => {
   });
 
   describe( 'set to the King\'s Tomb', () => {
-    let kingsTomb: ItemLocation;
-
-    beforeEach( () => {
-      kingsTomb = itemLocationService.getItemLocation( LocationKey.KingsTomb );
-    });
-
     it( 'starts off as unavailable.', () => {
-      expect( kingsTomb.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be made available with the pearl and titan\'s mitts.', () => {
@@ -59,14 +53,14 @@ describe( 'The item location service', () => {
       inventoryService.incrementGlove();
       inventoryService.incrementGlove();
 
-      expect( kingsTomb.availability ).toBe( Availability.Available );
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Available );
     });
 
     it( 'cannot be made available with just the power gloves.', () => {
       inventoryService.toggleMoonPearl();
       inventoryService.incrementGlove();
 
-      expect( kingsTomb.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be made available with the gloves, a hammer, and a mirror, assuming glitches are used.', () => {
@@ -75,7 +69,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleHammer();
       inventoryService.toggleMirror();
 
-      expect( kingsTomb.availability ).toBe( Availability.Glitches );
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Glitches );
     });
 
     it( 'can cleanly be made available with gloves, hammer, mirror, and boots.', () => {
@@ -85,7 +79,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleMirror();
       inventoryService.toggleBoots();
 
-      expect( kingsTomb.availability ).toBe( Availability.Available );
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Available );
     });
 
     it( 'cannot be available if you only defeated Agahnim and have the hookshot.', () => {
@@ -93,7 +87,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleMoonPearl();
       inventoryService.toggleHookshot();
 
-      expect( kingsTomb.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be available if you defeated Agahnim and have the hookshot, a hammer, and boots.', () => {
@@ -104,7 +98,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleMirror();
       inventoryService.toggleBoots();
 
-      expect( kingsTomb.availability ).toBe( Availability.Available );
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Available );
     });
 
     it( 'can be available if you defeated Agahnim and have the hookshot, flippers, and boots.', () => {
@@ -115,19 +109,13 @@ describe( 'The item location service', () => {
       inventoryService.toggleMirror();
       inventoryService.toggleBoots();
 
-      expect( kingsTomb.availability ).toBe( Availability.Available );
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Available );
     });
   });
 
   describe( 'set to the Light World Swamp', () => {
-    let swamp: ItemLocation;
-
-    beforeEach( () => {
-      swamp = itemLocationService.getItemLocation(LocationKey.LightWorldSwamp);
-    });
-
     it( 'starts off as available no matter what.', () => {
-      expect( swamp.availability === Availability.Available );
+      expect( itemLocationService.getAvailability(LocationKey.LightWorldSwamp) ).toBe( Availability.Available );
     });
   });
 
@@ -139,42 +127,63 @@ describe( 'The item location service', () => {
       const tempLocationService = new ItemLocationService(inventoryService, dungeonService, settingsService);
       home = tempLocationService.getItemLocation(LocationKey.LinksHouse);
 
-      expect( home.availability ).toBe( Availability.Available );
+      expect( tempLocationService.getAvailability( LocationKey.LinksHouse) ).toBe( Availability.Available );
       expect( home.isOpened ).toBeFalsy();
     });
 
-    it( 'starts off as claimed in standard mode.', () => {
+    xit( 'starts off as claimed in standard mode.', () => {
       settingsService.mode = Mode.Standard;
       const tempLocationService = new ItemLocationService(inventoryService, dungeonService, settingsService);
       home = tempLocationService.getItemLocation(LocationKey.LinksHouse);
 
-      expect( home.availability ).toBe( Availability.Available );
+      expect( tempLocationService.getAvailability( LocationKey.LinksHouse) ).toBe( Availability.Available );
       expect ( home.isOpened ).toBeTruthy();
     });
   });
 
-  describe( 'set to the Mimic Cave', () => {
-    let mimicCave: ItemLocation;
-
-    beforeEach(() => {
-      mimicCave = itemLocationService.getItemLocation( LocationKey.MimicCave );
+  describe( 'set to the Spiral Cave', () => {
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( LocationKey.SpiralCave)).toBe( Availability.Unavailable);
     });
 
+    it( 'needs more than a glove to get in.', () => {
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( LocationKey.SpiralCave)).toBe( Availability.Unavailable);
+    });
+
+    it( 'can be gotten with glove and hookshot assuming sequence breaks are used.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.toggleHookshot();
+
+      expect( itemLocationService.getAvailability( LocationKey.SpiralCave)).toBe( Availability.Glitches);
+    });
+
+    it( 'can be gotten cleanly with the flute, mirror, and hammer.', () => {
+      inventoryService.toggleFlute();
+      inventoryService.toggleMirror();
+      inventoryService.toggleHammer();
+
+      expect( itemLocationService.getAvailability( LocationKey.SpiralCave)).toBe( Availability.Available);
+    });
+  });
+
+  describe( 'set to the Mimic Cave', () => {
     it( 'starts off as unavailable.', () => {
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave) ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the moon pearl for a chance to get in.', () => {
       inventoryService.toggleMoonPearl();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the hammer too.', () => {
       inventoryService.toggleMoonPearl();
       inventoryService.toggleHammer();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the cane of somaria too.', () => {
@@ -182,7 +191,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleHammer();
       inventoryService.toggleSomaria();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the magic mirror too.', () => {
@@ -191,7 +200,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleSomaria();
       inventoryService.toggleMirror();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the power glove. The titan\'s mitts are required.', () => {
@@ -201,7 +210,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleMirror();
       inventoryService.incrementGlove();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires at least one medallion to have a chance.', () => {
@@ -212,7 +221,7 @@ describe( 'The item location service', () => {
       inventoryService.incrementGlove();
       inventoryService.incrementGlove();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires a sword to utilize a medallion to get here (assuming no swordless mode).', () => {
@@ -224,7 +233,7 @@ describe( 'The item location service', () => {
       inventoryService.incrementGlove();
       inventoryService.toggleBombos();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'can potentially be available with bombos in hand if no dungeon medallion info is available.', () => {
@@ -237,7 +246,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleBombos();
       inventoryService.incrementSword();
 
-      expect( mimicCave.availability ).toBe( Availability.Possible );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Possible );
     });
 
     it( 'can potentially be available with ether in hand if no dungeon medallion info is available.', () => {
@@ -250,7 +259,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleEther();
       inventoryService.incrementSword();
 
-      expect( mimicCave.availability ).toBe( Availability.Possible );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Possible );
     });
 
     it( 'can potentially be available with bombos and ether in hand if no dungeon medallion info is available.', () => {
@@ -264,7 +273,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleEther();
       inventoryService.incrementSword();
 
-      expect( mimicCave.availability ).toBe( Availability.Possible );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Possible );
     });
 
     it( 'is not possible if bombos is available but Turtle Rock needs ether.', () => {
@@ -279,7 +288,7 @@ describe( 'The item location service', () => {
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'is not possible if ether is available but Turtle Rock needs bombos.', () => {
@@ -293,7 +302,7 @@ describe( 'The item location service', () => {
       inventoryService.incrementSword();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'is not possible if bombos is available but Turtle Rock needs quake.', () => {
@@ -309,7 +318,7 @@ describe( 'The item location service', () => {
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
-      expect( mimicCave.availability ).toBe( Availability.Unavailable );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'is possible if bombos is available and Turtle Rock needs bombos, but no fire rod is there.', () => {
@@ -323,7 +332,7 @@ describe( 'The item location service', () => {
       inventoryService.incrementSword();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
-      expect( mimicCave.availability ).toBe( Availability.Possible );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Possible );
     });
 
     it( 'can be sequence broken into if everything except lantern and flute are available.', () => {
@@ -338,7 +347,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleFireRod();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
-      expect( mimicCave.availability ).toBe( Availability.Glitches );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Glitches );
     });
 
     it( 'can be accessed normally into if everything plus the lantern are available.', () => {
@@ -354,7 +363,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleLantern();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
-      expect( mimicCave.availability ).toBe( Availability.Available );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave) ).toBe( Availability.Available );
     });
 
     it( 'can be accessed normally into if everything plus the flute are available.', () => {
@@ -370,7 +379,7 @@ describe( 'The item location service', () => {
       inventoryService.toggleFlute();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
-      expect( mimicCave.availability ).toBe( Availability.Available );
+      expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Available );
     });
   });
 });
