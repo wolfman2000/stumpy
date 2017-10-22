@@ -48,7 +48,8 @@ export class ItemLocationComponent implements OnInit {
       claimed: this.itemLocation.isOpened
     };
 
-    results[this.camelCasePipe.transform(Availability[this.itemLocation.availability])] = true;
+    const availability = this._itemLocationService.getAvailability(this.itemLocationId);
+    results[this.camelCasePipe.transform(Availability[availability])] = true;
     return results;
   }
 } /* istanbul ignore next */

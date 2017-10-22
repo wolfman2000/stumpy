@@ -4,6 +4,8 @@ import { ItemLocationComponent } from './item-location.component';
 import { ItemLocationService } from './item-location.service';
 import { InventoryService } from '../inventory.service';
 import { DungeonService } from '../dungeon/dungeon.service';
+import { SettingsService } from '../settings/settings.service';
+import { LocalStorageService } from '../local-storage.service';
 
 describe( 'The item location component', () => {
   let comp: ItemLocationComponent;
@@ -11,13 +13,28 @@ describe( 'The item location component', () => {
   let de: DebugElement;
   let el: HTMLElement;
   let itemLocationService: ItemLocationService;
-  let inventoryService: InventoryService;
   const mouseEvt = new MouseEvent('test');
+
+  beforeEach(() => {
+    const store: any = {};
+
+    spyOn( localStorage, 'getItem' ).and.callFake( (key: string): string => {
+      return store[key] || null;
+    });
+
+    spyOn( localStorage, 'removeItem' ).and.callFake( (key: string): void => {
+      delete store[key];
+    });
+
+    spyOn( localStorage, 'setItem' ).and.callFake( (key: string, value: string): void => {
+      store[key] = value;
+    });
+  });
 
   beforeEach( async(() => {
     TestBed.configureTestingModule({
       declarations: [ItemLocationComponent],
-      providers: [ItemLocationService, InventoryService, DungeonService]
+      providers: [ItemLocationService, InventoryService, DungeonService, SettingsService, LocalStorageService]
     }).compileComponents();
   }));
 

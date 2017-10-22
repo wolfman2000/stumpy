@@ -10,6 +10,10 @@
   background-color: gray;
 }
 
+.glitches {
+  background-color: blue;
+}
+
 div {
   position: absolute;
   width: 24px;

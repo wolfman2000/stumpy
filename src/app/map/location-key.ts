@@ -1,3 +1,7 @@
 export enum LocationKey {
-  KingsTomb
+  KingsTomb,
+  LightWorldSwamp,
+  LinksHouse,
+  SpiralCave,
+  MimicCave
 }

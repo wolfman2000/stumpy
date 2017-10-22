@@ -5,11 +5,8 @@ export class ItemLocation {
     private _name: string,
     private _requirements: string,
     private _left: number,
-    private _top: number,
-    private _availability: () => Availability,
-    private _service: any
+    private _top: number
   ) {
-    this._isOpened = false;
   }
 
   private _isOpened: boolean;
@@ -28,10 +25,6 @@ export class ItemLocation {
 
   get top(): number {
     return this._top;
-  }
-
-  get availability(): Availability {
-    return this._availability.call( this._service );
   }
 
   get isOpened(): boolean {

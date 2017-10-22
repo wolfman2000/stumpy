@@ -5,15 +5,11 @@ describe( 'A generic item location', () => {
   let itemLocation: ItemLocation;
 
   beforeEach( () => {
-    itemLocation = new ItemLocation( 'Generic Location', 'Nothing yet', 40, 20.5, () => Availability.Available, null );
+    itemLocation = new ItemLocation( 'Generic Location', 'Nothing yet', 40, 20.5 );
   });
 
   it( 'can have its name validated.', () => {
     expect( itemLocation.name ).toBe( 'Generic Location');
-  });
-
-  it( 'should always be available to get.', () => {
-    expect( itemLocation.availability ).toBe( Availability.Available );
   });
 
   it( 'starts off as not claimed normally.', () => {
