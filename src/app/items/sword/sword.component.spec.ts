@@ -15,11 +15,13 @@ describe( 'The sword component', () => {
   let inventoryService: InventoryService;
   let settingsService: SettingsService;
   const mouseEvt = new MouseEvent('test');
+  const store: any = {};
 
   beforeAll(() => {
     settingsService = new SettingsService( new LocalStorageService());
-    const store: any = {};
+  } );
 
+  beforeEach(() => {
     spyOn( localStorage, 'getItem' ).and.callFake( (key: string): string => {
       return store[key] || null;
     });

@@ -1,15 +1,15 @@
 import { ItemLocationService } from './item-location.service';
-import { InventoryService } from '../inventory.service';
-import { DungeonService } from '../dungeon/dungeon.service';
-import { SettingsService } from '../settings/settings.service';
-import { LocalStorageService } from '../local-storage.service';
+import { InventoryService } from '../../inventory.service';
+import { DungeonService } from '../../dungeon/dungeon.service';
+import { SettingsService } from '../../settings/settings.service';
+import { LocalStorageService } from '../../local-storage.service';
 
 import { ItemLocation } from './item-location';
-import { Availability } from './availability';
+import { Availability } from '../availability';
 import { LocationKey } from './location-key';
 
-import { Location } from '../dungeon/location';
-import { Mode } from '../settings/mode';
+import { Location } from '../../dungeon/location';
+import { Mode } from '../../settings/mode';
 
 describe( 'The item location service', () => {
   let itemLocationService: ItemLocationService;
@@ -20,7 +20,7 @@ describe( 'The item location service', () => {
   beforeAll(() => {
     settingsService = new SettingsService( new LocalStorageService());
   });
-
+  /*
   beforeEach(() => {
     const store: any = {};
 
@@ -36,6 +36,7 @@ describe( 'The item location service', () => {
       store[key] = value;
     });
   });
+  */
 
   beforeEach( () => {
     inventoryService = new InventoryService();
@@ -120,24 +121,32 @@ describe( 'The item location service', () => {
   });
 
   describe( 'set to Link\'s house', () => {
-    let home: ItemLocation;
+    const location = LocationKey.LinksHouse;
+    const tempSettings = new SettingsService(new LocalStorageService());
+    let tempService: ItemLocationService;
 
-    it( 'starts off as available in open mode.', () => {
-      settingsService.mode = Mode.Open;
-      const tempLocationService = new ItemLocationService(inventoryService, dungeonService, settingsService);
-      home = tempLocationService.getItemLocation(LocationKey.LinksHouse);
+    describe( 'in open mode', () => {
+      beforeEach( () => {
+        spyOnProperty( tempSettings, 'mode', 'get').and.returnValue(Mode.Open);
+        tempService = new ItemLocationService( inventoryService, dungeonService, tempSettings );
+      });
 
-      expect( tempLocationService.getAvailability( LocationKey.LinksHouse) ).toBe( Availability.Available );
-      expect( home.isOpened ).toBeFalsy();
+      it( 'starts off as available.', () => {
+        expect( tempService.getAvailability( LocationKey.LinksHouse) ).toBe( Availability.Available );
+        expect( tempService.getItemLocation(location).isOpened ).toBeFalsy();
+      });
     });
 
-    xit( 'starts off as claimed in standard mode.', () => {
-      settingsService.mode = Mode.Standard;
-      const tempLocationService = new ItemLocationService(inventoryService, dungeonService, settingsService);
-      home = tempLocationService.getItemLocation(LocationKey.LinksHouse);
+    describe( 'in standard mode', () => {
+      beforeEach( () => {
+        spyOnProperty( tempSettings, 'mode', 'get').and.returnValue(Mode.Standard);
+        tempService = new ItemLocationService( inventoryService, dungeonService, tempSettings );
+      });
 
-      expect( tempLocationService.getAvailability( LocationKey.LinksHouse) ).toBe( Availability.Available );
-      expect ( home.isOpened ).toBeTruthy();
+      xit( 'starts off as claimed.', () => {
+        expect( tempService.getAvailability( LocationKey.LinksHouse) ).toBe( Availability.Available );
+        expect( tempService.getItemLocation(location).isOpened ).toBeTruthy();
+      });
     });
   });
 
@@ -895,35 +904,49 @@ describe( 'The item location service', () => {
 
   describe( 'set to the three chests in the side of the escape', () => {
     const location = LocationKey.SewerEscapeSideRoom;
+    const tempSettings = new SettingsService(new LocalStorageService());
+    let tempService: ItemLocationService;
+
+    beforeEach( () => {
+      spyOnProperty(tempSettings, 'mode', 'get').and.returnValue(Mode.Open);
+      tempService = new ItemLocationService( inventoryService, dungeonService, tempSettings );
+    });
 
     it( 'starts off as available through skipping the lantern.', () => {
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+      expect( tempService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'is possible to get with the lantern alone, though it is dependant on key locations.', () => {
       inventoryService.toggleLantern();
 
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Possible );
+      expect( tempService.getAvailability( location ) ).toBe( Availability.Possible );
     });
 
     it( 'is definitely available if a glove is owned.', () => {
       inventoryService.incrementGlove();
 
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+      expect( tempService.getAvailability( location ) ).toBe( Availability.Available );
     });
   });
 
   describe( 'set to the lone chest in the dark of the sewer escape', () => {
     const location = LocationKey.SewerEscapeDarkRoom;
+    const tempSettings = new SettingsService(new LocalStorageService());
+    let tempService: ItemLocationService;
+
+    beforeEach( () => {
+      spyOnProperty(tempSettings, 'mode', 'get').and.returnValue(Mode.Open);
+      tempService = new ItemLocationService( inventoryService, dungeonService, tempSettings );
+    });
 
     it( 'starts off as available through skipping the lantern.', () => {
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+      expect( tempService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'is normally available when the lantern is acquired.', () => {
       inventoryService.toggleLantern();
 
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+      expect( tempService.getAvailability( location ) ).toBe( Availability.Available );
     });
   });
 

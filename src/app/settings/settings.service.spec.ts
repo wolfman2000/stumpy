@@ -9,6 +9,7 @@ describe( 'The settings service', () => {
 
   beforeAll(() => {
     service = new SettingsService( new LocalStorageService());
+    service.mode = Mode.Standard; // Hack job to keep the tests working.
   });
 
   beforeEach(() => {

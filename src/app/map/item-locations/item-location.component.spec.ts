@@ -2,10 +2,10 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@a
 import { DebugElement } from '@angular/core';
 import { ItemLocationComponent } from './item-location.component';
 import { ItemLocationService } from './item-location.service';
-import { InventoryService } from '../inventory.service';
-import { DungeonService } from '../dungeon/dungeon.service';
-import { SettingsService } from '../settings/settings.service';
-import { LocalStorageService } from '../local-storage.service';
+import { InventoryService } from '../../inventory.service';
+import { DungeonService } from '../../dungeon/dungeon.service';
+import { SettingsService } from '../../settings/settings.service';
+import { LocalStorageService } from '../../local-storage.service';
 
 describe( 'The item location component', () => {
   let comp: ItemLocationComponent;

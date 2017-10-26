@@ -1,0 +1,98 @@
+.available {
+  background-color: lime;
+}
+
+.unavailable {
+  background-color: red;
+}
+
+.visible {
+  background-color: orange;
+}
+
+.possible {
+  background-color: yellow;
+}
+
+.glitches {
+  background-color: blue;
+}
+
+.claimed {
+  background-color: gray;
+}
+
+.dungeon, .castle {
+  background-image: url('/assets/overlay/poi.png');
+  position: absolute;
+  background-size: 100% 100%;
+}
+
+.dungeon {
+  width: 48px;
+  height: 48px;
+  margin-left: -24px;
+  margin-top: -24px;
+}
+
+.castle {
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+  margin-top: -18px;
+}
+
+.boss {
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  margin-top: -12px;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 75% 75%;
+}
+
+.agahnim {
+  background-image: url('/assets/bosses/agahnim0.png');
+}
+
+.armosKnights {
+  background-image: url('/assets/bosses/armosKnights.png');
+}
+
+.arrghus {
+  background-image: url('/assets/bosses/arrghus.png');
+}
+
+.blind {
+  background-image: url('/assets/bosses/blind.png');
+}
+
+.helmasaurKing {
+  background-image: url('/assets/bosses/helmasaurKing.png');
+}
+
+.kholdstare {
+  background-image: url('/assets/bosses/kholdstare.png');
+}
+
+.lanmolas {
+  background-image: url('/assets/bosses/lanmolas.png');
+}
+
+.moldorm {
+  background-image: url('/assets/bosses/moldorm.png');
+}
+
+.mothula {
+  background-image: url('/assets/bosses/mothula.png');
+}
+
+.trinexx {
+  background-image: url('/assets/bosses/trinexx.png');
+}
+
+.vitreous {
+  background-image: url('/assets/bosses/vitreous.png');
+}

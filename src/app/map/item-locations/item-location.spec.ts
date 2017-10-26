@@ -1,5 +1,5 @@
 import { ItemLocation } from './item-location';
-import { Availability } from './availability';
+import { Availability } from '../availability';
 
 describe( 'A generic item location', () => {
   let itemLocation: ItemLocation;
