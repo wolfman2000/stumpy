@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Availability } from './availability';
+import { Availability } from '../availability';
 import { ItemLocation } from './item-location';
 import { ItemLocationService } from './item-location.service';
-import { CamelCasePipe } from '../camel-case.pipe';
+import { CamelCasePipe } from '../../camel-case.pipe';
 
 @Component({
   providers: [CamelCasePipe, ItemLocationService],

@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { MapComponent } from './map.component';
 import { LightWorldComponent } from './light-world.component';
 import { DarkWorldComponent } from './dark-world.component';
-import { ItemLocationComponent } from './item-location.component';
+import { ItemLocationComponent } from './item-locations/item-location.component';
+import { DungeonLocationComponent } from './dungeon-locations/dungeon-location.component';
 
 @NgModule({
   imports: [CommonModule],
@@ -12,7 +13,8 @@ import { ItemLocationComponent } from './item-location.component';
     MapComponent,
     LightWorldComponent,
     DarkWorldComponent,
-    ItemLocationComponent
+    ItemLocationComponent,
+    DungeonLocationComponent
   ],
   exports: [MapComponent]
 })

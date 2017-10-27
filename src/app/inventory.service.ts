@@ -453,4 +453,44 @@ export class InventoryService {
   toggleFlute(): void {
     this.flute = !this.flute;
   }
+
+  hasGlove(): boolean {
+    return this.glove !== Glove.None;
+  }
+
+  hasMelee(): boolean {
+    return this.sword !== Sword.None || this.hammer;
+  }
+
+  hasMeleeOrBow(): boolean {
+    return this.hasMelee() || this.bow;
+  }
+
+  hasCane(): boolean {
+    return this.somaria || this.byrna;
+  }
+
+  hasRod(): boolean {
+    return this.fireRod || this.iceRod;
+  }
+
+  hasFireSource(): boolean {
+    return this.fireRod || this.lantern;
+  }
+
+  hasDarkMireAccess(): boolean {
+    return this.glove === Glove.Titan && this.flute;
+  }
+
+  hasDarkMireMirrorAccess(): boolean {
+    return this.hasDarkMireAccess() && this.mirror;
+  }
+
+  hasDeathMountainAccess(): boolean {
+    return this.hasGlove() || this.flute;
+  }
+
+  hasMountainSavePoint(): boolean {
+    return this.lantern || this.flute;
+  }
 }
