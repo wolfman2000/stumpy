@@ -77,7 +77,7 @@ export class DungeonService {
       return true;
     }
 
-    return dungeons.filter( d => d.reward !== Reward.None ).every( d => d.isBossDefeated );
+    return this.areAllRewardDungeonsBeaten();
   }
 
   hasAllPendants(): boolean {
@@ -90,10 +90,28 @@ export class DungeonService {
       return true;
     }
 
-    return dungeons.filter( d => d.reward !== Reward.None ).every( d => d.isBossDefeated );
+    return this.areAllRewardDungeonsBeaten();
+  }
+
+  hasFatFairyCrystals(): boolean {
+    const dungeons = Array.from( this.dungeons.values() );
+
+    const fairyCrystals = dungeons
+      .filter( d => d.reward === Reward.FairyCrystal );
+
+    if ( fairyCrystals.length === 2 && fairyCrystals.every( d => d.isBossDefeated ) ) {
+      return true;
+    }
+
+    return this.areAllRewardDungeonsBeaten();
   }
 
   getDungeon(id: number): Dungeon {
     return this.dungeons.get(id);
+  }
+
+  private areAllRewardDungeonsBeaten(): boolean {
+    return Array.from( this.dungeons.values() )
+      .filter( d => d.reward !== Reward.None ).every( d => d.isBossDefeated );
   }
 }
