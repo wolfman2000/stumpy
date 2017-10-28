@@ -969,4 +969,452 @@ describe( 'The item location service', () => {
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
   });
+
+  describe( 'set to the misery mire hut', () => {
+    const location = LocationKey.MireHut;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than the flute.', () => {
+      inventoryService.toggleFlute();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than the titan mitts as well.', () => {
+      inventoryService.toggleFlute();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'can be gotten with the moon pearl.', () => {
+      inventoryService.toggleFlute();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'can be gotten with the mirror if you can pull off the super bunny glitch.', () => {
+      inventoryService.toggleFlute();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleMirror();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    });
+  });
+
+  describe( 'set to the treasure minigame at the Village of Outcasts', () => {
+    const location = LocationKey.TreasureChestMinigame;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'can be gotten with outcast access.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the super bunny cave in Dark Death Mountain', () => {
+    const location = LocationKey.SuperBunnyCave;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'needs more than the power glove.', () => {
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'needs more than the titan mitts.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'is potentially available with the hookshot, though super bunny status is needed.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleHookshot();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    });
+
+    it( 'is potentially available with the mirror and hammer, though super bunny status is needed.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleMirror();
+      inventoryService.toggleHammer();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    });
+
+    it( 'is properly available with the flute and moon pearl.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleHookshot();
+      inventoryService.toggleFlute();
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the byrna spike cave', () => {
+    const location = LocationKey.SpikeCave;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than the glove for the end.', () => {
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than the hammer for the beginning.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.toggleHammer();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than the moon pearl for the beginning.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.toggleHammer();
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'can be gotten with the cane of byrna itself, though the old man cave is still a sequence break.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.toggleHammer();
+      inventoryService.toggleMoonPearl();
+      inventoryService.toggleByrna();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    });
+
+    it( 'can be gotten with the cape itself (plus the flute).', () => {
+      inventoryService.incrementGlove();
+      inventoryService.toggleHammer();
+      inventoryService.toggleMoonPearl();
+      inventoryService.toggleCape();
+      inventoryService.toggleFlute();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'is possible to get with one bottle of healing potion, assuming that is the contents.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.toggleHammer();
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementBottles();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Possible );
+    });
+  });
+
+  describe( 'set to the HYPE cave', () => {
+    const location = LocationKey.HypeCave;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'could be gotten through the outcast route.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'could be gotten through the Agahnim route.', () => {
+      dungeonService.agahnimTower.toggleDefeat();
+      inventoryService.toggleMoonPearl();
+      inventoryService.toggleHammer();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the bottom chest of hookshot cave', () => {
+    const location = LocationKey.HookshotCaveBottom;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'needs more than the moon pearl.', () => {
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'needs more than the titan\'s mitts.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'can be gotten with the hookshot, assuming the DM logic is broken.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleHookshot();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    });
+
+    it( 'can be gotten with the boots.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleBoots();
+      inventoryService.toggleHammer();
+      inventoryService.toggleMirror();
+      inventoryService.toggleFlute();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the top three chests of hookshot cave', () => {
+    const location = LocationKey.HookshotCaveTop;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'needs more than the moon pearl.', () => {
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'needs more than the titan\'s mitts.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'is gotten with the hookshot and flute.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleHookshot();
+      inventoryService.toggleFlute();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'can be gotten with the boots and northern path assuming you can hover.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleBoots();
+      inventoryService.toggleMirror();
+      inventoryService.toggleHammer();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    });
+  });
+
+  describe( 'set to the purple chest', () => {
+    const location = LocationKey.PurpleChest;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires the dwarf being returned home first.', () => {
+      const dwarf = itemLocationService.getItemLocation( LocationKey.DwarfEscort );
+      dwarf.toggleOpened();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the catfish', () => {
+    const location = LocationKey.Catfish;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than the moon pearl.', () => {
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than the moon pearl & glove.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'could be gotten with Agahnim\'s death.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      dungeonService.agahnimTower.toggleDefeat();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'could be gotten with a hammer.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.toggleHammer();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'could be gotten with swimming and stronger miits.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleFlippers();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the hammer peg cave', () => {
+    const location = LocationKey.HammerPegCave;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than the moon pearl.', () => {
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than the titan\'s mitts.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'can only be gotten with the HAMMER!', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+      inventoryService.toggleHammer();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the bumper cave', () => {
+    const location = LocationKey.BumperCave;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires outcast access to see the item.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.toggleHammer();
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
+    });
+
+    it( 'can be gotten with the cape.', () => {
+      inventoryService.incrementGlove();
+      inventoryService.toggleHammer();
+      inventoryService.toggleMoonPearl();
+      inventoryService.toggleCape();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the pyramid ledge', () => {
+    const location = LocationKey.Pyramid;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'can be gotten with Agahnim\'s defeat.', () => {
+      dungeonService.agahnimTower.toggleDefeat();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'can be gotten with the glove, hammer, and moon pearl.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.toggleHammer();
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'can be gotten with the mitts, flippers, and moon pearl.', () => {
+      inventoryService.toggleMoonPearl();
+      inventoryService.toggleFlippers();
+      inventoryService.incrementGlove();
+      inventoryService.incrementGlove();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the fairy inside of the pyramid', () => {
+    const location = LocationKey.PyramidFairy;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires the dungeons with the fairy crystals beaten, though more is still necessary.', () => {
+      dungeonService.dungeons.forEach( d => d.toggleDefeat() );
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires the moon pearl, though still more is needed.', () => {
+      dungeonService.dungeons.forEach( d => d.toggleDefeat() );
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'can be gotten with Agahnim\'s demise and a hammer.', () => {
+      dungeonService.dungeons.forEach( d => d.toggleDefeat() );
+      inventoryService.toggleMoonPearl();
+      inventoryService.toggleHammer();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
 });

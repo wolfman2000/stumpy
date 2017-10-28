@@ -6,337 +6,456 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.KingsTomb, new ItemLocation(
       'King\'s Tomb',
       'boots and titans or mirror',
-      59.5,
-      27
+      61.6,
+      29.6
     )
   ], [
     LocationKey.LightWorldSwamp, new ItemLocation(
       'Light World Swamp',
       '',
-      45,
-      91
+      46.8,
+      93.4
     )
   ], [
     LocationKey.LinksHouse, new ItemLocation(
       'Link\'s House',
       '',
-      52.5,
-      65.3
+      54.8,
+      67.9
     )
   ], [
     LocationKey.SpiralCave, new ItemLocation(
       'Spiral Cave',
       'East Death Mountain Access',
-      77.9,
-      6.6
+      79.8,
+      9.3
     )
   ], [
     LocationKey.MimicCave, new ItemLocation(
       'Mimic Cave',
       'mirror',
-      83,
-      6.6
+      85.2,
+      9.3
     )
   ], [
     LocationKey.Tavern, new ItemLocation(
       'Tavern',
       '',
-      13.6,
-      55.4
+      16.2,
+      57.8
     )
   ], [
     LocationKey.ChickenHouse, new ItemLocation(
       'Chicken House',
       'bombs',
-      6.5,
-      51.6
+      8.8,
+      54.2
     )
   ], [
     LocationKey.AginahsCave, new ItemLocation(
       'Aginah\'s Cave',
       'bombs',
-      17.2,
-      80
+      20,
+      82.6
     )
   ], [
     LocationKey.SahasrahlasHut, new ItemLocation(
       'Sahasrahla\'s Hut',
       '',
-      79.4,
-      39
+      81.4,
+      41.4
     )
   ], [
     LocationKey.KakarikoWell, new ItemLocation(
       'Kakariko Well',
       'bombs for one',
-      0.7,
-      39
+      1.7,
+      41
     )
   ], [
     LocationKey.BlindsHut, new ItemLocation(
       'Blind\'s Hut',
       'bombs for one',
-      10.8,
-      38.4
+      12.8,
+      41
     )
   ], [
     LocationKey.ParadoxCave, new ItemLocation(
       'Paradox Cave',
       'bombs for two',
-      80.6,
-      14.6
+      82.8,
+      17.1
     )
   ], [
     LocationKey.BonkRocks, new ItemLocation(
       'Bonk Rocks',
       'boots',
-      36.5,
-      26.7
+      39,
+      29.3
     )
   ], [
     LocationKey.MiniMoldormCave, new ItemLocation(
       'Minimoldorm Cave',
       'bombs',
-      63,
-      91
+      65.2,
+      93.4
     )
   ], [
     LocationKey.IceRodCave, new ItemLocation(
       'Ice Rod Cave',
       'bombs',
-      87,
-      74.4
+      89.2,
+      76.9
     )
   ], [
     LocationKey.BottleVendor, new ItemLocation(
       'Bottle Vendor',
       '100 rupees',
-      6.5,
-      45
+      9,
+      46.8
     )
   ], [
     LocationKey.SahasrahlasReward, new ItemLocation(
       'Sahasrahla',
       'Green Pendant',
-      79.4,
-      44.4
+      81.4,
+      46.7
     )
   ], [
     LocationKey.SickKid, new ItemLocation(
       'Sick kid',
       'at least one bottle',
-      13,
-      49.4
+      15.6,
+      52.1
     )
   ], [
     LocationKey.BridgeHideout, new ItemLocation(
       'Hideout under the bridge',
       'flippers',
-      68.8,
-      67
+      70.8,
+      69.7
     )
   ], [
     LocationKey.EtherTablet, new ItemLocation(
       'Ether Tablet',
       'master sword and book',
-      40,
-      0.2
+      42,
+      3
     )
   ], [
     LocationKey.BombosTablet, new ItemLocation(
       'Bombos Tablet',
       'master sword and book',
-      20,
-      90
+      22,
+      92.2
     )
   ], [
     LocationKey.KingZora, new ItemLocation(
       'King Zora',
       '500 rupees',
-      94,
-      10
+      96,
+      12.1
     )
   ], [
     LocationKey.LostOldMan, new ItemLocation(
       'Lost Old Man',
       'lantern',
-      39.3,
-      18
+      41.6,
+      20.4
     )
   ], [
     LocationKey.PotionShop, new ItemLocation(
       'Witch outside Potion Shop',
       'mushroom',
-      79.7,
-      30
+      81.6,
+      32.5
     )
   ], [
     LocationKey.ForestHideout, new ItemLocation(
       'Forest Hideout',
       '',
-      16,
-      10.5
+      18.8,
+      13
     )
   ], [
     LocationKey.LumberjackTree, new ItemLocation(
       'Lumberjack Tree',
       'agahnim and boots',
-      27.7,
-      5
+      30.4,
+      7.6
     )
   ], [
     LocationKey.SpectacleRockCave, new ItemLocation(
       'Spectacle Rock Cave',
       'glove & lamp',
-      46,
-      12
+      48.6,
+      14.8
     )
   ], [
     LocationKey.MirrorCave, new ItemLocation(
       'South of Grove (Mirror Cave)',
       'mirror',
-      26,
-      81
+      28.2,
+      84.1
     )
   ], [
     LocationKey.GraveyardCliffCave, new ItemLocation(
       'Graveyard Cliff Cave',
       'mirror',
-      54,
-      24
+      56.2,
+      27
     )
   ], [
     LocationKey.CheckerboardCave, new ItemLocation(
       'Checkerboard Cave',
       'mirror',
-      15,
-      74.5
+      17.6,
+      77.3
     )
   ], [
     LocationKey.Library, new ItemLocation(
       'Library',
       'boots',
-      13,
-      63
+      15.4,
+      65.9
     )
   ], [
     LocationKey.Mushroom, new ItemLocation(
       'Mushroom',
       '',
-      9.7,
-      6.3
+      12.4,
+      8.6
     )
   ], [
     LocationKey.SpectacleRock, new ItemLocation(
       'Spectacle Rock',
       'mirror',
-      49,
-      6
+      50.8,
+      8.5
     )
   ], [
     LocationKey.FloatingIsland, new ItemLocation(
       'Floating Island',
       'mirror',
-      78,
-      0.2
+      80.4,
+      3
     )
   ], [
     LocationKey.RaceMinigame, new ItemLocation(
       'Race minigame',
       'bombs or boots',
-      1,
-      68
+      3.6,
+      69.8
     )
   ], [
     LocationKey.DesertWestLedge, new ItemLocation(
       'Desert West Ledge',
       'book or mirror',
-      1,
-      88
+      3,
+      91
     )
   ], [
     LocationKey.LakeHyliaIsland, new ItemLocation(
       'Lake Hylia Island',
       'mirror',
-      70,
-      81
+      72.2,
+      82.9
     )
   ], [
     LocationKey.ZoraLedge, new ItemLocation(
       'Zora River Ledge',
       'flippers',
-      94,
-      15
+      95.4,
+      17.3
     )
   ], [
     LocationKey.BuriedItem, new ItemLocation(
       'Buried Item',
       'shovel',
-      26,
-      64
+      28.8,
+      66.2
     )
   ], [
     LocationKey.SewerEscapeSideRoom, new ItemLocation(
       'Escape Sewer Side Room',
       'bomb or boots',
-      52,
-      29.5
+      53.6,
+      32.4
     )
   ], [
     LocationKey.CastleSecretEntrance, new ItemLocation(
       'Castle Secret Entrance',
       '',
-      58,
-      40
+      59.6,
+      41.8
     )
   ], [
     LocationKey.CastleDungeon, new ItemLocation(
       'Hyrule Castle Dungeon',
       '',
-      48,
-      42
+      50,
+      44.1
     )
   ], [
     LocationKey.Sanctuary, new ItemLocation(
       'Sanctuary',
       '',
-      44,
-      25
+      46,
+      28
     )
   ], [
     LocationKey.MadBatter, new ItemLocation(
       'Mad Batter',
       'hammer or mirror, plus powder',
-      30,
-      55
+      32,
+      58
     )
   ], [
     LocationKey.DwarfEscort, new ItemLocation(
       'Take the dwarf/frog home',
       'mirror or Save and Quit',
-      28,
-      49
+      30.4,
+      51.8
     )
   ] , [
     LocationKey.MasterSwordPedestal, new ItemLocation(
       'Master Sword Pedestal',
       'pendants',
-      3,
-      0.2
+      5,
+      3.2
     )
   ], [
     LocationKey.SewerEscapeDarkRoom, new ItemLocation(
       'Escape Sewer Dark Room',
       'lantern',
-      49,
-      36
+      51.2,
+      38.2
     )
   ], [
     LocationKey.WaterfallOfWishing, new ItemLocation(
       'Waterfall of Wishing',
       'flippers',
-      88,
-      13
+      89.8,
+      14.7
+    )
+  ], [
+    LocationKey.BombableHut, new ItemLocation(
+      'Bombable Hut',
+      'bombs',
+      10.8,
+      57.8
+    )
+  ], [
+    LocationKey.CShapedHouse, new ItemLocation(
+      'C-Shaped House',
+      '',
+      21.6,
+      47.9
+    )
+  ], [
+    LocationKey.MireHut, new ItemLocation(
+      'Mire Hut',
+      'mirror and titan',
+      3.4,
+      79.5
+    )
+  ], [
+    LocationKey.SuperBunnyCave, new ItemLocation(
+      'SuperBunny Cave',
+      'titan',
+      85.6,
+      14.7
+    )
+  ], [
+    LocationKey.SpikeCave, new ItemLocation(
+      'Spike Cave',
+      'cape or byrna',
+      57.2,
+      14.9
+    )
+  ], [
+    LocationKey.HypeCave, new ItemLocation(
+      'Hype Cave',
+      'bombs',
+      60,
+      77.1
+    )
+  ], [
+    LocationKey.HookshotCaveBottom, new ItemLocation(
+      'Hookshot Cave (Boots Accessible)',
+      'hookshot or boots',
+      83.2,
+      8.6
+    )
+  ], [
+    LocationKey.HookshotCaveTop, new ItemLocation(
+      'Hookshot Cave (Not Boots Accessible)',
+      'hookshot',
+      83.2,
+      3.4
+    )
+  ], [
+    LocationKey.TreasureChestMinigame, new ItemLocation(
+      'Treasure Chest Mini-game',
+      '',
+      4.2,
+      46.4
+    )
+  ], [
+    LocationKey.StumpKid, new ItemLocation(
+      'Stump Kid',
+      '',
+      31,
+      68.6
+    )
+  ], [
+    LocationKey.PurpleChest, new ItemLocation(
+      'Purple Chest',
+      '',
+      30.4,
+      52.2
+    )
+  ], [
+    LocationKey.Catfish, new ItemLocation(
+      'Catfish',
+      '',
+      92,
+      17.2
+    )
+  ], [
+    LocationKey.HammerPegCave, new ItemLocation(
+      'Hammer Peg Cave',
+      'hammer and titan',
+      31.6,
+      60.1
+    )
+  ], [
+    LocationKey.BumperCave, new ItemLocation(
+      'Bumper Cave',
+      'cave',
+      34.2,
+      15.2
+    )
+  ], [
+    LocationKey.Pyramid, new ItemLocation(
+      'Pyramid Ledge',
+      '',
+      58,
+      43.5
+    )
+  ], [
+    LocationKey.DiggingGame, new ItemLocation(
+      'Digging Minigame',
+      '',
+      5.8,
+      69.2
+    )
+  ], [
+    LocationKey.PyramidFairy, new ItemLocation(
+      'Pyramid Fairy',
+      'Crystals 5 and 6',
+      47,
+      48.5
     )
   ] ]
 );

@@ -151,7 +151,7 @@ export class DungeonLocationService {
       return Availability.Possible;
     }
 
-    return items.hasMountainSavePoint() ? Availability.Available : Availability.Glitches;
+    return items.hasDeathMountainLogicalAccess() ? Availability.Available : Availability.Glitches;
   }
 
   getBossAvailability(id: Location): Availability {

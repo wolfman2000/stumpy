@@ -490,7 +490,7 @@ export class InventoryService {
     return this.hasGlove() || this.flute;
   }
 
-  hasMountainSavePoint(): boolean {
-    return this.lantern || this.flute;
+  hasDeathMountainLogicalAccess(): boolean {
+    return ( this.hasGlove() && this.lantern ) || this.flute;
   }
 }
