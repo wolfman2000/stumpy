@@ -1,0 +1,4 @@
+<section [ngClass]="getMapClasses()">
+  <stumpy-item-location *ngFor="let id of world.itemLocationIds" [itemLocationId]="id"></stumpy-item-location>
+  <stumpy-dungeon-location *ngFor="let id of world.dungeonLocationIds" [dungeonLocationId]="id"></stumpy-dungeon-location>
+</section>

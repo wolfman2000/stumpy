@@ -1,0 +1,19 @@
+:host {
+  width: 438px;
+  height: 442px;
+}
+
+section {
+  width: 438px;
+  height: 442px;
+  background-size: 100% 100%;
+  position: relative;
+}
+
+.light {
+  background-image: url('/assets/overlay/light-world.png');
+}
+
+.dark {
+  background-image: url('/assets/overlay/dark-world.png');
+}
