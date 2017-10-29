@@ -69,7 +69,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.KakarikoWell, new ItemLocation(
       'Kakariko Well',
       'bombs for one',
-      1.7,
+      3,
       41
     )
   ], [
