@@ -74,7 +74,7 @@ export class ItemLocationService {
         [LocationKey.DwarfEscort, this.getDwarfAvailability],
         [LocationKey.MasterSwordPedestal, this.getPedestalAvailability],
         [LocationKey.SewerEscapeDarkRoom, this.getSewerDarkRoomAvailability],
-        [LocationKey.WaterfallOfWishing, this.getBridgeAccessAvailability],
+        [LocationKey.WaterfallOfWishing, this.getWaterfallOfWishingAvailability],
         [LocationKey.BombableHut, this.getOutcastAvailability],
         [LocationKey.CShapedHouse, this.getOutcastAvailability],
         [LocationKey.MireHut, this.getDarkMireAvailability],
@@ -238,6 +238,14 @@ export class ItemLocationService {
     return this._inventory.flippers ? Availability.Available : Availability.Glitches;
   }
 
+  private getWaterfallOfWishingAvailability(): Availability {
+    if ( this._inventory.flippers ) {
+      return Availability.Available;
+    }
+
+    return this._inventory.moonPearl ? Availability.Glitches : Availability.Unavailable;
+  }
+
   private getEtherTabletAvailability(): Availability {
     const inventory = this._inventory;
     if ( !inventory.book ) {
@@ -357,7 +365,7 @@ export class ItemLocationService {
   private getLakeHyliaIslandAvailability(): Availability {
     const inventory = this._inventory;
     if ( !inventory.flippers) {
-      return Availability.Unavailable;
+      return Availability.Visible;
     }
 
     if (!inventory.moonPearl) {
