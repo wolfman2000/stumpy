@@ -442,6 +442,25 @@ describe( 'The item location service', () => {
     });
   });
 
+  describe( 'set to the waterfall of wishing', () => {
+    const location = LocationKey.WaterfallOfWishing;
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'could be available with sequence breaks using the moon pearl & fake flippering.', () => {
+      inventoryService.toggleMoonPearl();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    });
+
+    it( 'is properly available with the real flippers.', () => {
+      inventoryService.toggleFlippers();
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
   describe( 'set to the ether tablet', () => {
     const location = LocationKey.EtherTablet;
     it( 'starts off as unavailable.', () => {
@@ -822,11 +841,11 @@ describe( 'The item location service', () => {
   describe( 'set to the small island on Lake Hylia', () => {
     const location = LocationKey.LakeHyliaIsland;
 
-    it( 'starts off as unavailable.', () => {
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    it( 'starts off as visible (assuming you jump down).', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
 
-    it( 'requires the flippers to at least be visible.', () => {
+    it( 'requires the flippers to at least be visible (normally).', () => {
       inventoryService.toggleFlippers();
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
