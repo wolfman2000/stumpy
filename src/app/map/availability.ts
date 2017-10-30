@@ -3,5 +3,6 @@ export enum Availability {
   Visible,
   Possible,
   Available,
-  Glitches
+  Glitches,
+  GlitchesVisible
 }

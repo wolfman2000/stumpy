@@ -480,17 +480,18 @@ describe( 'The item location service', () => {
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
-    it( 'can reveal the item to you if you have a mirror.', () => {
+    it( 'can reveal the item to you if you have a mirror, assuming you sequence broke.', () => {
       inventoryService.toggleBook();
       inventoryService.incrementGlove();
       inventoryService.toggleMirror();
 
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.GlitchesVisible );
     });
 
     it( 'can reveal the item to you if you have the hookshot and hammer.', () => {
       inventoryService.toggleBook();
       inventoryService.incrementGlove();
+      inventoryService.toggleLantern();
       inventoryService.toggleHookshot();
       inventoryService.toggleHammer();
 
@@ -575,12 +576,12 @@ describe( 'The item location service', () => {
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
-    it( 'can be visible with the glove, hammer, and mirror.', () => {
+    it( 'can be visible with the glove, hammer, and mirror...assuming you sequence broke', () => {
       inventoryService.incrementGlove();
       inventoryService.toggleHammer();
       inventoryService.toggleMirror();
 
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.GlitchesVisible );
     });
 
     it( 'can be retrieved with the titan\'s mitts and moon pearl, with dark room navigation.', () => {
@@ -768,7 +769,7 @@ describe( 'The item location service', () => {
     it( 'is visible as soon as a glove is on hand.', () => {
       inventoryService.incrementGlove();
 
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.GlitchesVisible );
     });
 
     it( 'can be gotten with a mirror, though it involves a sequence break.', () => {

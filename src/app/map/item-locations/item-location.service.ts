@@ -142,6 +142,14 @@ export class ItemLocationService {
     return Availability.Available;
   }
 
+  private getDeathMountainLogicalVisibleAccessibility(): Availability {
+    if ( !this._inventory.hasDeathMountainAccess()) {
+      return Availability.Unavailable;
+    }
+
+    return this._inventory.hasDeathMountainLogicalAccess() ? Availability.Visible : Availability.GlitchesVisible;
+  }
+
   private getDeathMountainLogicalAccessibility(): Availability {
     if ( !this._inventory.hasDeathMountainAccess()) {
       return Availability.Unavailable;
@@ -261,7 +269,7 @@ export class ItemLocationService {
     }
 
     if (!this.hasMedallionWeapon()) {
-      return Availability.Visible;
+      return this.getDeathMountainLogicalVisibleAccessibility();
     }
 
     return this.getDeathMountainLogicalAccessibility();
@@ -334,7 +342,7 @@ export class ItemLocationService {
     }
 
     if ( !this._inventory.mirror) {
-      return Availability.Visible;
+      return this.getDeathMountainLogicalVisibleAccessibility();
     }
 
     return this.getDeathMountainLogicalAccessibility();
@@ -351,7 +359,7 @@ export class ItemLocationService {
     }
 
     if ( !(inventory.mirror && inventory.moonPearl && inventory.glove === Glove.Titan)) {
-      return Availability.Visible;
+      return this.getDeathMountainLogicalVisibleAccessibility();
     }
 
     return this.getDeathMountainLogicalAccessibility();
