@@ -1,5 +1,5 @@
 .available {
-  background-color: lime;
+  background-color: cyan;
 }
 
 .unavailable {
@@ -11,15 +11,19 @@
 }
 
 .possible {
-  background-color: yellow;
+  background-color: gold;
 }
 
 .glitches {
   background-color: blue;
 }
 
+.glitchesVisible {
+  background-color: olive;
+}
+
 .claimed {
-  background-color: gray;
+  background-color: black;
 }
 
 .dungeon, .castle {
