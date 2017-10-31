@@ -1,3 +1,7 @@
+:host {
+  cursor: pointer;
+}
+
 .available {
   background-color: cyan;
 }
