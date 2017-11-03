@@ -23,4 +23,12 @@ export class WorldComponent implements OnInit {
     results[this.world.name] = true;
     return results;
   }
+
+  getItemIds(): Array<number> {
+    return this.world.itemLocationIds;
+  }
+
+  getDungeonIds(): Array<number> {
+    return this.world.dungeonLocationIds;
+  }
 }
