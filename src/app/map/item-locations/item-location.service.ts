@@ -402,7 +402,7 @@ export class ItemLocationService {
       return Availability.Available;
     }
 
-    return this._inventory.hasGlove() ? Availability.Visible : Availability.Unavailable;
+    return this._inventory.hasGlove() ? Availability.Visible : Availability.GlitchesVisible;
   }
 
   private getBuriedItemAvailability(): Availability {

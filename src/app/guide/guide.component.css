@@ -1,7 +1,3 @@
-:host {
-  cursor: pointer;
-}
-
 .available {
   background-color: cyan;
 }
@@ -30,12 +26,9 @@
   background-color: gray;
 }
 
-div {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  margin-left: -12px;
-  margin-top: -12px;
+tr > td:first-child + td {
+  width: 12px;
+  height: 12px;
   background-size: 100% 100%;
   background-image: url('/assets/overlay/poi.png');
 }
