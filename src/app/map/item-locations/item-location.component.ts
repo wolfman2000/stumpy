@@ -32,7 +32,9 @@ export class ItemLocationComponent implements OnInit {
     evt.stopPropagation();
     evt.preventDefault();
 
-    this.itemLocation.toggleOpened();
+    if ( this._itemLocationService.canToggleOpened(this.itemLocationId)) {
+      this.itemLocation.toggleOpened();
+    }
   }
 
   getStyle(): any {
@@ -45,7 +47,7 @@ export class ItemLocationComponent implements OnInit {
   getClasses(): any {
     const results: any = {
       itemLocation: true,
-      claimed: this.itemLocation.isOpened
+      claimed: this._itemLocationService.isClaimed(this.itemLocationId)
     };
 
     const availability = this._itemLocationService.getAvailability(this.itemLocationId);

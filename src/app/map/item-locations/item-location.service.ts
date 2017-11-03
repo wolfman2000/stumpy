@@ -99,6 +99,14 @@ export class ItemLocationService {
   private _itemLocations: Map<LocationKey, ItemLocation>;
   private _availabilityMap: Map<LocationKey, () => Availability>;
 
+  private _standardClaimedLocations: Array<LocationKey> = [
+    LocationKey.LinksHouse,
+    LocationKey.CastleSecretEntrance,
+    LocationKey.CastleDungeon,
+    LocationKey.Sanctuary,
+    LocationKey.SewerEscapeDarkRoom
+  ];
+
   private static always(): Availability {
     return Availability.Available;
   }
@@ -644,6 +652,19 @@ export class ItemLocationService {
 
   getAvailability(id: LocationKey): Availability {
     return this._availabilityMap.get(id).call(this);
+  }
+
+  isClaimed(id: LocationKey): boolean {
+    if ( !this.canToggleOpened(id)) {
+      return true;
+    }
+
+    return this.itemLocations.get(id).isOpened;
+  }
+
+  canToggleOpened(id: LocationKey): boolean {
+    return parseInt( this._settings.mode + '', 10 ) !== Mode.Standard ||
+      this._standardClaimedLocations.indexOf(id) < 0;
   }
 
   get itemLocations(): Map<LocationKey, ItemLocation> {

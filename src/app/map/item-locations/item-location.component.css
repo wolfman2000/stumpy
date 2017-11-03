@@ -19,15 +19,15 @@
 }
 
 .glitches {
-  background-color: blue;
-}
-
-.glitchesVisible {
   background-color: olive;
 }
 
+.glitchesVisible {
+  background-color: fuchsia;
+}
+
 .claimed {
-  background-color: black;
+  background-color: gray;
 }
 
 div {
