@@ -83,7 +83,7 @@ export class DungeonLocationService {
     const canEnter = items.cape || ( items.sword !== Sword.None && items.sword !== Sword.Wooden );
     const canBeatAgahnim = items.net || items.sword !== Sword.None;
 
-    if ( !canEnter && !canBeatAgahnim ) {
+    if ( !canEnter || !canBeatAgahnim ) {
       return Availability.Unavailable;
     }
 
