@@ -1,11 +1,11 @@
 .blueBoomerang:not(.redBoomerang) {
-  background-image: url('/assets/boomerang1.png');
+  background-image: url('/assets/items/boomerang1.png');
 }
 
 .redBoomerang:not(.blueBoomerang) {
-  background-image: url('/assets/boomerang2.png');
+  background-image: url('/assets/items/boomerang2.png');
 }
 
 .blueBoomerang.redBoomerang {
-  background-image: url('/assets/boomerang3.png');
+  background-image: url('/assets/items/boomerang3.png');
 }
