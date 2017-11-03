@@ -891,8 +891,8 @@ describe( 'The item location service', () => {
   describe( 'set to the zora ledge below the king', () => {
     const location = LocationKey.ZoraLedge;
 
-    it( 'starts off as unavailable.', () => {
-      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    it( 'starts off as visible, assuming you can fake flipper.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.GlitchesVisible );
     });
 
     it( 'can be grabbed with the flippers.', () => {
@@ -901,7 +901,7 @@ describe( 'The item location service', () => {
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
-    it( 'is visible if just a glove is on hand.', () => {
+    it( 'is visible normally if just a glove is on hand.', () => {
       inventoryService.incrementGlove();
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
