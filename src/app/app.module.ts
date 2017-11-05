@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
+import { CaptionModule } from './caption/caption.module';
 import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
 import { GuideModule } from './guide/guide.module';
 
 import { LocalStorageService } from './local-storage.service';
+import { CaptionService } from './caption/caption.service';
 import { DungeonService } from './dungeon/dungeon.service';
 import { InventoryService } from './inventory.service';
 import { SettingsService } from './settings/settings.service';
@@ -31,11 +33,12 @@ import { CamelCasePipe } from './camel-case.pipe';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    CaptionModule.forRoot(),
     MapModule.forRoot(),
     ItemModule.forRoot(),
     GuideModule.forRoot()
   ],
-  providers: [InventoryService, DungeonService, LocalStorageService, SettingsService],
+  providers: [InventoryService, CaptionService, DungeonService, LocalStorageService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,1 +1,7 @@
-<div [ngClass]="getClasses()" [ngStyle]="getStyle()" (click)="whenClicked($event)"></div>
+<div
+  [ngClass]="getClasses()"
+  [ngStyle]="getStyle()"
+  (click)="whenClicked($event)"
+  (mouseover)="whenInside($event)"
+  (mouseleave)="whenOutside($event)"
+></div>

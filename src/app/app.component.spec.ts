@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
+import { CaptionModule } from './caption/caption.module';
 import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
 import { GuideModule } from './guide/guide.module';
@@ -30,6 +31,7 @@ describe( 'The application component', () => {
       imports: [
         FormsModule,
         AppRoutingModule,
+        CaptionModule.forRoot(),
         MapModule.forRoot(),
         ItemModule.forRoot(),
         GuideModule.forRoot()
