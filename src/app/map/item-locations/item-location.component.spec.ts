@@ -6,6 +6,7 @@ import { InventoryService } from '../../inventory.service';
 import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 import { LocalStorageService } from '../../local-storage.service';
+import { CaptionService } from '../../caption/caption.service';
 
 describe( 'The item location component', () => {
   let comp: ItemLocationComponent;
@@ -34,7 +35,7 @@ describe( 'The item location component', () => {
   beforeEach( async(() => {
     TestBed.configureTestingModule({
       declarations: [ItemLocationComponent],
-      providers: [ItemLocationService, InventoryService, DungeonService, SettingsService, LocalStorageService]
+      providers: [ItemLocationService, CaptionService, InventoryService, DungeonService, SettingsService, LocalStorageService]
     }).compileComponents();
   }));
 

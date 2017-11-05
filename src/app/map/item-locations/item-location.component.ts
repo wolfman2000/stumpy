@@ -3,6 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Availability } from '../availability';
 import { ItemLocation } from './item-location';
 import { ItemLocationService } from './item-location.service';
+
+import { CaptionService } from '../../caption/caption.service';
 import { CamelCasePipe } from '../../camel-case.pipe';
 
 @Component({
@@ -15,7 +17,8 @@ import { CamelCasePipe } from '../../camel-case.pipe';
 export class ItemLocationComponent implements OnInit {
   constructor(
     private camelCasePipe: CamelCasePipe,
-    private _itemLocationService: ItemLocationService
+    private _itemLocationService: ItemLocationService,
+    private _captionService: CaptionService
   ) {
   }
 
@@ -35,6 +38,14 @@ export class ItemLocationComponent implements OnInit {
     if ( this._itemLocationService.canToggleOpened(this.itemLocationId)) {
       this.itemLocation.toggleOpened();
     }
+  }
+
+  whenInside(evt: MouseEvent): void {
+    this._captionService.message = this.itemLocation.name + ' ' + this.itemLocation.requirements;
+  }
+
+  whenOutside(evt: MouseEvent): void {
+    this._captionService.message = '';
   }
 
   getStyle(): any {
