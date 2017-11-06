@@ -5,21 +5,21 @@ export const DungeonLocations: Map<Location, DungeonLocation> = new Map<Location
   [ [
     Location.AgahnimTower, new DungeonLocation(
       'Agahnim\'s Tower',
-      'master sword or cape + sword',
+      '{sword2} or {cape} + {sword1}',
       50,
       52.6
     )
   ], [
     Location.EasternPalace, new DungeonLocation(
       'Eastern Palace',
-      'lantern',
+      '{lantern}',
       94.6,
       38.8
     )
   ], [
     Location.DesertPalace, new DungeonLocation(
       'Desert Palace',
-      'book or titans + mirror',
+      '{book} or {glove2} + {mirror}',
       7.6,
       78.4
     )
@@ -33,14 +33,14 @@ export const DungeonLocations: Map<Location, DungeonLocation> = new Map<Location
   ], [
     Location.PalaceOfDarkness, new DungeonLocation(
       'Palace of Darkness',
-      'lantern + bow',
+      '{lantern} + {bow}',
       94,
       40
     )
   ], [
     Location.SwampPalace, new DungeonLocation(
       'Swamp Palace',
-      'mirror + flippers',
+      '{mirror} + {flippers}',
       47,
       91
     )
@@ -68,14 +68,14 @@ export const DungeonLocations: Map<Location, DungeonLocation> = new Map<Location
   ], [
     Location.MiseryMire, new DungeonLocation(
       'Misery Mire',
-      'lantern + medallion',
+      '{lantern} + medallion',
       11.6,
       82.9
     )
   ], [
     Location.TurtleRock, new DungeonLocation(
       'Turtle Rock',
-      'lantern + medallion',
+      '{lantern} + medallion',
       93.8,
       7
     )

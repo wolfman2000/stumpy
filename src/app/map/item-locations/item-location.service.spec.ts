@@ -49,8 +49,8 @@ describe( 'The item location service', () => {
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
     });
 
-    it( 'can be made available with the pearl and titan\'s mitts.', () => {
-      inventoryService.toggleMoonPearl();
+    it( 'can be made available with the boots and titan\'s mitts.', () => {
+      inventoryService.toggleBoots();
       inventoryService.incrementGlove();
       inventoryService.incrementGlove();
 

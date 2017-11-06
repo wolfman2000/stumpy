@@ -195,11 +195,12 @@ export class ItemLocationService {
   }
 
   private getKingsTombAvailability(): Availability {
-    if ( this.canReachOutcast() && this._inventory.mirror ) {
-      return this._inventory.boots ? Availability.Available : Availability.Glitches;
+    const items = this._inventory;
+    if ( this.canReachOutcast() && items.mirror ) {
+      return items.boots ? Availability.Available : Availability.Glitches;
     }
 
-    return this._inventory.glove === Glove.Titan ? Availability.Available : Availability.Unavailable;
+    return items.boots && items.glove === Glove.Titan ? Availability.Available : Availability.Unavailable;
   }
 
   private getEastDeathMountainAvailability(): Availability {

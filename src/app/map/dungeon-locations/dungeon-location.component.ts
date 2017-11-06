@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DungeonLocationService } from './dungeon-location.service';
 import { DungeonLocation } from './dungeon-location';
 
+import { CaptionService } from '../../caption/caption.service';
 import { CamelCasePipe } from '../../camel-case.pipe';
 
 import { Availability } from '../availability';
@@ -17,7 +18,8 @@ import { Availability } from '../availability';
 export class DungeonLocationComponent implements OnInit {
   constructor(
     private camelCasePipe: CamelCasePipe,
-    private _dungeonLocationService: DungeonLocationService
+    private _dungeonLocationService: DungeonLocationService,
+    private _captionService: CaptionService
   ) {}
 
   @Input()
@@ -61,5 +63,18 @@ export class DungeonLocationComponent implements OnInit {
 
   getBossStyle(): any {
     return this.getSurroundingStyle();
+  }
+
+  whenInside(evt: MouseEvent): void {
+    const requirements = this._dungeonLocation.requirements;
+    if ( !requirements || requirements === '' ) {
+      this._captionService.message = this._dungeonLocation.name;
+    } else {
+      this._captionService.message = this._dungeonLocation.name + ': ' + this._dungeonLocation.requirements;
+    }
+  }
+
+  whenOutside(evt: MouseEvent): void {
+    this._captionService.message = '';
   }
 }
