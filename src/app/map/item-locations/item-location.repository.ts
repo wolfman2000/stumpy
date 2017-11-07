@@ -5,7 +5,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   [[
     LocationKey.KingsTomb, new ItemLocation(
       'King\'s Tomb',
-      'boots and titans or mirror',
+      '{boots} and {glove2} or {mirror}',
       61.6,
       29.6
     )
@@ -33,7 +33,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.MimicCave, new ItemLocation(
       'Mimic Cave',
-      'mirror',
+      '{mirror}',
       85.2,
       9.3
     )
@@ -47,14 +47,14 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.ChickenHouse, new ItemLocation(
       'Chicken House',
-      'bombs',
+      '{bomb}',
       8.8,
       54.2
     )
   ], [
     LocationKey.AginahsCave, new ItemLocation(
       'Aginah\'s Cave',
-      'bombs',
+      '{bomb}',
       20,
       82.6
     )
@@ -68,42 +68,42 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.KakarikoWell, new ItemLocation(
       'Kakariko Well',
-      'bombs for one',
+      '{bomb} for one',
       3,
       41
     )
   ], [
     LocationKey.BlindsHut, new ItemLocation(
       'Blind\'s Hut',
-      'bombs for one',
+      '{bomb} for one',
       12.8,
       41
     )
   ], [
     LocationKey.ParadoxCave, new ItemLocation(
       'Paradox Cave',
-      'bombs for two',
+      '{bomb} for two',
       82.8,
       17.1
     )
   ], [
     LocationKey.BonkRocks, new ItemLocation(
       'Bonk Rocks',
-      'boots',
+      '{boots}',
       39,
       29.3
     )
   ], [
     LocationKey.MiniMoldormCave, new ItemLocation(
       'Minimoldorm Cave',
-      'bombs',
+      '{bomb}',
       65.2,
       93.4
     )
   ], [
     LocationKey.IceRodCave, new ItemLocation(
       'Ice Rod Cave',
-      'bombs',
+      '{bomb}',
       89.2,
       76.9
     )
@@ -124,28 +124,28 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.SickKid, new ItemLocation(
       'Sick kid',
-      'at least one bottle',
+      'at least one {bottle0}',
       15.6,
       52.1
     )
   ], [
     LocationKey.BridgeHideout, new ItemLocation(
       'Hideout under the bridge',
-      'flippers',
+      '{flippers}',
       70.8,
       69.7
     )
   ], [
     LocationKey.EtherTablet, new ItemLocation(
       'Ether Tablet',
-      'master sword and book',
+      '{sword2} and {book}',
       42,
       3
     )
   ], [
     LocationKey.BombosTablet, new ItemLocation(
       'Bombos Tablet',
-      'master sword and book',
+      '{sword2} and {book}',
       22,
       92.2
     )
@@ -159,14 +159,14 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.LostOldMan, new ItemLocation(
       'Lost Old Man',
-      'lantern',
+      '{lantern}',
       41.6,
       20.4
     )
   ], [
     LocationKey.PotionShop, new ItemLocation(
       'Witch outside Potion Shop',
-      'mushroom',
+      '{mushroom}',
       81.6,
       32.5
     )
@@ -180,42 +180,42 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.LumberjackTree, new ItemLocation(
       'Lumberjack Tree',
-      'agahnim and boots',
+      'agahnim and {boots}',
       30.4,
       7.6
     )
   ], [
     LocationKey.SpectacleRockCave, new ItemLocation(
       'Spectacle Rock Cave',
-      'glove & lamp',
+      '{glove1} & {lantern}',
       48.6,
       14.8
     )
   ], [
     LocationKey.MirrorCave, new ItemLocation(
       'South of Grove (Mirror Cave)',
-      'mirror',
+      '{mirror}',
       28.2,
       84.1
     )
   ], [
     LocationKey.GraveyardCliffCave, new ItemLocation(
       'Graveyard Cliff Cave',
-      'mirror',
+      '{mirror}',
       56.2,
       27
     )
   ], [
     LocationKey.CheckerboardCave, new ItemLocation(
       'Checkerboard Cave',
-      'mirror',
+      '{mirror}',
       17.6,
       77.3
     )
   ], [
     LocationKey.Library, new ItemLocation(
       'Library',
-      'boots',
+      '{boots}',
       15.4,
       65.9
     )
@@ -229,56 +229,56 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.SpectacleRock, new ItemLocation(
       'Spectacle Rock',
-      'mirror',
+      '{mirror}',
       50.8,
       8.5
     )
   ], [
     LocationKey.FloatingIsland, new ItemLocation(
       'Floating Island',
-      'mirror',
+      '{mirror}',
       80.4,
       3
     )
   ], [
     LocationKey.RaceMinigame, new ItemLocation(
       'Race minigame',
-      'bombs or boots',
+      '{bomb} or {boots}',
       3.6,
       69.8
     )
   ], [
     LocationKey.DesertWestLedge, new ItemLocation(
       'Desert West Ledge',
-      'book or mirror',
+      '{book} or {mirror}',
       3,
       91
     )
   ], [
     LocationKey.LakeHyliaIsland, new ItemLocation(
       'Lake Hylia Island',
-      'mirror',
+      '{mirror}',
       72.2,
       82.9
     )
   ], [
     LocationKey.ZoraLedge, new ItemLocation(
       'Zora River Ledge',
-      'flippers',
+      '{flippers}',
       95.4,
       17.3
     )
   ], [
     LocationKey.BuriedItem, new ItemLocation(
       'Buried Item',
-      'shovel',
+      '{shovel}',
       28.8,
       66.2
     )
   ], [
     LocationKey.SewerEscapeSideRoom, new ItemLocation(
       'Escape Sewer Side Room',
-      'bomb or boots',
+      '{bomb} or {boots}',
       53.6,
       32.4
     )
@@ -306,42 +306,42 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.MadBatter, new ItemLocation(
       'Mad Batter',
-      'hammer or mirror, plus powder',
+      '{hammer} or {mirror}, plus {powder}',
       32,
       58
     )
   ], [
     LocationKey.DwarfEscort, new ItemLocation(
       'Take the dwarf/frog home',
-      'mirror or Save and Quit',
+      '{mirror} or Save and Quit',
       30.4,
       51.8
     )
   ] , [
     LocationKey.MasterSwordPedestal, new ItemLocation(
       'Master Sword Pedestal',
-      'pendants',
+      'All Three Pendants',
       5,
       3.2
     )
   ], [
     LocationKey.SewerEscapeDarkRoom, new ItemLocation(
       'Escape Sewer Dark Room',
-      'lantern',
+      '{lantern}',
       51.2,
       38.2
     )
   ], [
     LocationKey.WaterfallOfWishing, new ItemLocation(
       'Waterfall of Wishing',
-      'flippers',
+      '{flippers}',
       89.8,
       14.7
     )
   ], [
     LocationKey.BombableHut, new ItemLocation(
       'Bombable Hut',
-      'bombs',
+      '{bomb}',
       10.8,
       57.8
     )
@@ -355,42 +355,42 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.MireHut, new ItemLocation(
       'Mire Hut',
-      'mirror and titan',
+      '{mirror} and {glove2}',
       3.4,
       79.5
     )
   ], [
     LocationKey.SuperBunnyCave, new ItemLocation(
       'SuperBunny Cave',
-      'titan',
+      '{glove2}',
       85.6,
       14.7
     )
   ], [
     LocationKey.SpikeCave, new ItemLocation(
       'Spike Cave',
-      'cape or byrna',
+      '{cape} or {byrna}',
       57.2,
       14.9
     )
   ], [
     LocationKey.HypeCave, new ItemLocation(
       'Hype Cave',
-      'bombs',
+      '{bomb}',
       60,
       77.1
     )
   ], [
     LocationKey.HookshotCaveBottom, new ItemLocation(
       'Hookshot Cave (Boots Accessible)',
-      'hookshot or boots',
+      '{hookshot} or {boots}',
       83.2,
       8.6
     )
   ], [
     LocationKey.HookshotCaveTop, new ItemLocation(
       'Hookshot Cave (Not Boots Accessible)',
-      'hookshot',
+      '{hookshot}',
       83.2,
       3.4
     )
@@ -425,14 +425,14 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
   ], [
     LocationKey.HammerPegCave, new ItemLocation(
       'Hammer Peg Cave',
-      'hammer and titan',
+      '{hammer} and {glove2}',
       31.6,
       60.1
     )
   ], [
     LocationKey.BumperCave, new ItemLocation(
       'Bumper Cave',
-      'cave',
+      '{cape}',
       34.2,
       15.2
     )

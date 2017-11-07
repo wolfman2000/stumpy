@@ -1,2 +1,4 @@
-<div [ngClass]="getSurroundingClasses()" [ngStyle]="getSurroundingStyle()"></div>
-<div class="boss" [ngClass]="getBossClasses()" [ngStyle]="getBossStyle()"></div>
+<div (mouseover)="whenInside($event)" (mouseleave)="whenOutside($event)">
+  <div [ngClass]="getSurroundingClasses()" [ngStyle]="getSurroundingStyle()"></div>
+  <div class="boss" [ngClass]="getBossClasses()" [ngStyle]="getBossStyle()"></div>
+</div>

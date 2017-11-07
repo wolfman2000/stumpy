@@ -7,3 +7,8 @@ html {
   background-color: black;
   color: #eee;
 }
+
+img.inline {
+  height: 16px;
+  vertical-align: text-bottom;
+}

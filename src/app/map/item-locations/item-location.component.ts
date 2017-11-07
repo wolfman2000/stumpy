@@ -41,7 +41,12 @@ export class ItemLocationComponent implements OnInit {
   }
 
   whenInside(evt: MouseEvent): void {
-    this._captionService.message = this.itemLocation.name + ' ' + this.itemLocation.requirements;
+    const requirements = this.itemLocation.requirements;
+    if ( !requirements || requirements === '' ) {
+      this._captionService.message = this.itemLocation.name;
+    } else {
+      this._captionService.message = this.itemLocation.name + ': ' + this.itemLocation.requirements;
+    }
   }
 
   whenOutside(evt: MouseEvent): void {

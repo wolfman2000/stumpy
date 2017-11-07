@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
 
 import { CaptionService } from './caption.service';
+import { TextToImage } from './text-to-image.pipe';
 
 @Component({
   selector: 'stumpy-caption',
   templateUrl: './caption.component.html',
-  styleUrls: ['./caption.component.css']
+  styleUrls: ['./caption.component.css'],
+  providers: [TextToImage]
 })
 
 export class CaptionComponent {
   constructor(
+    private _textToImage: TextToImage,
     private _captionService: CaptionService
   ) {}
 
@@ -19,6 +22,7 @@ export class CaptionComponent {
       return '&nbsp;';
     }
 
-    return message;
+    const transformed = this._textToImage.transform(message);
+    return transformed;
   }
 }
