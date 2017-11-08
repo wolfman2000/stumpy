@@ -1,5 +1,5 @@
 import { ItemLocationService } from './item-location.service';
-import { InventoryService } from '../../inventory.service';
+import { ItemService } from '../../items/item.service';
 import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 import { LocalStorageService } from '../../local-storage.service';
@@ -7,13 +7,14 @@ import { LocalStorageService } from '../../local-storage.service';
 import { ItemLocation } from './item-location';
 import { Availability } from '../availability';
 import { LocationKey } from './location-key';
+import { ItemKey } from '../../items/item-key';
 
 import { Location } from '../../dungeon/location';
 import { Mode } from '../../settings/mode';
 
 describe( 'The item location service', () => {
   let itemLocationService: ItemLocationService;
-  let inventoryService: InventoryService;
+  let itemService: ItemService;
   let dungeonService: DungeonService;
   let settingsService: SettingsService;
 
@@ -39,9 +40,10 @@ describe( 'The item location service', () => {
   */
 
   beforeEach( () => {
-    inventoryService = new InventoryService();
+    itemService = new ItemService( settingsService );
+    itemService.reset();
     dungeonService = new DungeonService();
-    itemLocationService = new ItemLocationService( inventoryService, dungeonService, settingsService );
+    itemLocationService = new ItemLocationService( itemService, dungeonService, settingsService );
   });
 
   describe( 'set to the King\'s Tomb', () => {
@@ -50,65 +52,64 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be made available with the boots and titan\'s mitts.', () => {
-      inventoryService.toggleBoots();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Boots, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Available );
     });
 
     it( 'cannot be made available with just the power gloves.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be made available with the gloves, a hammer, and a mirror, assuming glitches are used.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Glitches );
     });
 
     it( 'can cleanly be made available with gloves, hammer, mirror, and boots.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMirror();
-      inventoryService.toggleBoots();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Boots, 1);
 
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Available );
     });
 
     it( 'cannot be available if you only defeated Agahnim and have the hookshot.', () => {
       dungeonService.agahnimTower.toggleDefeat();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHookshot();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hookshot, 1);
 
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be available if you defeated Agahnim and have the hookshot, a hammer, and boots.', () => {
       dungeonService.agahnimTower.toggleDefeat();
-      inventoryService.toggleHookshot();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMirror();
-      inventoryService.toggleBoots();
+      itemService.setItemState(ItemKey.Hookshot, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Boots, 1);
 
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Available );
     });
 
     it( 'can be available if you defeated Agahnim and have the hookshot, flippers, and boots.', () => {
       dungeonService.agahnimTower.toggleDefeat();
-      inventoryService.toggleHookshot();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleFlippers();
-      inventoryService.toggleMirror();
-      inventoryService.toggleBoots();
+      itemService.setItemState(ItemKey.Hookshot, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Flippers, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Boots, 1);
 
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Available );
     });
@@ -128,7 +129,7 @@ describe( 'The item location service', () => {
     describe( 'in open mode', () => {
       beforeEach( () => {
         spyOnProperty( tempSettings, 'mode', 'get').and.returnValue(Mode.Open);
-        tempService = new ItemLocationService( inventoryService, dungeonService, tempSettings );
+        tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
       });
 
       it( 'starts off as available.', () => {
@@ -140,7 +141,7 @@ describe( 'The item location service', () => {
     describe( 'in standard mode', () => {
       beforeEach( () => {
         spyOnProperty( tempSettings, 'mode', 'get').and.returnValue(Mode.Standard);
-        tempService = new ItemLocationService( inventoryService, dungeonService, tempSettings );
+        tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
       });
 
       xit( 'starts off as claimed.', () => {
@@ -156,22 +157,22 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs more than a glove to get in.', () => {
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.SpiralCave)).toBe( Availability.Unavailable);
     });
 
     it( 'can be gotten with glove and hookshot assuming sequence breaks are used.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHookshot();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hookshot, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.SpiralCave)).toBe( Availability.Glitches);
     });
 
     it( 'can be gotten cleanly with the flute, mirror, and hammer.', () => {
-      inventoryService.toggleFlute();
-      inventoryService.toggleMirror();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.SpiralCave)).toBe( Availability.Available);
     });
@@ -183,117 +184,111 @@ describe( 'The item location service', () => {
     });
 
     it( 'requires more than the moon pearl for a chance to get in.', () => {
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the hammer too.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the cane of somaria too.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the magic mirror too.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the power glove. The titan\'s mitts are required.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires at least one medallion to have a chance.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'requires a sword to utilize a medallion to get here (assuming no swordless mode).', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBombos();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Bombos, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'can potentially be available with bombos in hand if no dungeon medallion info is available.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBombos();
-      inventoryService.incrementSword();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Bombos, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Possible );
     });
 
     it( 'can potentially be available with ether in hand if no dungeon medallion info is available.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleEther();
-      inventoryService.incrementSword();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Ether, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Possible );
     });
 
     it( 'can potentially be available with bombos and ether in hand if no dungeon medallion info is available.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBombos();
-      inventoryService.toggleEther();
-      inventoryService.incrementSword();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Bombos, 1);
+      itemService.setItemState(ItemKey.Ether, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Possible );
     });
 
     it( 'is not possible if bombos is available but Turtle Rock needs ether.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBombos();
-      inventoryService.incrementSword();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Bombos, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
@@ -301,28 +296,26 @@ describe( 'The item location service', () => {
     });
 
     it( 'is not possible if ether is available but Turtle Rock needs bombos.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleEther();
-      inventoryService.incrementSword();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Ether, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Unavailable );
     });
 
     it( 'is not possible if bombos is available but Turtle Rock needs quake.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBombos();
-      inventoryService.incrementSword();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Bombos, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
@@ -331,61 +324,57 @@ describe( 'The item location service', () => {
     });
 
     it( 'is possible if bombos is available and Turtle Rock needs bombos, but no fire rod is there.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBombos();
-      inventoryService.incrementSword();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Bombos, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Possible );
     });
 
     it( 'can be sequence broken into if everything except lantern and flute are available.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBombos();
-      inventoryService.incrementSword();
-      inventoryService.toggleFireRod();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Bombos, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
+      itemService.setItemState(ItemKey.FireRod, 1);
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Glitches );
     });
 
     it( 'can be accessed normally into if everything plus the lantern are available.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBombos();
-      inventoryService.incrementSword();
-      inventoryService.toggleFireRod();
-      inventoryService.toggleLantern();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Bombos, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
+      itemService.setItemState(ItemKey.FireRod, 1);
+      itemService.setItemState(ItemKey.Lantern, 1);
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave) ).toBe( Availability.Available );
     });
 
     it( 'can be accessed normally into if everything plus the flute are available.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.toggleSomaria();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBombos();
-      inventoryService.incrementSword();
-      inventoryService.toggleFireRod();
-      inventoryService.toggleFlute();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Somaria, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Bombos, 1);
+      itemService.setItemState(ItemKey.Sword, 1);
+      itemService.setItemState(ItemKey.FireRod, 1);
+      itemService.setItemState(ItemKey.Flute, 1);
       dungeonService.getDungeon(Location.TurtleRock).cycleEntranceLock();
 
       expect( itemLocationService.getAvailability( LocationKey.MimicCave)  ).toBe( Availability.Available );
@@ -398,7 +387,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'becomes available when the boots are acquired.', () => {
-      inventoryService.toggleBoots();
+      itemService.setItemState(ItemKey.Boots, 1);
       expect( itemLocationService.getAvailability( LocationKey.BonkRocks ) ).toBe( Availability.Available );
     });
   });
@@ -425,7 +414,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'becomes available when one bottle is acquired.', () => {
-      inventoryService.incrementBottles();
+      itemService.setItemState(ItemKey.Bottle, 1);
       expect( itemLocationService.getAvailability( LocationKey.SickKid ) ).toBe( Availability.Available );
     });
   });
@@ -436,7 +425,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'becomes properly available when the flippers are on hand.', () => {
-      inventoryService.toggleFlippers();
+      itemService.setItemState(ItemKey.Flippers, 1);
 
       expect( itemLocationService.getAvailability( LocationKey.BridgeHideout ) ).toBe( Availability.Available );
     });
@@ -449,13 +438,13 @@ describe( 'The item location service', () => {
     });
 
     it( 'could be available with sequence breaks using the moon pearl & fake flippering.', () => {
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'is properly available with the real flippers.', () => {
-      inventoryService.toggleFlippers();
+      itemService.setItemState(ItemKey.Flippers, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -468,53 +457,51 @@ describe( 'The item location service', () => {
     });
 
     it( 'requires more than the book.', () => {
-      inventoryService.toggleBook();
+      itemService.setItemState(ItemKey.Book, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than a glove.', () => {
-      inventoryService.toggleBook();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Book, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'can reveal the item to you if you have a mirror, assuming you sequence broke.', () => {
-      inventoryService.toggleBook();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.Book, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.GlitchesVisible );
     });
 
     it( 'can reveal the item to you if you have the hookshot and hammer.', () => {
-      inventoryService.toggleBook();
-      inventoryService.incrementGlove();
-      inventoryService.toggleLantern();
-      inventoryService.toggleHookshot();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.Book, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Lantern, 1);
+      itemService.setItemState(ItemKey.Hookshot, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
 
     it( 'can be gotten with the correct sword, though sequence breaks are needed with the glove and no lantern.', () => {
-      inventoryService.toggleBook();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMirror();
-      inventoryService.incrementSword();
-      inventoryService.incrementSword();
+      itemService.setItemState(ItemKey.Book, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.getItem(ItemKey.Sword).state = 2;
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'can be gotten properly with the correct sword and a flute.', () => {
-      inventoryService.toggleBook();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMirror();
-      inventoryService.incrementSword();
-      inventoryService.incrementSword();
-      inventoryService.toggleFlute();
+      itemService.setItemState(ItemKey.Book, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.getItem(ItemKey.Sword).state = 2;
+      itemService.setItemState(ItemKey.Flute, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -528,29 +515,28 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs all Mirror Cave requirements to be accessible.', () => {
-      inventoryService.toggleBook();
+      itemService.setItemState(ItemKey.Book, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'can state what is in the tablet without the weapon.', () => {
-      inventoryService.toggleBook();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.Book, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
 
     it( 'is available with tablet access and a proper weapon.', () => {
-      inventoryService.toggleBook();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleMirror();
-      inventoryService.incrementSword();
-      inventoryService.incrementSword();
+      itemService.setItemState(ItemKey.Book, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.getItem(ItemKey.Sword).state = 2;
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -564,43 +550,41 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs more than a glove to at least see it.', () => {
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'needs more than a glove & hammer to at least see it.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be visible with the glove, hammer, and mirror...assuming you sequence broke', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.GlitchesVisible );
     });
 
     it( 'can be retrieved with the titan\'s mitts and moon pearl, with dark room navigation.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMirror();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'can be retrieved properly with the titan\'s mitts, lantern and moon pearl.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMirror();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleLantern();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Lantern, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -614,7 +598,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'is properly available with a glove.', () => {
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -628,14 +612,14 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be gotten with the flute, though as a sequence break without the lantern.', () => {
-      inventoryService.toggleFlute();
+      itemService.setItemState(ItemKey.Flute, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'can properly be gotten with a glove and a lantern.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleLantern();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Lantern, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -649,7 +633,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be available if the mushroom is given.', () => {
-      inventoryService.toggleMushroom();
+      itemService.setItemState(ItemKey.Mushroom, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -670,7 +654,7 @@ describe( 'The item location service', () => {
 
     it( 'also needs the boots.', () => {
       dungeonService.agahnimTower.toggleDefeat();
-      inventoryService.toggleBoots();
+      itemService.setItemState(ItemKey.Boots, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -684,24 +668,23 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs more than the hammer to access.', () => {
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'needs is accessible (through glitches) with the mushroom.', () => {
-      inventoryService.toggleHammer();
-      inventoryService.toggleMushroom();
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Mushroom, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'needs is accessible legitmately with the powder.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMirror();
-      inventoryService.toggleMoonPearl();
-      inventoryService.togglePowder();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Powder, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -715,13 +698,13 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be gotten with the flute by itself.', () => {
-      inventoryService.toggleFlute();
+      itemService.setItemState(ItemKey.Flute, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'can be gotten with a glove, but requires dark room navigation without the lantern.', () => {
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
@@ -735,9 +718,8 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs both the moon pearl and titan\'s mitts to access.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
   });
@@ -750,10 +732,10 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be accessed with access to the village of outcasts and a mirror.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMirror();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -767,21 +749,21 @@ describe( 'The item location service', () => {
     });
 
     it( 'is visible as soon as a glove is on hand.', () => {
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.GlitchesVisible );
     });
 
     it( 'can be gotten with a mirror, though it involves a sequence break.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'can be gotten properly with a flute.', () => {
-      inventoryService.toggleFlute();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -795,10 +777,9 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs the mitts, flute, and mirror to get in.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleFlute();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -812,7 +793,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'requires the boots to grab.', () => {
-      inventoryService.toggleBoots();
+      itemService.setItemState(ItemKey.Boots, 1);
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
   });
@@ -825,15 +806,14 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be gotten with the book.', () => {
-      inventoryService.toggleBook();
+      itemService.setItemState(ItemKey.Book, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'can be gotten with the flute and titan\'s mitt.', () => {
-      inventoryService.toggleFlute();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -847,42 +827,41 @@ describe( 'The item location service', () => {
     });
 
     it( 'requires the flippers to at least be visible (normally).', () => {
-      inventoryService.toggleFlippers();
+      itemService.setItemState(ItemKey.Flippers, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
 
     it( 'needs more than the flippers and moon pearl.', () => {
-      inventoryService.toggleFlippers();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Flippers, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
 
     it( 'needs more than the flippers, moon pearl, and mirror.', () => {
-      inventoryService.toggleFlippers();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.Flippers, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
 
     it( 'can be retrieved with the titan\'s mitts.', () => {
-      inventoryService.toggleFlippers();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Flippers, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'can be retrieved with any glove along with the hammer.', () => {
-      inventoryService.toggleFlippers();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleMirror();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.Flippers, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -896,13 +875,13 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be grabbed with the flippers.', () => {
-      inventoryService.toggleFlippers();
+      itemService.setItemState(ItemKey.Flippers, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'is visible normally if just a glove is on hand.', () => {
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
@@ -916,7 +895,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'is available when the shovel is acquired.', () => {
-      inventoryService.toggleShovel();
+      itemService.setItemState(ItemKey.Shovel, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -929,7 +908,7 @@ describe( 'The item location service', () => {
 
     beforeEach( () => {
       spyOnProperty(tempSettings, 'mode', 'get').and.returnValue(Mode.Open);
-      tempService = new ItemLocationService( inventoryService, dungeonService, tempSettings );
+      tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
     });
 
     it( 'starts off as available through skipping the lantern.', () => {
@@ -937,13 +916,13 @@ describe( 'The item location service', () => {
     });
 
     it( 'is possible to get with the lantern alone, though it is dependant on key locations.', () => {
-      inventoryService.toggleLantern();
+      itemService.setItemState(ItemKey.Lantern, 1);
 
       expect( tempService.getAvailability( location ) ).toBe( Availability.Possible );
     });
 
     it( 'is definitely available if a glove is owned.', () => {
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( tempService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -956,7 +935,7 @@ describe( 'The item location service', () => {
 
     beforeEach( () => {
       spyOnProperty(tempSettings, 'mode', 'get').and.returnValue(Mode.Open);
-      tempService = new ItemLocationService( inventoryService, dungeonService, tempSettings );
+      tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
     });
 
     it( 'starts off as available through skipping the lantern.', () => {
@@ -964,7 +943,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'is normally available when the lantern is acquired.', () => {
-      inventoryService.toggleLantern();
+      itemService.setItemState(ItemKey.Lantern, 1);
 
       expect( tempService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -978,7 +957,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'can tell you the item if you have the book.', () => {
-      inventoryService.toggleBook();
+      itemService.setItemState(ItemKey.Book, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
@@ -998,33 +977,30 @@ describe( 'The item location service', () => {
     });
 
     it( 'requires more than the flute.', () => {
-      inventoryService.toggleFlute();
+      itemService.setItemState(ItemKey.Flute, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the titan mitts as well.', () => {
-      inventoryService.toggleFlute();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be gotten with the moon pearl.', () => {
-      inventoryService.toggleFlute();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'can be gotten with the mirror if you can pull off the super bunny glitch.', () => {
-      inventoryService.toggleFlute();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMirror();
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Mirror, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
@@ -1038,9 +1014,8 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be gotten with outcast access.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1054,41 +1029,37 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs more than the power glove.', () => {
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'needs more than the titan mitts.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'is potentially available with the hookshot, though super bunny status is needed.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHookshot();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Hookshot, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'is potentially available with the mirror and hammer, though super bunny status is needed.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMirror();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'is properly available with the flute and moon pearl.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHookshot();
-      inventoryService.toggleFlute();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Hookshot, 1);
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1102,50 +1073,50 @@ describe( 'The item location service', () => {
     });
 
     it( 'requires more than the glove for the end.', () => {
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the hammer for the beginning.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the moon pearl for the beginning.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be gotten with the cane of byrna itself, though the old man cave is still a sequence break.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleByrna();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Byrna, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'can be gotten with the cape itself (plus the flute).', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleCape();
-      inventoryService.toggleFlute();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Cape, 1);
+      itemService.setItemState(ItemKey.Flute, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'is possible to get with one bottle of healing potion, assuming that is the contents.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementBottles();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Bottle, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Possible );
     });
@@ -1159,17 +1130,16 @@ describe( 'The item location service', () => {
     });
 
     it( 'could be gotten through the outcast route.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'could be gotten through the Agahnim route.', () => {
       dungeonService.agahnimTower.toggleDefeat();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1183,36 +1153,33 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs more than the moon pearl.', () => {
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'needs more than the titan\'s mitts.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be gotten with the hookshot, assuming the DM logic is broken.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHookshot();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Hookshot, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'can be gotten with the boots.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBoots();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMirror();
-      inventoryService.toggleFlute();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Boots, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Flute, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1226,36 +1193,33 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs more than the moon pearl.', () => {
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'needs more than the titan\'s mitts.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'is gotten with the hookshot and flute.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHookshot();
-      inventoryService.toggleFlute();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Hookshot, 1);
+      itemService.setItemState(ItemKey.Flute, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'can be gotten with the boots and northern path assuming you can hover.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleBoots();
-      inventoryService.toggleMirror();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Boots, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
@@ -1284,39 +1248,38 @@ describe( 'The item location service', () => {
     });
 
     it( 'requires more than the moon pearl.', () => {
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the moon pearl & glove.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'could be gotten with Agahnim\'s death.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
       dungeonService.agahnimTower.toggleDefeat();
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'could be gotten with a hammer.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'could be gotten with swimming and stronger miits.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleFlippers();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Flippers, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1330,24 +1293,22 @@ describe( 'The item location service', () => {
     });
 
     it( 'requires more than the moon pearl.', () => {
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'requires more than the titan\'s mitts.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'can only be gotten with the HAMMER!', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1361,18 +1322,18 @@ describe( 'The item location service', () => {
     });
 
     it( 'requires outcast access to see the item.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
 
     it( 'can be gotten with the cape.', () => {
-      inventoryService.incrementGlove();
-      inventoryService.toggleHammer();
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleCape();
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Cape, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1392,18 +1353,17 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be gotten with the glove, hammer, and moon pearl.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
     it( 'can be gotten with the mitts, flippers, and moon pearl.', () => {
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleFlippers();
-      inventoryService.incrementGlove();
-      inventoryService.incrementGlove();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Flippers, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1424,15 +1384,15 @@ describe( 'The item location service', () => {
 
     it( 'requires the moon pearl, though still more is needed.', () => {
       dungeonService.dungeons.forEach( d => d.toggleDefeat() );
-      inventoryService.toggleMoonPearl();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
     it( 'can be gotten with Agahnim\'s demise and a hammer.', () => {
       dungeonService.dungeons.forEach( d => d.toggleDefeat() );
-      inventoryService.toggleMoonPearl();
-      inventoryService.toggleHammer();
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });

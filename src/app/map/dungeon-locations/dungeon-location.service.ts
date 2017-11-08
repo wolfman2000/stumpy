@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { InventoryService } from '../../inventory.service';
+import { ItemService } from '../../items/item.service';
 import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 
@@ -12,14 +12,14 @@ import { DungeonLocation } from './dungeon-location';
 import { DungeonLocations } from './dungeon-location.repository';
 
 import { Mode } from '../../settings/mode';
-import { Sword } from '../../items/sword/sword';
-import { Glove } from '../../items/glove/glove';
-import { Shield } from '../../items/shield/shield';
+import { Sword } from '../../items/sword';
+import { Glove } from '../../items/glove';
+import { Shield } from '../../items/shield';
 
 @Injectable()
 export class DungeonLocationService {
   constructor(
-    private _inventory: InventoryService,
+    private _inventory: ItemService,
     private _dungeons: DungeonService,
     private _settings: SettingsService
   ) {
@@ -192,12 +192,12 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( !this.isAgahnimDefeated() && !(items.hammer && items.hasGlove()) &&
-      !(items.glove === Glove.Titan && items.flippers) ) {
+    if ( !this.isAgahnimDefeated() && !(!!items.hammer && items.hasGlove()) &&
+      !(items.glove === Glove.Titan && !!items.flippers) ) {
       return Availability.Unavailable;
     }
 
-    return !(items.bow && items.lantern) || dungeon.chestCount === 1 && !items.hammer ?
+    return !(items.bow && !!items.lantern) || dungeon.chestCount === 1 && !items.hammer ?
       Availability.Possible : Availability.Available;
   }
 
@@ -365,7 +365,7 @@ export class DungeonLocationService {
     if ( this._dungeons.getDungeon( Location.MiseryMire ).chestCount > 1) {
       hasItems = items.hasFireSource();
     } else {
-      hasItems = items.lantern && items.somaria;
+      hasItems = !!items.lantern && !!items.somaria;
     }
 
     return hasItems ? Availability.Available : Availability.Possible;
@@ -431,7 +431,7 @@ export class DungeonLocationService {
   }
 
   private hasLaserBridgeSafety(): boolean {
-    return this._inventory.byrna || this._inventory.cape || this._inventory.shield === Shield.Mirror;
+    return !!this._inventory.byrna || !!this._inventory.cape || this._inventory.shield === Shield.Mirror;
   }
 
   private medallionState( location: Location ): Availability {
@@ -485,9 +485,9 @@ export class DungeonLocationService {
 
     return (
       inventory.glove === Glove.Titan ||
-      inventory.hasGlove() && inventory.hammer ||
-      this.isAgahnimDefeated() && inventory.hookshot && (
-        inventory.hammer || inventory.hasGlove() || inventory.flippers
+      inventory.hasGlove() && !!inventory.hammer ||
+      this.isAgahnimDefeated() && !!inventory.hookshot && (
+        !!inventory.hammer || inventory.hasGlove() || !!inventory.flippers
       )
     );
   }

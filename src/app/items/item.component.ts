@@ -1,23 +1,33 @@
-import { Component } from '@angular/core';
-import { InventoryService } from '../inventory.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { ItemService } from './item.service';
 
 @Component( {
-  selector: 'app-item',
-  template: '<div></div>',
+  providers: [ItemService],
+  selector: 'stumpy-item',
+  templateUrl: './item.component.html',
   styleUrls: [ './item.component.css' ]
 } )
 
 export class ItemComponent {
   constructor(
-    protected _inventoryService: InventoryService
+    protected _itemService: ItemService
   ) {}
 
-  protected get inventoryService(): InventoryService {
-    return this._inventoryService;
+  @Input()
+  itemId: number;
+
+  whenClicked(evt: MouseEvent): void {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    this._itemService.setItemState(this.itemId, this._itemService.getItem(this.itemId).state + 1);
   }
 
   getClasses(): any {
-  }
-  whenClicked( evt: MouseEvent ): void {
+    const results = {
+      isActive: this._itemService.isActive(this.itemId)
+    };
+    results[this._itemService.getImage(this.itemId)] = true;
+    return results;
   }
 }
