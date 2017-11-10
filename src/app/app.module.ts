@@ -11,7 +11,7 @@ import { GuideModule } from './guide/guide.module';
 import { LocalStorageService } from './local-storage.service';
 import { CaptionService } from './caption/caption.service';
 import { DungeonService } from './dungeon/dungeon.service';
-import { InventoryService } from './inventory.service';
+import { ItemService } from './items/item.service';
 import { SettingsService } from './settings/settings.service';
 
 import { AppComponent } from './app.component';
@@ -38,7 +38,7 @@ import { CamelCasePipe } from './camel-case.pipe';
     ItemModule.forRoot(),
     GuideModule.forRoot()
   ],
-  providers: [InventoryService, CaptionService, DungeonService, LocalStorageService, SettingsService],
+  providers: [ItemService, CaptionService, DungeonService, LocalStorageService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

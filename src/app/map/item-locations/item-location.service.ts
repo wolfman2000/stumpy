@@ -4,10 +4,10 @@ import { Availability } from '../availability';
 import { LocationKey } from './location-key';
 import { ItemLocation } from './item-location';
 
-import { Glove } from '../../items/glove/glove';
-import { Sword } from '../../items/sword/sword';
+import { Glove } from '../../items/glove';
+import { Sword } from '../../items/sword';
 
-import { InventoryService } from '../../inventory.service';
+import { ItemService } from '../../items/item.service';
 import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 
@@ -20,7 +20,7 @@ import { Mode } from '../../settings/mode';
 @Injectable()
 export class ItemLocationService {
   constructor(
-    private _inventory: InventoryService,
+    private _inventory: ItemService,
     private _dungeons: DungeonService,
     private _settings: SettingsService
   ) {
@@ -167,7 +167,7 @@ export class ItemLocationService {
   }
 
   private hasMedallionWeapon(): boolean {
-    return ( this._settings.mode === Mode.Swordless && this._inventory.hammer ) ||
+    return ( this._settings.mode === Mode.Swordless && !!this._inventory.hammer ) ||
       this._inventory.sword !== Sword.None && this._inventory.sword !== Sword.Wooden;
   }
 
@@ -176,7 +176,7 @@ export class ItemLocationService {
   }
 
   private hasSouthDarkWorldFromPyramidAccess(): boolean {
-    return this.isAgahnimDefeated() && this._inventory.moonPearl && this._inventory.hammer;
+    return this.isAgahnimDefeated() && !!this._inventory.moonPearl && !!this._inventory.hammer;
   }
 
   private canReachOutcast(): boolean {
@@ -187,20 +187,20 @@ export class ItemLocationService {
 
     return (
       inventory.glove === Glove.Titan ||
-      inventory.hasGlove() && inventory.hammer ||
-      this.isAgahnimDefeated() && inventory.hookshot && (
-        inventory.hammer || inventory.hasGlove() || inventory.flippers
+      inventory.hasGlove() && !!inventory.hammer ||
+      this.isAgahnimDefeated() && !!inventory.hookshot && (
+        !!inventory.hammer || inventory.hasGlove() || !!inventory.flippers
       )
     );
   }
 
   private getKingsTombAvailability(): Availability {
     const items = this._inventory;
-    if ( this.canReachOutcast() && items.mirror ) {
-      return items.boots ? Availability.Available : Availability.Glitches;
+    if ( this.canReachOutcast() && !!items.mirror ) {
+      return !!items.boots ? Availability.Available : Availability.Glitches;
     }
 
-    return items.boots && items.glove === Glove.Titan ? Availability.Available : Availability.Unavailable;
+    return !!items.boots && items.glove === Glove.Titan ? Availability.Available : Availability.Unavailable;
   }
 
   private getEastDeathMountainAvailability(): Availability {
@@ -308,15 +308,15 @@ export class ItemLocationService {
       return Availability.Unavailable;
     }
 
-    return this._inventory.lantern ? Availability.Available : Availability.Glitches;
+    return !!this._inventory.lantern ? Availability.Available : Availability.Glitches;
   }
 
   private getPotionShopAvailability(): Availability {
-    return this._inventory.mushroom ? Availability.Available : Availability.Unavailable;
+    return !!this._inventory.mushroom ? Availability.Available : Availability.Unavailable;
   }
 
   private getLumberjackAvailability(): Availability {
-    return this.isAgahnimDefeated() && this._inventory.boots ? Availability.Available : Availability.Visible;
+    return this.isAgahnimDefeated() && !!this._inventory.boots ? Availability.Available : Availability.Visible;
   }
 
   private getMirrorCaveAvailability(): Availability {
@@ -338,11 +338,11 @@ export class ItemLocationService {
 
   private getCheckerboardCaveAvailability(): Availability {
     const inventory = this._inventory;
-    return inventory.flute && inventory.mirror && inventory.glove === Glove.Titan ? Availability.Available : Availability.Unavailable;
+    return !!inventory.flute && !!inventory.mirror && inventory.glove === Glove.Titan ? Availability.Available : Availability.Unavailable;
   }
 
   private getLibraryAvailability(): Availability {
-    return this._inventory.boots ? Availability.Available : Availability.Visible;
+    return !!this._inventory.boots ? Availability.Available : Availability.Visible;
   }
 
   private getSpectacleRockAvailability(): Availability {
@@ -407,7 +407,7 @@ export class ItemLocationService {
   }
 
   private getBuriedItemAvailability(): Availability {
-    return this._inventory.shovel ? Availability.Available : Availability.Unavailable;
+    return !!this._inventory.shovel ? Availability.Available : Availability.Unavailable;
   }
 
   private getSewerEscapeSideRoomAvailability(): Availability {
@@ -426,11 +426,11 @@ export class ItemLocationService {
       return Availability.Unavailable;
     }
 
-    if ( inventory.powder ) {
+    if ( !!inventory.powder ) {
       return Availability.Available;
     }
 
-    return inventory.mushroom ? Availability.Glitches : Availability.Unavailable;
+    return !!inventory.mushroom ? Availability.Glitches : Availability.Unavailable;
   }
 
   private getDwarfAvailability(): Availability {
@@ -510,7 +510,7 @@ export class ItemLocationService {
       return Availability.Unavailable;
     }
 
-    if ( items.byrna || items.cape) {
+    if ( !!items.byrna || !!items.cape) {
       return this.getDeathMountainLogicalAccessibility();
     }
 

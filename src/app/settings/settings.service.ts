@@ -32,7 +32,7 @@ export class SettingsService {
     return this._mode;
   }
   set mode(mode: Mode) {
-    this._mode = mode;
+    this._mode = parseInt( mode + '', 10 );
     this.localStorageService.setItem( 'mode', this.mode + '' );
   }
 
@@ -55,7 +55,7 @@ export class SettingsService {
     return this._logic;
   }
   set logic(logic: GlitchLogic) {
-    this._logic = logic;
+    this._logic = parseInt( logic + '', 10 );
     this.localStorageService.setItem( 'logic', this.logic + '' );
   }
 

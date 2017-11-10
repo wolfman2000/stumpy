@@ -11,3 +11,175 @@
 :host .isActive {
   opacity: 1;
 }
+
+.bombos {
+  background-image: url('/assets/items/bombos.png');
+}
+
+.book {
+  background-image: url('/assets/items/book.png');
+}
+
+.boomerang1, .blueBoomerang:not(.redBoomerang) {
+  background-image: url('/assets/items/boomerang1.png');
+}
+
+.boomerang2, .redBoomerang:not(.blueBoomerang) {
+  background-image: url('/assets/items/boomerang2.png');
+}
+
+.boomerang3, .blueBoomerang.redBoomerang {
+  background-image: url('/assets/items/boomerang3.png');
+}
+
+.boots {
+  background-image: url('/assets/items/boots.png');
+}
+
+.bottle0 {
+  background-image: url('/assets/items/bottle0.png');
+}
+
+.bottle1 {
+  background-image: url('/assets/items/bottle1.png');
+}
+
+.bottle2 {
+  background-image: url('/assets/items/bottle2.png');
+}
+
+.bottle3 {
+  background-image: url('/assets/items/bottle3.png');
+}
+
+.bottle4 {
+  background-image: url('/assets/items/bottle4.png');
+}
+
+.bow {
+  background-image: url('/assets/items/bow.png');
+}
+
+.byrna {
+  background-image: url('/assets/items/byrna.png');
+}
+
+.cape {
+  background-image: url('/assets/items/cape.png');
+}
+
+.ether {
+  background-image: url('/assets/items/ether.png');
+}
+
+.firerod {
+  background-image: url('/assets/items/firerod.png');
+}
+
+.flippers {
+  background-image: url('/assets/items/flippers.png');
+}
+
+.flute {
+  background-image: url('/assets/items/flute.png');
+}
+
+.glove1, .power {
+  background-image: url('/assets/items/glove1.png');
+}
+
+.glove2, .titan {
+  background-image: url('/assets/items/glove2.png');
+}
+
+.hammer {
+  background-image: url('/assets/items/hammer.png');
+}
+
+.hookshot {
+  background-image: url('/assets/items/hookshot.png');
+}
+
+.icerod {
+  background-image: url('/assets/items/icerod.png');
+}
+
+.lantern {
+  background-image: url('/assets/items/lantern.png');
+}
+
+.mirror {
+  background-image: url('/assets/items/mirror.png');
+}
+
+.moonPearl {
+  background-image: url('/assets/items/moonpearl.png');
+}
+
+.mushroom {
+  background-image: url('/assets/items/mushroom.png');
+}
+
+.net {
+  background-image: url('/assets/items/net.png');
+}
+
+.powder {
+  background-image: url('/assets/items/powder.png');
+}
+
+.quake {
+  background-image: url('/assets/items/quake.png');
+}
+
+.shield1 {
+  background-image: url('/assets/items/shield1.png');
+}
+
+.shield2 {
+  background-image: url('/assets/items/shield2.png');
+}
+
+.shield3 {
+  background-image: url('/assets/items/shield3.png');
+}
+
+.shovel {
+  background-image: url('/assets/items/shovel.png');
+}
+
+.silver-arrows {
+  background-image: url('/assets/items/silvers.png');
+}
+
+.somaria {
+  background-image: url('/assets/items/somaria.png');
+}
+
+.sword1 {
+  background-image: url('/assets/items/sword1.png');
+}
+
+.sword2 {
+  background-image: url('/assets/items/sword2.png');
+}
+
+.sword3 {
+  background-image: url('/assets/items/sword3.png');
+}
+
+.sword4 {
+  background-image: url('/assets/items/sword4.png');
+}
+
+.tunic1 {
+  background-image: url('/assets/items/tunic1.png');
+}
+
+.tunic2 {
+  background-image: url('/assets/items/tunic2.png');
+}
+
+.tunic3 {
+  background-image: url('/assets/items/tunic3.png');
+}

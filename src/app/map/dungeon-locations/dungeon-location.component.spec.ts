@@ -2,7 +2,7 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@a
 import { DebugElement } from '@angular/core';
 import { DungeonLocationComponent } from './dungeon-location.component';
 import { DungeonLocationService } from './dungeon-location.service';
-import { InventoryService } from '../../inventory.service';
+import { ItemService } from '../../items/item.service';
 import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 import { LocalStorageService } from '../../local-storage.service';
@@ -35,7 +35,7 @@ describe( 'The dungeon item component', () => {
   beforeEach( async(() => {
     TestBed.configureTestingModule({
       declarations: [DungeonLocationComponent],
-      providers: [DungeonLocationService, CaptionService, InventoryService, DungeonService, SettingsService, LocalStorageService]
+      providers: [DungeonLocationService, CaptionService, ItemService, DungeonService, SettingsService, LocalStorageService]
     }).compileComponents();
   }));
 
