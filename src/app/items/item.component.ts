@@ -24,10 +24,6 @@ export class ItemComponent {
   }
 
   getClasses(): any {
-    const results = {
-      isActive: this._itemService.isActive(this.itemId)
-    };
-    results[this._itemService.getImage(this.itemId)] = true;
-    return results;
+    return this._itemService.getItemClasses(this.itemId);
   }
 }
