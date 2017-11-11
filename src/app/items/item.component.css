@@ -2,6 +2,7 @@
   width: 64px;
   height: 64px;
   display: table-cell;
+  cursor: pointer;
 }
 :host > div {
   width: 64px;
