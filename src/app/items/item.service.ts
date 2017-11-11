@@ -4,9 +4,14 @@ import { ItemKey } from './item-key';
 import { Item } from './item';
 import { Items } from './item.repository';
 
+import { Difficulty } from '../settings/difficulty';
 import { Mode } from '../settings/mode';
+import { GlitchLogic } from '../settings/glitch-logic';
+
 import { Sword } from './sword';
 import { Glove } from './glove';
+import { Tunic } from './tunic';
+import { Shield } from './shield';
 
 import { SettingsService } from '../settings/settings.service';
 
@@ -47,12 +52,19 @@ export class ItemService {
         [ItemKey.Book, this.setBook],
         [ItemKey.Sword, this.setSword],
         [ItemKey.Shield, this.setShield],
-        [ItemKey.Tunic, this.setTunic]
+        [ItemKey.Tunic, this.setTunic],
+        [ItemKey.Magic, this.setMagic]
       ]
     );
     this._classMap = new Map<ItemKey, () => any>(
       [
-        [ItemKey.Sword, this.getSwordClasses]
+        [ItemKey.Sword, this.getSwordClasses],
+        [ItemKey.Boomerangs, this.getBoomerangClasses],
+        [ItemKey.Magic, this.getMagicUpgradeClasses],
+        [ItemKey.Tunic, this.getTunicClasses],
+        [ItemKey.Shield, this.getShieldClasses],
+        [ItemKey.Bottle, this.getBottleClasses],
+        [ItemKey.SilverArrows, this.getSilverArrowClasses]
       ]
     );
   }
@@ -175,10 +187,19 @@ export class ItemService {
   }
 
   private setSilverArrows(state: number) {
+    if ( this._settings.mode !== Mode.Swordless && this._settings.isExpertOrInsane()) {
+      state = 0;
+    }
     this.setGeneralItem(ItemKey.SilverArrows, state);
   }
 
   private setBoomerangs(state: number) {
+    const difficulty = this._settings.difficulty;
+    if ( difficulty !== Difficulty.Easy && difficulty !== Difficulty.Normal) {
+      this._items.get(ItemKey.Boomerangs).state = 0;
+      return;
+    }
+
     this.setGeneralItem(ItemKey.Boomerangs, state);
   }
 
@@ -251,6 +272,16 @@ export class ItemService {
   }
 
   private setBottles(state: number) {
+    const logic = this._settings.logic;
+    const difficulty = this._settings.difficulty;
+
+    if ( logic !== GlitchLogic.Major && state >= 2 ) {
+      if ( difficulty === Difficulty.Hard && state >= 3) {
+        state = 0;
+      } else if ( this._settings.isExpertOrInsane() ) {
+        state = 0;
+      }
+    }
     this.setGeneralItem(ItemKey.Bottle, state);
   }
 
@@ -281,15 +312,49 @@ export class ItemService {
       return;
     }
 
+    const difficulty = this._settings.difficulty;
+    if ( difficulty === Difficulty.Hard && state === 4 ) {
+      state = 0;
+    } else if ( this._settings.isExpertOrInsane() && state >= 3) {
+      state = 0;
+    }
+
     this.setGeneralItem(ItemKey.Sword, state);
   }
 
   private setShield(state: number) {
+    const difficulty = this._settings.difficulty;
+    if ( this._settings.isExpertOrInsane() ) {
+      state = 0;
+    } else if ( difficulty === Difficulty.Hard && state === Shield.Mirror) {
+      state = 0;
+    }
+
     this.setGeneralItem(ItemKey.Shield, state);
   }
 
   private setTunic(state: number) {
+    const difficulty = this._settings.difficulty;
+    if ( this._settings.isExpertOrInsane() ) {
+      state = 0;
+    } else if ( difficulty === Difficulty.Hard && state === Tunic.Red) {
+      state = 0;
+    }
+
     this.setGeneralItem(ItemKey.Tunic, state);
+  }
+
+  private setMagic(state: number) {
+    const difficulty = this._settings.difficulty;
+    if ( difficulty !== Difficulty.Easy && difficulty !== Difficulty.Normal ) {
+      this._items.get(ItemKey.Magic).state = 0;
+      return;
+    }
+    if ( difficulty === Difficulty.Normal && state === 2 ) {
+      state = 0;
+    }
+
+    this.setGeneralItem(ItemKey.Magic, state);
   }
 
   reset(): void {
@@ -308,15 +373,118 @@ export class ItemService {
     return results;
   }
 
-  private getSwordClasses() {
+  private getSwordClasses(): any {
     if ( this._settings.mode === Mode.Swordless ) {
       return {
         isActive: false,
-        sword1: true
+        sword1: true,
+        restricted: true
       };
     }
 
+    const difficulty = this._settings.difficulty;
+    const item = this._items.get(ItemKey.Sword);
+    if ( difficulty === Difficulty.Hard && item.state === 4) {
+      item.state = 0;
+    } else if ( this._settings.isExpertOrInsane() && item.state >= 3) {
+      item.state = 0;
+    }
+
     return this.getStandardItemClasses(ItemKey.Sword);
+  }
+
+  private getBoomerangClasses(): any {
+    const difficulty = this._settings.difficulty;
+    if ( difficulty !== Difficulty.Easy && difficulty !== Difficulty.Normal ) {
+      return {
+        isActive: false,
+        boomerang1: true,
+        restricted: true
+      };
+    }
+
+    return this.getStandardItemClasses(ItemKey.Boomerangs);
+  }
+
+  private getMagicUpgradeClasses(): any {
+    const difficulty = this._settings.difficulty;
+    if ( difficulty !== Difficulty.Easy && difficulty !== Difficulty.Normal) {
+      return {
+        isActive: false,
+        magic1: true,
+        restricted: true
+      };
+    }
+    const item = this._items.get(ItemKey.Magic);
+    if ( difficulty === Difficulty.Normal && item.state === 2) {
+      item.state = 0;
+    }
+
+    return this.getStandardItemClasses(ItemKey.Magic);
+  }
+
+  private getTunicClasses(): any {
+    const difficulty = this._settings.difficulty;
+    if ( this._settings.isExpertOrInsane() ) {
+      return {
+        isActive: true,
+        tunic1: true,
+        restricted: true
+      };
+    }
+
+    const item = this._items.get(ItemKey.Tunic);
+    if ( difficulty === Difficulty.Hard && item.state === 2) {
+      item.state = Tunic.Green;
+    }
+
+    return this.getStandardItemClasses(ItemKey.Tunic);
+  }
+
+  private getShieldClasses(): any {
+    const difficulty = this._settings.difficulty;
+    if ( this._settings.isExpertOrInsane() ) {
+      return {
+        isActive: false,
+        shield1: true,
+        restricted: true
+      };
+    }
+
+    const item = this._items.get(ItemKey.Shield);
+    if ( difficulty === Difficulty.Hard && item.state === Shield.Mirror) {
+      item.state = Shield.None;
+    }
+
+    return this.getStandardItemClasses(ItemKey.Shield);
+  }
+
+  private getBottleClasses(): any {
+    const item = this._items.get(ItemKey.Bottle);
+    const difficulty = this._settings.difficulty;
+    const logic = this._settings.logic;
+
+    if ( logic !== GlitchLogic.Major && item.state >= 2 ) {
+      if ( difficulty === Difficulty.Hard && item.state >= 3 ) {
+        item.state = 0;
+      } else if ( this._settings.isExpertOrInsane() ) {
+        item.state = 0;
+      }
+    }
+
+    return this.getStandardItemClasses(ItemKey.Bottle);
+  }
+
+  private getSilverArrowClasses(): any {
+    if ( this._settings.isExpertOrInsane() && this._settings.mode !== Mode.Swordless) {
+      return {
+        isActive: false,
+        restricted: true,
+        'silver-arrows': true
+      };
+    }
+
+    return this.getStandardItemClasses(ItemKey.SilverArrows);
   }
 
   getItemClasses(id: number): any {

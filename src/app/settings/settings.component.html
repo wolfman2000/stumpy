@@ -5,6 +5,12 @@
       <option *ngFor="let c of options.modeKeys" value="{{c.value}}">{{c.label}}</option>
     </select>
   </p>
+  <p>
+    Select your difficulty.
+    <select [(ngModel)]="options.difficulty">
+      <option *ngFor="let c of options.difficultyKeys" value="{{c.value}}">{{c.label}}</option>
+    </select>
+  </p>
 </div>
 
 <p><a routerLink="/tracker">Back to the tracker.</a></p>
