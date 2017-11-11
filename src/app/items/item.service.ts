@@ -50,10 +50,16 @@ export class ItemService {
         [ItemKey.Tunic, this.setTunic]
       ]
     );
+    this._classMap = new Map<ItemKey, () => any>(
+      [
+        [ItemKey.Sword, this.getSwordClasses]
+      ]
+    );
   }
 
   private _items: Map<ItemKey, Item>;
   private _itemMap: Map<ItemKey, (state: number) => void>;
+  private _classMap: Map<ItemKey, () => any>;
 
   get bombos(): number {
     return this.getItem(ItemKey.Bombos).state;
@@ -292,6 +298,33 @@ export class ItemService {
 
   setItemState(id: number, state: number): void {
     this._itemMap.get(id).call(this, state);
+  }
+
+  private getStandardItemClasses(id: number): any {
+    const results = {
+      isActive: this.isActive(id)
+    };
+    results[this.getImage(id)] = true;
+    return results;
+  }
+
+  private getSwordClasses() {
+    if ( this._settings.mode === Mode.Swordless ) {
+      return {
+        isActive: false,
+        sword1: true
+      };
+    }
+
+    return this.getStandardItemClasses(ItemKey.Sword);
+  }
+
+  getItemClasses(id: number): any {
+    if ( !this._classMap.has(id)) {
+      return this.getStandardItemClasses(id);
+    }
+
+    return this._classMap.get(id).call(this);
   }
 
   isActive(id: number): boolean {
