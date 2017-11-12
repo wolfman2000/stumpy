@@ -2,12 +2,15 @@
   width: 64px;
   height: 64px;
   display: table-cell;
-  cursor: pointer;
 }
-:host > div {
+div {
   width: 64px;
   height: 64px;
   opacity: 0.25;
+  cursor: pointer;
+}
+div.restricted {
+  cursor: default;
 }
 :host .isActive {
   opacity: 1;

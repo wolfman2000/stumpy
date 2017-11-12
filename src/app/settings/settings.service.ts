@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { LocalStorageService } from '../local-storage.service';
 
+import { Difficulty } from './difficulty';
 import { Mode } from './mode';
 import { GlitchLogic } from './glitch-logic';
 
@@ -12,21 +13,26 @@ export class SettingsService {
   ) {
     if ( !this.localStorageService.hasItem( 'mode' ) ) {
       this.mode = Mode.Standard;
-      this.localStorageService.setItem( 'mode', this.mode + '' );
     } else {
       this._mode = parseInt( localStorage.getItem( 'mode' ), 10 );
     }
 
+    if ( !this.localStorageService.hasItem( 'difficulty' ) ) {
+      this.difficulty = Difficulty.Normal;
+    } else {
+      this._difficulty = parseInt( localStorage.getItem( 'difficulty' ), 10 );
+    }
+
     if ( !this.localStorageService.hasItem( 'logic' ) ) {
       this.logic = GlitchLogic.None;
-      this.localStorageService.setItem( 'logic', this.logic + '' );
     } else {
-      this._logic = parseInt( localStorage.getItem( 'logic'), 10 );
+      this._logic = parseInt( localStorage.getItem( 'logic' ), 10 );
     }
   }
 
   private _mode: Mode;
   private _logic: GlitchLogic;
+  private _difficulty: Difficulty;
 
   get mode(): Mode {
     return this._mode;
@@ -51,6 +57,25 @@ export class SettingsService {
     return Mode[this.mode];
   }
 
+  get difficulty(): Difficulty {
+    return this._difficulty;
+  }
+  set difficulty(difficulty: Difficulty) {
+    this._difficulty = parseInt( difficulty + '', 10 );
+    this.localStorageService.setItem( 'difficulty', this.difficulty + '' );
+  }
+
+  get difficultyKeys(): any {
+    const results: Array<any> = [];
+    for ( const member in Difficulty ) {
+      if ( typeof Difficulty[member]  === 'number' ) {
+        results.push({ label: member, value: Difficulty[member]});
+      }
+    }
+
+    return results;
+  }
+
   get logic(): GlitchLogic {
     return this._logic;
   }
@@ -72,5 +97,9 @@ export class SettingsService {
 
   get logicString(): string {
     return GlitchLogic[this.logic];
+  }
+
+  isExpertOrInsane(): boolean {
+    return this._difficulty === Difficulty.Expert || this._difficulty === Difficulty.Insane;
   }
 }
