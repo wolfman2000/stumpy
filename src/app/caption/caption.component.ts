@@ -25,4 +25,4 @@ export class CaptionComponent {
     const transformed = this._textToImage.transform(message);
     return transformed;
   }
-}
+} /* istanbul ignore next */
