@@ -19,11 +19,13 @@
 }
 
 .glitches {
-  background-color: fuchsia;
+  background-color: cyan;
+  background-size: 8px 8px;
 }
 
 .glitchesVisible {
-  background-color: olive;
+  background-color: orange;
+  background-size: 8px 8px;
 }
 
 .claimed {
