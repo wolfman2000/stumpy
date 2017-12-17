@@ -460,7 +460,7 @@ export class ItemLocationService {
   private getDarkMireAvailability(): Availability {
     const items = this._inventory;
 
-    if ( !items.flute && items.glove !== Glove.Titan ) {
+    if ( !items.flute || items.glove !== Glove.Titan ) {
       return Availability.Unavailable;
     }
 
@@ -506,7 +506,7 @@ export class ItemLocationService {
       return Availability.Unavailable;
     }
 
-    if ( !items.hammer && !items.moonPearl ) {
+    if ( !items.hammer || !items.moonPearl ) {
       return Availability.Unavailable;
     }
 
