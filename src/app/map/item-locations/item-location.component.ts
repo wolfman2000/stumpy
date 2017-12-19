@@ -8,7 +8,7 @@ import { CaptionService } from '../../caption/caption.service';
 import { CamelCasePipe } from '../../camel-case.pipe';
 
 @Component({
-  providers: [CamelCasePipe, ItemLocationService],
+  providers: [CamelCasePipe],
   selector: 'stumpy-item-location',
   templateUrl: './item-location.component.html',
   styleUrls: [ './item-location.component.css']

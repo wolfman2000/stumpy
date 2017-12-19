@@ -86,4 +86,15 @@ export class Dungeon {
   toggleDefeat(): void {
     this._isBossDefeated = !this.isBossDefeated;
   }
+
+  reset(): void {
+    this._chestCount = this.maxChests;
+    this._isBossDefeated = false;
+    if ( this._reward !== Reward.None ) {
+      this._reward = Reward.Unknown;
+    }
+    if ( this.entranceLock !== EntranceLock.None ) {
+      this._entranceLock = EntranceLock.Unknown;
+    }
+  }
 }

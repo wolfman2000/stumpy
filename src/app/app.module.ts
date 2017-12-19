@@ -7,11 +7,14 @@ import { CaptionModule } from './caption/caption.module';
 import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
 import { GuideModule } from './guide/guide.module';
+import { ResetModule } from './reset/reset.module';
 
 import { LocalStorageService } from './local-storage.service';
 import { CaptionService } from './caption/caption.service';
 import { DungeonService } from './dungeon/dungeon.service';
+import { DungeonLocationService } from './map/dungeon-locations/dungeon-location.service';
 import { ItemService } from './items/item.service';
+import { ItemLocationService } from './map/item-locations/item-location.service';
 import { SettingsService } from './settings/settings.service';
 
 import { AppComponent } from './app.component';
@@ -36,9 +39,18 @@ import { CamelCasePipe } from './camel-case.pipe';
     CaptionModule.forRoot(),
     MapModule.forRoot(),
     ItemModule.forRoot(),
-    GuideModule.forRoot()
+    GuideModule.forRoot(),
+    ResetModule.forRoot()
   ],
-  providers: [ItemService, CaptionService, DungeonService, LocalStorageService, SettingsService],
+  providers: [
+    ItemService,
+    ItemLocationService,
+    CaptionService,
+    DungeonService,
+    DungeonLocationService,
+    LocalStorageService,
+    SettingsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

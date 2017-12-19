@@ -110,6 +110,10 @@ export class DungeonService {
     return this.dungeons.get(id);
   }
 
+  reset(): void {
+    this.dungeons.forEach( d => d.reset() );
+  }
+
   private areAllRewardDungeonsBeaten(): boolean {
     return Array.from( this.dungeons.values() )
       .filter( d => d.reward !== Reward.None ).every( d => d.isBossDefeated );

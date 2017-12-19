@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ItemService } from './item.service';
 
 @Component( {
-  providers: [ItemService],
+  providers: [],
   selector: 'stumpy-item',
   templateUrl: './item.component.html',
   styleUrls: [ './item.component.css' ]

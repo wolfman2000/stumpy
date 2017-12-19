@@ -675,4 +675,12 @@ export class ItemLocationService {
   getItemLocation(id: number): ItemLocation {
     return this.itemLocations.get(id);
   }
+
+  reset(): void {
+    this._itemLocations.forEach( l => {
+      if ( l.isOpened ) {
+        l.toggleOpened();
+      }
+    });
+  }
 }
