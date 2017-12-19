@@ -9,7 +9,7 @@ import { CamelCasePipe } from '../../camel-case.pipe';
 import { Availability } from '../availability';
 
 @Component({
-  providers: [CamelCasePipe, DungeonLocationService],
+  providers: [CamelCasePipe],
   selector: 'stumpy-dungeon-location',
   templateUrl: './dungeon-location.component.html',
   styleUrls: [ './dungeon-location.component.css']

@@ -515,4 +515,9 @@ export class DungeonLocationService {
   isBossDefeated(id: Location): boolean {
     return this._dungeons.getDungeon(id).isBossDefeated;
   }
+
+  reset(): void {
+    this._dungeonLocations.forEach( l => {
+    } )
+  }
 }
