@@ -1,20 +1,34 @@
-<div>
-  <p>
-    Select your mode.
-    <select [(ngModel)]="options.mode">
-      <option *ngFor="let c of options.modeKeys" value="{{c.value}}">{{c.label}}</option>
-    </select>
-  </p>
-  <p>
-    Select your difficulty.
-    <select [(ngModel)]="options.difficulty">
-      <option *ngFor="let c of options.difficultyKeys" value="{{c.value}}">{{c.label}}</option>
-    </select>
-  </p>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <form>
+        <fieldset>
+          <legend>Adjust your settings here.</legend>
+          <div class="form-group">
+            <label for="stumpy-mode">Select your mode.</label>
+            <select id="stumpy-mode" name="stumpy-mode" class="form-control form-control-sm" [(ngModel)]="options.mode">
+                <option *ngFor="let c of options.modeKeys" value="{{c.value}}">{{c.label}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="stumpy-difficulty">Select your difficulty.</label>
+            <select id="stumpy-difficulty" name="stumpy-difficulty" class="form-control form-control-sm" [(ngModel)]="options.difficulty">
+              <option *ngFor="let c of options.difficultyKeys" value="{{c.value}}">{{c.label}}</option>
+            </select>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+        <button class="btn btn-outline-primary btn-sm" type="button" [routerLink]="['/tracker']">
+          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+          Back to the tracker.
+        </button>
+    </div>
+  </div>
 </div>
-
-<p><a routerLink="/tracker">Back to the tracker.</a></p>
-
 <!--
 <select [(ngModel)]="options.logic">
   <option *ngFor="let c of options.logicKeys" value="{{c.value}}">{{c.label}}</option>

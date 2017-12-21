@@ -20,7 +20,9 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "stumpy",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "assets/css/bootstrap-cyborg.min.css",
+        "../node_modules/font-awesome/css/font-awesome.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

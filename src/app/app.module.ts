@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { AppRoutingModule } from './app-routing.module';
 import { CaptionModule } from './caption/caption.module';
 import { MapModule } from './map/map.module';
@@ -33,6 +35,7 @@ import { CamelCasePipe } from './camel-case.pipe';
     CamelCasePipe
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
     AppRoutingModule,
