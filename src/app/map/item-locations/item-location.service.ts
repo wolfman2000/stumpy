@@ -382,7 +382,7 @@ export class ItemLocationService {
   private getLakeHyliaIslandAvailability(): Availability {
     const inventory = this._inventory;
     const isAgahnimBeaten = this.isAgahnimDefeated();
-    const canAccessDarkWorldIsland = inventory.glove === Glove.Titan || ( inventory.hasGlove() && inventory.hammer ) );
+    const canAccessDarkWorldIsland = inventory.glove === Glove.Titan || ( inventory.hasGlove() && inventory.hammer );
 
     if ( !inventory.moonPearl ) {
       return Availability.Visible;
