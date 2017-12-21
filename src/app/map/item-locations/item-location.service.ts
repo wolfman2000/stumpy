@@ -381,19 +381,26 @@ export class ItemLocationService {
 
   private getLakeHyliaIslandAvailability(): Availability {
     const inventory = this._inventory;
-    if ( !inventory.flippers) {
+    const isAgahnimBeaten = this.isAgahnimDefeated();
+    const canAccessDarkWorldIsland = inventory.glove === Glove.Titan || ( inventory.hasGlove() && inventory.hammer );
+
+    if ( !inventory.moonPearl ) {
       return Availability.Visible;
     }
 
-    if (!inventory.moonPearl) {
+    if ( !inventory.mirror ) {
       return Availability.Visible;
     }
 
-    if (!inventory.mirror) {
+    if ( !inventory.flippers ) {
+      if ( canAccessDarkWorldIsland && inventory.boots ) {
+        return Availability.Glitches;
+      }
+
       return Availability.Visible;
     }
 
-    return ( this.isAgahnimDefeated() || inventory.glove === Glove.Titan || ( inventory.hasGlove() && inventory.hammer ) ) ?
+    return ( this.isAgahnimDefeated() || canAccessDarkWorldIsland ) ?
       Availability.Available :
       Availability.Visible;
   }
@@ -401,6 +408,11 @@ export class ItemLocationService {
   private getZoraLedgeAvailability(): Availability {
     if ( this._inventory.flippers ) {
       return Availability.Available;
+    }
+
+    // Two variants are possible depending on Moon Pearl, but boots are required regardless.
+    if ( this._inventory.boots ) {
+      return Availability.Glitches;
     }
 
     return this._inventory.hasGlove() ? Availability.Visible : Availability.GlitchesVisible;
@@ -590,8 +602,16 @@ export class ItemLocationService {
     }
 
     const isAgahnimBeaten = this.isAgahnimDefeated();
-    if ( isAgahnimBeaten || items.hammer || ( items.glove === Glove.Titan && items.flippers )) {
+    if ( isAgahnimBeaten ) {
       return Availability.Available;
+    }
+
+    if ( items.hammer || ( items.glove === Glove.Titan && items.flippers )) {
+      return Availability.Available;
+    }
+
+    if ( items.glove === Glove.Titan && items.boots ) {
+      return Availability.Glitches;
     }
 
     return Availability.Unavailable;
@@ -622,8 +642,14 @@ export class ItemLocationService {
       return Availability.Available;
     }
 
-    if ( items.glove === Glove.Titan && items.moonPearl && items.flippers ) {
-      return Availability.Available;
+    if ( items.glove === Glove.Titan && items.moonPearl ) {
+      if ( items.flippers ) {
+        return Availability.Available;
+      }
+      if ( items.boots ) {
+        // Water walking across the north is needed.
+        return Availability.Glitches;
+      }
     }
 
     return Availability.Unavailable;

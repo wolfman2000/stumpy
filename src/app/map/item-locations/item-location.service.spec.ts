@@ -865,6 +865,15 @@ describe( 'The item location service', () => {
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
+
+    it( 'can be retrieved with mitts, moon pearl, and boots...assuming water walking is used.', () => {
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Boots, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    });
   });
 
   describe( 'set to the zora ledge below the king', () => {
@@ -878,6 +887,12 @@ describe( 'The item location service', () => {
       itemService.setItemState(ItemKey.Flippers, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'can be grabbed with the boots, using one of two water walking methods.', () => {
+      itemService.setItemState( ItemKey.Boots, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
 
     it( 'is visible normally if just a glove is on hand.', () => {
@@ -1283,6 +1298,14 @@ describe( 'The item location service', () => {
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
+
+    it( 'could be gotten with mitts, moon pearl, and boots...if water walking is used.', () => {
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Boots, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    });
   });
 
   describe( 'set to the hammer peg cave', () => {
@@ -1366,6 +1389,14 @@ describe( 'The item location service', () => {
       itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'can be gotten with the mitts, moon pearl, and boots...if you water walk.', () => {
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.Boots, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
     });
   });
 
