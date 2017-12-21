@@ -1,9 +1,21 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h2>
-    Welcome to {{title}}!
-  </h2>
+<div class="jumbotron">
+  <div class="container">
+    <ngb-alert type="success" [dismissible]="false">
+        Welcome to {{title}}!
+    </ngb-alert>
+  </div>
 </div>
 
 <router-outlet></router-outlet>
 
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <footer>
+        Source code for this tracker is available on <a href="https://github.com/wolfman2000/stumpy"><i class="fa fa-git" title="Github"></i></a>.
+        Please support the <a href="http://vt.alttp.run/">LttP Randomizer</a>.
+      </footer>
+    </div>
+  </div>
+</div>

@@ -1,16 +1,3 @@
 article {
   zoom: 0.75;
 }
-
-ul {
-  list-style: none;
-  padding-left: 1em;
-}
-
-li {
-  display: inline-block;
-}
-
-li:first-child + li {
-  padding-left: 2em;
-}

@@ -3,6 +3,8 @@ import { NgModule, DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { AppRoutingModule } from './app-routing.module';
 import { CaptionModule } from './caption/caption.module';
 import { MapModule } from './map/map.module';
@@ -30,6 +32,7 @@ describe( 'The application component', () => {
         DungeonComponent
       ],
       imports: [
+        NgbModule.forRoot(),
         FormsModule,
         AppRoutingModule,
         CaptionModule.forRoot(),
@@ -65,7 +68,8 @@ describe( 'The application component', () => {
     expect( de.componentInstance.title ).toEqual('Stumpy, a Link to the Past Item Tracker');
   });
 
-  it( 'should have the title in a h2 tag.', () => {
-    expect( el.querySelector('h2').textContent).toContain('Welcome to Stumpy, a Link to the Past Item Tracker!');
+  it( 'should have the title within a jumbotron\'s container\'s alert box.', () => {
+    const targetEl = el.querySelector('.jumbotron').querySelector('.container').querySelector('ngb-alert');
+    expect( targetEl.textContent ).toContain('Welcome to Stumpy, a Link to the Past Item Tracker!');
   });
 });

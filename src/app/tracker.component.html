@@ -1,59 +1,71 @@
-<p><a routerLink="/settings">Adjust your settings.</a></p>
-
-<ul>
-  <li>
-    <article>
-      <div>
-        <stumpy-item [itemId]="0"></stumpy-item>
-        <stumpy-item [itemId]="1"></stumpy-item>
-        <stumpy-item [itemId]="2"></stumpy-item>
-        <stumpy-item [itemId]="3"></stumpy-item>
-        <stumpy-item [itemId]="4"></stumpy-item>
-        <stumpy-item [itemId]="5"></stumpy-item>
-        <stumpy-item [itemId]="6"></stumpy-item>
-        <stumpy-item [itemId]="7"></stumpy-item>
-        <stumpy-item [itemId]="8"></stumpy-item>
-        <stumpy-item [itemId]="9"></stumpy-item>
-      </div>
-      <div>
-        <stumpy-item [itemId]="10"></stumpy-item>
-        <stumpy-item [itemId]="11"></stumpy-item>
-        <stumpy-item [itemId]="12"></stumpy-item>
-        <stumpy-item [itemId]="13"></stumpy-item>
-        <stumpy-item [itemId]="14"></stumpy-item>
-        <stumpy-item [itemId]="15"></stumpy-item>
-        <stumpy-item [itemId]="16"></stumpy-item>
-        <stumpy-item [itemId]="17"></stumpy-item>
-        <stumpy-item [itemId]="18"></stumpy-item>
-        <stumpy-item [itemId]="19"></stumpy-item>
-      </div>
-      <div>
-        <stumpy-item [itemId]="20"></stumpy-item>
-        <stumpy-item [itemId]="21"></stumpy-item>
-        <stumpy-item [itemId]="22"></stumpy-item>
-        <stumpy-item [itemId]="23"></stumpy-item>
-        <stumpy-item [itemId]="24"></stumpy-item>
-        <stumpy-item [itemId]="25"></stumpy-item>
-        <stumpy-item [itemId]="26"></stumpy-item>
-        <stumpy-item [itemId]="27"></stumpy-item>
-        <stumpy-item [itemId]="28"></stumpy-item>
-        <stumpy-dungeon [dungeonId]="0"></stumpy-dungeon>
-      </div>
-      <div>
-        <stumpy-dungeon [dungeonId]="1"></stumpy-dungeon>
-        <stumpy-dungeon [dungeonId]="2"></stumpy-dungeon>
-        <stumpy-dungeon [dungeonId]="3"></stumpy-dungeon>
-        <stumpy-dungeon [dungeonId]="4"></stumpy-dungeon>
-        <stumpy-dungeon [dungeonId]="5"></stumpy-dungeon>
-        <stumpy-dungeon [dungeonId]="6"></stumpy-dungeon>
-        <stumpy-dungeon [dungeonId]="7"></stumpy-dungeon>
-        <stumpy-dungeon [dungeonId]="8"></stumpy-dungeon>
-        <stumpy-dungeon [dungeonId]="9"></stumpy-dungeon>
-        <stumpy-dungeon [dungeonId]="10"></stumpy-dungeon>
-      </div>
-    </article>
-  </li>
-  <li><stumpy-guide></stumpy-guide></li>
-  <li><stumpy-reset></stumpy-reset></li>
-</ul>
-<stumpy-map></stumpy-map>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <button class="btn btn-outline-primary btn-sm" type="button" [routerLink]="['/settings']">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+            Adjust your settings.
+          </button>
+        </li>
+        <li class="list-inline-item"><stumpy-guide></stumpy-guide></li>
+        <li class="list-inline-item"><stumpy-reset></stumpy-reset></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6">
+      <article>
+        <div>
+          <stumpy-item [itemId]="0"></stumpy-item>
+          <stumpy-item [itemId]="1"></stumpy-item>
+          <stumpy-item [itemId]="2"></stumpy-item>
+          <stumpy-item [itemId]="3"></stumpy-item>
+          <stumpy-item [itemId]="4"></stumpy-item>
+          <stumpy-item [itemId]="5"></stumpy-item>
+          <stumpy-item [itemId]="6"></stumpy-item>
+          <stumpy-item [itemId]="7"></stumpy-item>
+          <stumpy-item [itemId]="8"></stumpy-item>
+          <stumpy-item [itemId]="9"></stumpy-item>
+        </div>
+        <div>
+          <stumpy-item [itemId]="10"></stumpy-item>
+          <stumpy-item [itemId]="11"></stumpy-item>
+          <stumpy-item [itemId]="12"></stumpy-item>
+          <stumpy-item [itemId]="13"></stumpy-item>
+          <stumpy-item [itemId]="14"></stumpy-item>
+          <stumpy-item [itemId]="15"></stumpy-item>
+          <stumpy-item [itemId]="16"></stumpy-item>
+          <stumpy-item [itemId]="17"></stumpy-item>
+          <stumpy-item [itemId]="18"></stumpy-item>
+          <stumpy-item [itemId]="19"></stumpy-item>
+        </div>
+        <div>
+          <stumpy-item [itemId]="20"></stumpy-item>
+          <stumpy-item [itemId]="21"></stumpy-item>
+          <stumpy-item [itemId]="22"></stumpy-item>
+          <stumpy-item [itemId]="23"></stumpy-item>
+          <stumpy-item [itemId]="24"></stumpy-item>
+          <stumpy-item [itemId]="25"></stumpy-item>
+          <stumpy-item [itemId]="26"></stumpy-item>
+          <stumpy-item [itemId]="27"></stumpy-item>
+          <stumpy-item [itemId]="28"></stumpy-item>
+          <stumpy-dungeon [dungeonId]="0"></stumpy-dungeon>
+        </div>
+        <div>
+          <stumpy-dungeon [dungeonId]="1"></stumpy-dungeon>
+          <stumpy-dungeon [dungeonId]="2"></stumpy-dungeon>
+          <stumpy-dungeon [dungeonId]="3"></stumpy-dungeon>
+          <stumpy-dungeon [dungeonId]="4"></stumpy-dungeon>
+          <stumpy-dungeon [dungeonId]="5"></stumpy-dungeon>
+          <stumpy-dungeon [dungeonId]="6"></stumpy-dungeon>
+          <stumpy-dungeon [dungeonId]="7"></stumpy-dungeon>
+          <stumpy-dungeon [dungeonId]="8"></stumpy-dungeon>
+          <stumpy-dungeon [dungeonId]="9"></stumpy-dungeon>
+          <stumpy-dungeon [dungeonId]="10"></stumpy-dungeon>
+        </div>
+      </article>
+    </div>
+  </div>
+  <stumpy-map></stumpy-map>
+</div>
