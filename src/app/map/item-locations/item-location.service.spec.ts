@@ -43,7 +43,9 @@ describe( 'The item location service', () => {
     itemService = new ItemService( settingsService );
     itemService.reset();
     dungeonService = new DungeonService();
+    dungeonService.reset();
     itemLocationService = new ItemLocationService( itemService, dungeonService, settingsService );
+    itemLocationService.reset();
   });
 
   describe( 'set to the King\'s Tomb', () => {

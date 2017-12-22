@@ -1,8 +1,10 @@
 import { EntranceLock } from './entrance-lock';
+import { Location } from './location';
 import { Reward } from './reward';
 
 export class Dungeon {
   constructor(
+    private _location: Location,
     private _dungeonName: string,
     private _bossName: string,
     private _reward: Reward,
@@ -14,6 +16,10 @@ export class Dungeon {
 
   private _chestCount: number;
   private _isBossDefeated: boolean;
+
+  get location(): Location {
+    return this._location;
+  }
 
   get bossName(): string {
     return this._bossName;

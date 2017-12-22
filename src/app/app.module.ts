@@ -10,6 +10,7 @@ import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
 import { GuideModule } from './guide/guide.module';
 import { ResetModule } from './reset/reset.module';
+import { GoModeModule } from './go-mode/go-mode.module';
 
 import { LocalStorageService } from './local-storage.service';
 import { CaptionService } from './caption/caption.service';
@@ -43,7 +44,8 @@ import { CamelCasePipe } from './camel-case.pipe';
     MapModule.forRoot(),
     ItemModule.forRoot(),
     GuideModule.forRoot(),
-    ResetModule.forRoot()
+    ResetModule.forRoot(),
+    GoModeModule.forRoot()
   ],
   providers: [
     ItemService,

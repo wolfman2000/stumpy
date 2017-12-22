@@ -518,6 +518,6 @@ export class DungeonLocationService {
 
   reset(): void {
     this._dungeonLocations.forEach( l => {
-    } )
+    } );
   }
 }

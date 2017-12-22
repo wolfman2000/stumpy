@@ -12,3 +12,7 @@ img.inline {
   height: 16px;
   vertical-align: text-bottom;
 }
+
+.hidden {
+  display: none;
+}

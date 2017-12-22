@@ -5,21 +5,12 @@ import { Location } from './location';
 import { Dungeon } from './dungeon';
 import { Reward } from './reward';
 
+import { Dungeons } from './dungeon.repository';
+
 @Injectable()
 export class DungeonService {
   constructor() {
-    this._dungeons = new Map<Location, Dungeon>();
-    this.dungeons.set( Location.AgahnimTower, new Dungeon('Agahnim\'s Tower', 'Agahnim', Reward.None, 0));
-    this.dungeons.set(Location.EasternPalace, new Dungeon('Eastern Palace', 'Armos Knights', Reward.Unknown, 3));
-    this.dungeons.set(Location.DesertPalace, new Dungeon('Desert Palace', 'Lanmolas', Reward.Unknown, 2));
-    this.dungeons.set(Location.TowerOfHera, new Dungeon('Tower of Hera', 'Moldorm', Reward.Unknown, 2));
-    this.dungeons.set(Location.PalaceOfDarkness, new Dungeon('Palace of Darkness', 'Helmasaur King', Reward.Unknown, 5));
-    this.dungeons.set(Location.SwampPalace, new Dungeon('Swamp Palace', 'Arrghus', Reward.Unknown, 6));
-    this.dungeons.set(Location.SkullWoods, new Dungeon('Skull Woods', 'Mothula', Reward.Unknown, 2));
-    this.dungeons.set(Location.ThievesTown, new Dungeon('Thieves Town', 'Blind', Reward.Unknown, 4));
-    this.dungeons.set(Location.IcePalace, new Dungeon('Ice Palace', 'Kholdstare', Reward.Unknown, 3));
-    this.dungeons.set(Location.MiseryMire, new Dungeon('Misery Mire', 'Vitreous', Reward.Unknown, 2, EntranceLock.Unknown));
-    this.dungeons.set(Location.TurtleRock, new Dungeon('Turtle Rock', 'Trinexx', Reward.Unknown, 5, EntranceLock.Unknown));
+    this._dungeons = Dungeons;
   }
 
   private _dungeons: Map<Location, Dungeon>;
@@ -112,6 +103,16 @@ export class DungeonService {
 
   reset(): void {
     this.dungeons.forEach( d => d.reset() );
+  }
+
+  crystalDungeons(): Array<Dungeon> {
+    return Array.from( this.dungeons.values() )
+      .filter( d => d.reward === Reward.StandardCrystal || d.reward === Reward.FairyCrystal );
+  }
+
+  pendantDungeons(): Array<Dungeon> {
+    return Array.from( this.dungeons.values() )
+      .filter( d => d.reward === Reward.StandardPendant || d.reward === Reward.GreenPendant );
   }
 
   private areAllRewardDungeonsBeaten(): boolean {

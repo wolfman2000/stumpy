@@ -42,7 +42,9 @@ describe( 'The dungeon location service', () => {
     itemService = new ItemService( settingsService );
     itemService.reset();
     dungeonService = new DungeonService();
+    dungeonService.reset();
     dungeonLocationService = new DungeonLocationService( itemService, dungeonService, settingsService );
+    dungeonLocationService.reset();
   });
 
   describe( 'set to Agahnim\'s Tower', () => {
