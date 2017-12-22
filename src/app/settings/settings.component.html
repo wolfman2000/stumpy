@@ -16,6 +16,12 @@
               <option *ngFor="let c of options.difficultyKeys" value="{{c.value}}">{{c.label}}</option>
             </select>
           </div>
+          <div class="form-group">
+            <label for="stumpy-go-mode">Show Go Mode label?</label>
+            <select id="stumpy-go-mode" name="stumpy-go-mode" class="form-control form-control-sm" [(ngModel)]="options.showGoMode">
+              <option *ngFor="let c of options.showGoModeKeys" value="{{c.value}}">{{c.label}}</option>
+            </select>
+          </div>
         </fieldset>
       </form>
     </div>

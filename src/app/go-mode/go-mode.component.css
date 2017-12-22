@@ -1,0 +1,19 @@
+.available {
+  background-color: cyan;
+}
+
+.unavailable {
+  background-color: red;
+}
+
+.possible {
+  background-color: gold;
+}
+
+.glitches {
+  background-color: gray;
+}
+
+.alert {
+  color: black;
+}

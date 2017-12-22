@@ -28,11 +28,18 @@ export class SettingsService {
     } else {
       this._logic = parseInt( localStorage.getItem( 'logic' ), 10 );
     }
+
+    if ( !this.localStorageService.hasItem( 'showGoMode' ) ) {
+      this.showGoMode = 0;
+    } else {
+      this._showGoMode = parseInt( localStorage.getItem( 'showGoMode' ), 10 );
+    }
   }
 
   private _mode: Mode;
   private _logic: GlitchLogic;
   private _difficulty: Difficulty;
+  private _showGoMode: number;
 
   get mode(): Mode {
     return this._mode;
@@ -97,6 +104,22 @@ export class SettingsService {
 
   get logicString(): string {
     return GlitchLogic[this.logic];
+  }
+
+  get showGoMode(): number {
+    return this._showGoMode;
+  }
+  set showGoMode(goMode: number) {
+    this._showGoMode = goMode;
+    this.localStorageService.setItem( 'showGoMode', this.showGoMode + '' );
+  }
+
+  get showGoModeKeys(): any {
+    return [ {
+      label: 'No', value: 0
+    }, {
+      label: 'Yes', value: 1
+    } ];
   }
 
   isExpertOrInsane(): boolean {

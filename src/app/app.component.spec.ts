@@ -11,6 +11,7 @@ import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
 import { GuideModule } from './guide/guide.module';
 import { ResetModule } from './reset/reset.module';
+import { GoModeModule } from './go-mode/go-mode.module';
 
 import { AppComponent } from './app.component';
 import { RandomizerSettingsComponent } from './settings/settings.component';
@@ -39,7 +40,8 @@ describe( 'The application component', () => {
         MapModule.forRoot(),
         ItemModule.forRoot(),
         GuideModule.forRoot(),
-        ResetModule.forRoot()
+        ResetModule.forRoot(),
+        GoModeModule.forRoot()
       ],
       providers: [ {
         provide: APP_BASE_HREF,

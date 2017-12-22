@@ -161,6 +161,10 @@ export class ItemService {
     return this.getItem(ItemKey.Quake).state;
   }
 
+  get silvers(): number {
+    return this.getItem(ItemKey.SilverArrows).state;
+  }
+
   get shield(): number {
     return this.getItem(ItemKey.Shield).state;
   }
