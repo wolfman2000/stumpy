@@ -5,8 +5,8 @@ import { Reward } from './reward';
 
 export const Dungeons = new Map<Location, Dungeon>(
   [ [
-    Location.AgahnimTower, new Dungeon(
-      Location.AgahnimTower,
+    Location.CastleTower, new Dungeon(
+      Location.CastleTower,
       'Agahnim\'s Tower',
       'Agahnim',
       Reward.None,
@@ -93,6 +93,14 @@ export const Dungeons = new Map<Location, Dungeon>(
       Reward.Unknown,
       5,
       EntranceLock.Unknown
+    )
+  ], [
+    Location.GanonsTower, new Dungeon(
+      Location.GanonsTower,
+      'Ganon\'s Tower',
+      'Agahnim 2',
+      Reward.None,
+      0
     )
   ] ]
 );

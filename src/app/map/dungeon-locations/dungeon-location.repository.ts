@@ -3,7 +3,7 @@ import { Location } from '../../dungeon/location';
 
 export const DungeonLocations: Map<Location, DungeonLocation> = new Map<Location, DungeonLocation>(
   [ [
-    Location.AgahnimTower, new DungeonLocation(
+    Location.CastleTower, new DungeonLocation(
       'Agahnim\'s Tower',
       '{sword2} or {cape} + {sword1}',
       50,
@@ -78,6 +78,13 @@ export const DungeonLocations: Map<Location, DungeonLocation> = new Map<Location
       '{lantern} + medallion',
       93.8,
       7
+    )
+  ], [
+    Location.GanonsTower, new DungeonLocation(
+      'Ganon\'s Tower',
+      '7 crystals',
+      58,
+      5.5
     )
   ] ]
 );
