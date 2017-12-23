@@ -4,6 +4,9 @@ import { WorldComponent } from './world.component';
 import { ItemLocationComponent } from '../item-locations/item-location.component';
 import { DungeonLocationComponent } from '../dungeon-locations/dungeon-location.component';
 
+import { CamelCasePipe } from '../../camel-case.pipe';
+import { WordSpacingPipe } from '../../word-spacing.pipe';
+
 import { CaptionService } from '../../caption/caption.service';
 import { LocalStorageService } from '../../local-storage.service';
 import { SettingsService } from '../../settings/settings.service';
@@ -22,6 +25,8 @@ describe( 'The world component', () => {
     TestBed.configureTestingModule({
       declarations: [WorldComponent, ItemLocationComponent, DungeonLocationComponent],
       providers: [
+        CamelCasePipe,
+        WordSpacingPipe,
         CaptionService,
         LocalStorageService,
         SettingsService,

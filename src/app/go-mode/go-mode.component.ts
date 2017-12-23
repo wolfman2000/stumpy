@@ -6,7 +6,6 @@ import { CamelCasePipe } from '../camel-case.pipe';
 import { Availability } from '../map/availability';
 
 @Component({
-  providers: [CamelCasePipe],
   selector: 'stumpy-go-mode',
   templateUrl: './go-mode.component.html',
   styleUrls: ['./go-mode.component.css']

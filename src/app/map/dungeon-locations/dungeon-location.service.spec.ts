@@ -4,6 +4,8 @@ import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 import { LocalStorageService } from '../../local-storage.service';
 
+import { WordSpacingPipe } from '../../word-spacing.pipe';
+
 import { DungeonLocation } from './dungeon-location';
 import { Availability } from '../availability';
 
@@ -18,7 +20,7 @@ describe( 'The dungeon location service', () => {
   let settingsService: SettingsService;
 
   beforeAll(() => {
-    settingsService = new SettingsService( new LocalStorageService());
+    settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
     spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Standard );
   });
 
@@ -70,7 +72,7 @@ describe( 'The dungeon location service', () => {
     });
 
     describe( 'in swordless mode', () => {
-      const tempSettings = new SettingsService(new LocalStorageService());
+      const tempSettings = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
       let tempService: DungeonLocationService;
 
       beforeEach( () => {

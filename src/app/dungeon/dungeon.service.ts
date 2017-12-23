@@ -105,6 +105,10 @@ export class DungeonService {
     this.dungeons.forEach( d => d.reset() );
   }
 
+  allDungeons(): Array<Dungeon> {
+    return Array.from( this.dungeons.values() );
+  }
+
   crystalDungeons(): Array<Dungeon> {
     return Array.from( this.dungeons.values() )
       .filter( d => d.reward === Reward.StandardCrystal || d.reward === Reward.FairyCrystal );

@@ -2,6 +2,8 @@ import { ItemService } from './item.service';
 import { SettingsService } from '../settings/settings.service';
 import { LocalStorageService } from '../local-storage.service';
 
+import { WordSpacingPipe } from '../word-spacing.pipe';
+
 import { GlitchLogic } from '../settings/glitch-logic';
 import { Mode } from '../settings/mode';
 import { Difficulty } from '../settings/difficulty';
@@ -16,7 +18,7 @@ describe( 'The item service', () => {
 
   describe( '-- in swordless mode --', () => {
     beforeAll(() => {
-      settingsService = new SettingsService( new LocalStorageService());
+      settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
       spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Swordless );
       spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
     });
@@ -67,7 +69,7 @@ describe( 'The item service', () => {
 
   describe( '-- in expert open mode --', () => {
     beforeAll(() => {
-      settingsService = new SettingsService( new LocalStorageService());
+      settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
       spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Open );
       spyOn( settingsService, 'isExpertOrInsane' ).and.returnValue( true );
       spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Expert );
@@ -189,7 +191,7 @@ describe( 'The item service', () => {
 
   describe( '-- in hard mode --', () => {
     beforeAll(() => {
-      settingsService = new SettingsService( new LocalStorageService());
+      settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
       spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Open );
       spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Hard );
     });

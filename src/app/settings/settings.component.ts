@@ -9,14 +9,16 @@ import { SettingsService } from './settings.service';
 })
 
 export class RandomizerSettingsComponent implements OnInit {
+  /* istanbul ignore next */
   constructor(
     private _options: SettingsService
   ) {}
 
   options: SettingsService;
 
+  /* istanbul ignore next */
   ngOnInit(): void {
     this.options = this._options;
   }
-} /* istanbul ignore next */
+}
 

@@ -1,6 +1,8 @@
 import { SettingsService } from './settings.service';
 import { LocalStorageService } from '../local-storage.service';
 
+import { WordSpacingPipe } from '../word-spacing.pipe';
+
 import { Mode } from './mode';
 import { GlitchLogic } from './glitch-logic';
 
@@ -8,7 +10,7 @@ describe( 'The settings service', () => {
   let service: SettingsService;
 
   beforeAll(() => {
-    service = new SettingsService( new LocalStorageService());
+    service = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
     service.mode = Mode.Standard; // Hack job to keep the tests working.
   });
 
@@ -37,7 +39,7 @@ describe( 'The settings service', () => {
     service.mode = Mode.Open;
     service.logic = GlitchLogic.Overworld;
 
-    const secondService = new SettingsService(new LocalStorageService());
+    const secondService = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
 
     expect( secondService.mode ).toBe( service.mode );
     expect( secondService.logic ).toBe( service.logic );

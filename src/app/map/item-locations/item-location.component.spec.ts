@@ -1,6 +1,10 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { ItemLocationComponent } from './item-location.component';
+
+import { CamelCasePipe } from '../../camel-case.pipe';
+import { WordSpacingPipe } from '../../word-spacing.pipe';
+
 import { ItemLocationService } from './item-location.service';
 import { ItemService } from '../../items/item.service';
 import { DungeonService } from '../../dungeon/dungeon.service';
@@ -35,7 +39,16 @@ describe( 'The item location component', () => {
   beforeEach( async(() => {
     TestBed.configureTestingModule({
       declarations: [ItemLocationComponent],
-      providers: [ItemLocationService, CaptionService, ItemService, DungeonService, SettingsService, LocalStorageService]
+      providers: [
+        CamelCasePipe,
+        WordSpacingPipe,
+        ItemLocationService,
+        CaptionService,
+        ItemService,
+        DungeonService,
+        SettingsService,
+        LocalStorageService
+      ]
     }).compileComponents();
   }));
 
