@@ -48,7 +48,7 @@ describe( 'The dungeon location service', () => {
   });
 
   describe( 'set to Agahnim\'s Tower', () => {
-    const location = Location.AgahnimTower;
+    const location = Location.CastleTower;
 
     describe( 'with a sword available', () => {
       it( 'starts off as unavailable.', () => {
@@ -588,7 +588,7 @@ describe( 'The dungeon location service', () => {
       });
 
       it( 'needs more than outcast access.', () => {
-        dungeonService.getDungeon(Location.AgahnimTower).toggleDefeat();
+        dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
         itemService.getItem(ItemKey.Hookshot).state = 1;
         itemService.getItem(ItemKey.Flippers).state = 1;
         itemService.getItem(ItemKey.MoonPearl).state = 1;
@@ -597,7 +597,7 @@ describe( 'The dungeon location service', () => {
       });
 
       it( 'needs more than the fire rod assuming a non swordless mode.', () => {
-        dungeonService.getDungeon(Location.AgahnimTower).toggleDefeat();
+        dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
         itemService.getItem(ItemKey.Hookshot).state = 1;
         itemService.getItem(ItemKey.Flippers).state = 1;
         itemService.getItem(ItemKey.MoonPearl).state = 1;
@@ -607,7 +607,7 @@ describe( 'The dungeon location service', () => {
       });
 
       it( 'needs more than the sword to cut the curtains assuming a non swordless mode.', () => {
-        dungeonService.getDungeon(Location.AgahnimTower).toggleDefeat();
+        dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
         itemService.getItem(ItemKey.Hookshot).state = 1;
         itemService.getItem(ItemKey.Flippers).state = 1;
         itemService.getItem(ItemKey.MoonPearl).state = 1;

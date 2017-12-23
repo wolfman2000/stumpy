@@ -16,12 +16,15 @@
 
 .glitches {
   background-color: cyan;
-  background-size: 8px 8px;
 }
 
 .glitchesVisible {
   background-color: orange;
-  background-size: 8px 8px;
+}
+
+.boss.glitches,
+.boss.glitchesVisible {
+  background-size: 50% 50%;
 }
 
 .claimed {
@@ -101,4 +104,8 @@
 
 .vitreous {
   background-image: url('/assets/bosses/vitreous.png');
+}
+
+.agahnim2 {
+  background-image: url('/assets/bosses/ganonTower.png');
 }

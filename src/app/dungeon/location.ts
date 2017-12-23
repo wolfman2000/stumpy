@@ -1,5 +1,5 @@
 export enum Location {
-  AgahnimTower,
+  CastleTower,
   EasternPalace,
   DesertPalace,
   TowerOfHera,
@@ -9,5 +9,6 @@ export enum Location {
   ThievesTown,
   IcePalace,
   MiseryMire,
-  TurtleRock
+  TurtleRock,
+  GanonsTower
 }

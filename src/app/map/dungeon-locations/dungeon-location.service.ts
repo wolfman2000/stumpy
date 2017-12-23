@@ -26,7 +26,7 @@ export class DungeonLocationService {
     this._dungeonLocations = DungeonLocations;
     this._bossAvailability = new Map<Location, () => Availability>(
       [
-        [Location.AgahnimTower, this.isAgahnimAvailable],
+        [Location.CastleTower, this.isCastleTowerAvailable],
         [Location.EasternPalace, this.isArmosKnightsAvailable],
         [Location.DesertPalace, this.isLanmolasAvailable],
         [Location.TowerOfHera, this.isMoldormAvailable],
@@ -36,13 +36,14 @@ export class DungeonLocationService {
         [Location.ThievesTown, this.isBlindAvailable],
         [Location.IcePalace, this.isKholdstareAvailable],
         [Location.MiseryMire, this.isVitreousAvailable],
-        [Location.TurtleRock, this.isTrinexxAvailable]
+        [Location.TurtleRock, this.isTrinexxAvailable],
+        [Location.GanonsTower, this.isAgahnimAvailable]
       ]
     );
 
     this._chestAvailability = new Map<Location, () => Availability>(
       [
-        [Location.AgahnimTower, this.isAgahnimAvailable],
+        [Location.CastleTower, this.isCastleTowerAvailable],
         [Location.EasternPalace, this.isArmosKnightsRaidable],
         [Location.DesertPalace, this.isLanmolasRaidable],
         [Location.TowerOfHera, this.isMoldormRaidable],
@@ -52,7 +53,8 @@ export class DungeonLocationService {
         [Location.ThievesTown, this.isBlindRaidable],
         [Location.IcePalace, this.isKholdstareRaidable],
         [Location.MiseryMire, this.isVitreousRaidable],
-        [Location.TurtleRock, this.isTrinexxRaidable]
+        [Location.TurtleRock, this.isTrinexxRaidable],
+        [Location.GanonsTower, this.isAgahnimAvailable]
       ]
     );
   }
@@ -61,7 +63,7 @@ export class DungeonLocationService {
   private _chestAvailability: Map<Location, () => Availability>;
   private _dungeonLocations: Map<Location, DungeonLocation>;
 
-  private isAgahnimSwordlessAvailable(): Availability {
+  private isCastleTowerSwordlessAvailable(): Availability {
     if ( !(this._inventory.hammer || this._inventory.cape) ) {
       return Availability.Unavailable;
     }
@@ -73,9 +75,9 @@ export class DungeonLocationService {
     return this._inventory.lantern ? Availability.Available : Availability.Glitches;
   }
 
-  private isAgahnimAvailable(): Availability {
+  private isCastleTowerAvailable(): Availability {
     if ( this._settings.mode === Mode.Swordless ) {
-      return this.isAgahnimSwordlessAvailable();
+      return this.isCastleTowerSwordlessAvailable();
     }
 
     const items = this._inventory;
@@ -177,7 +179,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( !this.isAgahnimDefeated() && !items.hasGlove()) {
+    if ( !this.isCastleTowerDefeated() && !items.hasGlove()) {
       return Availability.Unavailable;
     }
 
@@ -192,7 +194,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( !this.isAgahnimDefeated() && !(!!items.hammer && items.hasGlove()) &&
+    if ( !this.isCastleTowerDefeated() && !(!!items.hammer && items.hasGlove()) &&
       !(items.glove === Glove.Titan && !!items.flippers) ) {
       return Availability.Unavailable;
     }
@@ -212,7 +214,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( !items.hasGlove() && !this.isAgahnimDefeated() ) {
+    if ( !items.hasGlove() && !this.isCastleTowerDefeated() ) {
       return Availability.Unavailable;
     }
 
@@ -227,7 +229,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( !this.canReachOutcast() && !(this.isAgahnimDefeated && items.hammer)) {
+    if ( !this.canReachOutcast() && !(this.isCastleTowerDefeated && items.hammer)) {
       return Availability.Unavailable;
     }
 
@@ -430,6 +432,46 @@ export class DungeonLocationService {
     return items.fireRod && items.lantern ? Availability.Available : Availability.Possible;
   }
 
+  private isAgahnimAvailable(): Availability {
+    const crystalDungeons = this._dungeons.crystalDungeons();
+    if ( crystalDungeons.length < 7 ) {
+      return Availability.Unavailable;
+    }
+
+    if ( !crystalDungeons.every( d => d.isBossDefeated)) {
+      return Availability.Unavailable;
+    }
+
+    const items = this._inventory;
+
+    if ( items.glove !== Glove.Titan ) {
+      return Availability.Unavailable;
+    }
+
+    if ( !items.moonPearl ) {
+      return Availability.Unavailable;
+    }
+
+    // Add check for dark death mountain check here.
+    const canClimbSuperBunnyCave = items.hookshot;
+    const canAccessTurtleRock = items.hammer;
+
+    if ( !canClimbSuperBunnyCave && !canAccessTurtleRock ) {
+      return Availability.Unavailable;
+    }
+
+    if ( !items.bow ) {
+      return Availability.Unavailable;
+    }
+
+    if ( !items.hasFireSource() ) {
+      return Availability.Unavailable;
+    }
+
+    // Not going through all of them right now.
+    return Availability.Available;
+  }
+
   private hasLaserBridgeSafety(): boolean {
     return !!this._inventory.byrna || !!this._inventory.cape || this._inventory.shield === Shield.Mirror;
   }
@@ -473,8 +515,8 @@ export class DungeonLocationService {
     return Availability.Available;
   }
 
-  private isAgahnimDefeated(): boolean {
-    return this._dungeons.getDungeon(Location.AgahnimTower).isBossDefeated;
+  private isCastleTowerDefeated(): boolean {
+    return this._dungeons.getDungeon(Location.CastleTower).isBossDefeated;
   }
 
   private canReachOutcast(): boolean {
@@ -486,7 +528,7 @@ export class DungeonLocationService {
     return (
       inventory.glove === Glove.Titan ||
       inventory.hasGlove() && !!inventory.hammer ||
-      this.isAgahnimDefeated() && !!inventory.hookshot && (
+      this.isCastleTowerDefeated() && !!inventory.hookshot && (
         !!inventory.hammer || inventory.hasGlove() || !!inventory.flippers
       )
     );

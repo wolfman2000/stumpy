@@ -12,7 +12,7 @@ export const Worlds = new Map<WorldId, World>(
     WorldId.Dark, new World(
       'dark',
       Array.from({length: 17}, (v, k) => k + 48),
-      Array.from( {length: 7}, (v, k) => k + 4)
+      Array.from( {length: 8}, (v, k) => k + 4)
     )
   ] ]
 );

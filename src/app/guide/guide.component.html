@@ -6,8 +6,8 @@
     </button>
   </div>
   <div class="modal-body">
+    <p>The color guide for almost everything is below.</p>
     <table class="table table-bordered table-hover table-sm">
-      <caption>Color Guide</caption>
       <thead class="thead">
         <tr>
           <th scope="col">Description</th>
@@ -31,6 +31,7 @@
           <td>Unavailable</td>
           <td class="unavailable"></td>
         </tr>
+        <!--
         <tr>
           <td>Available through logic breaks</td>
           <td class="glitches"></td>
@@ -39,12 +40,20 @@
           <td>Visible through logic breaks</td>
           <td class="glitchesVisible"></td>
         </tr>
+        -->
         <tr>
           <td>Claimed</td>
           <td class="claimed"></td>
         </tr>
       </tbody>
     </table>
+    <p>
+      If glitches or sequence breaks can be used to get items in the overworld,
+      the squares will be turned into tiny squares.
+    </p>
+    <p>
+      If bosses/dungeons can be broken with said breaks, then the boss character will be shrunk.
+    </p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-sm btn-outline-primary" (click)="c('Close click')">Close</button>

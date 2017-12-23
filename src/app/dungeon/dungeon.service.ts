@@ -19,7 +19,7 @@ export class DungeonService {
   }
 
   get agahnimTower(): Dungeon {
-    return this.dungeons.get(Location.AgahnimTower);
+    return this.dungeons.get(Location.CastleTower);
   }
 
   get easternPalace(): Dungeon {
