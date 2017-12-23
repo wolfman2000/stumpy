@@ -26,6 +26,7 @@ import { RandomizerTrackerComponent } from './tracker.component';
 import { DungeonComponent } from './dungeon/dungeon.component';
 
 import { CamelCasePipe } from './camel-case.pipe';
+import { WordSpacingPipe } from './word-spacing.pipe';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,8 @@ import { CamelCasePipe } from './camel-case.pipe';
     GoModeModule.forRoot()
   ],
   providers: [
+    CamelCasePipe,
+    WordSpacingPipe,
     ItemService,
     ItemLocationService,
     CaptionService,

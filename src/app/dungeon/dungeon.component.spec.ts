@@ -2,6 +2,9 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@a
 import { DebugElement } from '@angular/core';
 import { DungeonComponent } from './dungeon.component';
 import { DungeonService } from './dungeon.service';
+
+import { CamelCasePipe } from '../camel-case.pipe';
+
 import { Location } from './location';
 import { EntranceLock } from './entrance-lock';
 import { Reward } from './reward';
@@ -18,7 +21,7 @@ describe( 'The dungeon component', () => {
   beforeEach( async(() => {
     TestBed.configureTestingModule( {
       declarations: [DungeonComponent],
-      providers: [DungeonService]
+      providers: [DungeonService, CamelCasePipe]
     }).compileComponents();
   }));
 

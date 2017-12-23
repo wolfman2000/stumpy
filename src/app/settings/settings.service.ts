@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { LocalStorageService } from '../local-storage.service';
+import { WordSpacingPipe } from '../word-spacing.pipe';
 
 import { Difficulty } from './difficulty';
+import { Goal } from './goal';
 import { Mode } from './mode';
 import { GlitchLogic } from './glitch-logic';
 
 @Injectable()
 export class SettingsService {
   constructor(
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private wordSpacingPipe: WordSpacingPipe
   ) {
     if ( !this.localStorageService.hasItem( 'mode' ) ) {
       this.mode = Mode.Standard;
@@ -34,12 +37,19 @@ export class SettingsService {
     } else {
       this._showGoMode = parseInt( localStorage.getItem( 'showGoMode' ), 10 );
     }
+
+    if ( !this.localStorageService.hasItem( 'goal' ) ) {
+      this.goal = Goal.Ganon;
+    } else {
+      this._goal = parseInt( localStorage.getItem( 'goal' ), 10 );
+    }
   }
 
   private _mode: Mode;
   private _logic: GlitchLogic;
   private _difficulty: Difficulty;
   private _showGoMode: number;
+  private _goal: Goal;
 
   get mode(): Mode {
     return this._mode;
@@ -49,6 +59,7 @@ export class SettingsService {
     this.localStorageService.setItem( 'mode', this.mode + '' );
   }
 
+  /* istanbul ignore next */
   get modeKeys(): any {
     const results: Array<any> = [];
     for ( const member in Mode ) {
@@ -72,6 +83,7 @@ export class SettingsService {
     this.localStorageService.setItem( 'difficulty', this.difficulty + '' );
   }
 
+  /* istanbul ignore next */
   get difficultyKeys(): any {
     const results: Array<any> = [];
     for ( const member in Difficulty ) {
@@ -91,6 +103,7 @@ export class SettingsService {
     this.localStorageService.setItem( 'logic', this.logic + '' );
   }
 
+  /* istanbul ignore next */
   get logicKeys(): any {
     const results: Array<any> = [];
     for ( const member in GlitchLogic ) {
@@ -114,12 +127,33 @@ export class SettingsService {
     this.localStorageService.setItem( 'showGoMode', this.showGoMode + '' );
   }
 
+  /* istanbul ignore next */
   get showGoModeKeys(): any {
     return [ {
       label: 'No', value: 0
     }, {
       label: 'Yes', value: 1
     } ];
+  }
+
+  get goal(): Goal {
+    return this._goal;
+  }
+  set goal(goal: Goal) {
+    this._goal = parseInt( goal + '', 10 );
+    this.localStorageService.setItem( 'goal', this.goal + '' );
+  }
+
+  /* istanbul ignore next */
+  get goalKeys(): any {
+    const results: Array<any> = [];
+    for ( const member in Goal ) {
+      if ( typeof Goal[member]  === 'number' ) {
+        results.push({ label: this.wordSpacingPipe.transform(member), value: Goal[member]});
+      }
+    }
+
+    return results;
   }
 
   isExpertOrInsane(): boolean {

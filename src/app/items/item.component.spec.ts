@@ -1,6 +1,9 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { ItemComponent } from './item.component';
+
+import { WordSpacingPipe } from '../word-spacing.pipe';
+
 import { ItemService } from './item.service';
 import { SettingsService } from '../settings/settings.service';
 import { LocalStorageService } from '../local-storage.service';
@@ -34,7 +37,7 @@ describe( 'The item component', () => {
   beforeEach( async(() => {
     TestBed.configureTestingModule({
       declarations: [ItemComponent],
-      providers: [ItemService, SettingsService, LocalStorageService]
+      providers: [WordSpacingPipe, ItemService, SettingsService, LocalStorageService]
     }).compileComponents();
   }));
 

@@ -7,7 +7,6 @@ import { EntranceLock } from './entrance-lock';
 import { CamelCasePipe } from '../camel-case.pipe';
 
 @Component({
-  providers: [CamelCasePipe],
   selector: 'stumpy-dungeon',
   templateUrl: './dungeon.component.html',
   styleUrls: ['./dungeon.component.css']

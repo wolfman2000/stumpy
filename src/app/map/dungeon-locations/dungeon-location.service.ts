@@ -5,12 +5,14 @@ import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 
 import { Availability } from '../availability';
+import { Dungeon } from '../../dungeon/dungeon';
 import { Location } from '../../dungeon/location';
 import { EntranceLock } from '../../dungeon/entrance-lock';
 
 import { DungeonLocation } from './dungeon-location';
 import { DungeonLocations } from './dungeon-location.repository';
 
+import { Goal } from '../../settings/goal';
 import { Mode } from '../../settings/mode';
 import { Sword } from '../../items/sword';
 import { Glove } from '../../items/glove';
@@ -433,12 +435,12 @@ export class DungeonLocationService {
   }
 
   private isAgahnimAvailable(): Availability {
-    const crystalDungeons = this._dungeons.crystalDungeons();
-    if ( crystalDungeons.length < 7 ) {
+    const dungeons = this.getCorrectDungeons();
+    if ( !this.isDungeonCountCorrect( dungeons ) ) {
       return Availability.Unavailable;
     }
 
-    if ( !crystalDungeons.every( d => d.isBossDefeated)) {
+    if ( !this.arePriorBossesDefeated()) {
       return Availability.Unavailable;
     }
 
@@ -470,6 +472,27 @@ export class DungeonLocationService {
 
     // Not going through all of them right now.
     return Availability.Available;
+  }
+
+  private getCorrectDungeons(): Dungeon[] {
+    if ( this._settings.goal === Goal.AllDungeons ) {
+      return this._dungeons.allDungeons();
+    }
+
+    return this._dungeons.crystalDungeons();
+  }
+
+  private isDungeonCountCorrect( dungeons: Dungeon[] ): boolean {
+    if ( this._settings.goal === Goal.AllDungeons ) {
+      return true;
+    }
+
+    return dungeons.length >= 7;
+  }
+
+  private arePriorBossesDefeated(): boolean {
+    // Order doesn't matter. Just make sure the crystal ones are covered.
+    return this._dungeons.crystalDungeons().every( e => e.isBossDefeated );
   }
 
   private hasLaserBridgeSafety(): boolean {

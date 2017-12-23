@@ -5,6 +5,9 @@ import { DungeonService } from '../dungeon/dungeon.service';
 import { SettingsService } from '../settings/settings.service';
 import { DungeonLocationService } from '../map/dungeon-locations/dungeon-location.service';
 
+import { Dungeon } from '../dungeon/dungeon';
+
+import { Goal } from '../settings/goal';
 import { Mode } from '../settings/mode';
 import { Availability } from '../map/availability';
 
@@ -40,12 +43,12 @@ export class GoModeService {
       return Availability.Unavailable;
     }
 
-    const crystalDungeons = this._dungeons.crystalDungeons();
-    if ( crystalDungeons.length < 7 ) {
+    const dungeons = this.getCorrectDungeons();
+    if ( !this.isDungeonCountCorrect( dungeons ) ) {
       return Availability.Unavailable;
     }
 
-    const crystalAvailabilities = crystalDungeons.map( c => {
+    const crystalAvailabilities = dungeons.map( c => {
       return this._dungeonLocations.getBossAvailability(c.location);
     } );
 
@@ -66,5 +69,21 @@ export class GoModeService {
     }
 
     return Availability.Unavailable;
+  }
+
+  private getCorrectDungeons(): Dungeon[] {
+    if ( this._settings.goal === Goal.AllDungeons ) {
+      return this._dungeons.allDungeons();
+    }
+
+    return this._dungeons.crystalDungeons();
+  }
+
+  private isDungeonCountCorrect( dungeons: Dungeon[] ): boolean {
+    if ( this._settings.goal === Goal.AllDungeons ) {
+      return true;
+    }
+
+    return dungeons.length >= 7;
   }
 }

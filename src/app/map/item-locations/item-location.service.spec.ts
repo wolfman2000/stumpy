@@ -9,6 +9,8 @@ import { Availability } from '../availability';
 import { LocationKey } from './location-key';
 import { ItemKey } from '../../items/item-key';
 
+import { WordSpacingPipe } from '../../word-spacing.pipe';
+
 import { Location } from '../../dungeon/location';
 import { Mode } from '../../settings/mode';
 
@@ -19,7 +21,7 @@ describe( 'The item location service', () => {
   let settingsService: SettingsService;
 
   beforeAll(() => {
-    settingsService = new SettingsService( new LocalStorageService());
+    settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
   });
   /*
   beforeEach(() => {
@@ -125,7 +127,7 @@ describe( 'The item location service', () => {
 
   describe( 'set to Link\'s house', () => {
     const location = LocationKey.LinksHouse;
-    const tempSettings = new SettingsService(new LocalStorageService());
+    const tempSettings = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
     let tempService: ItemLocationService;
 
     describe( 'in open mode', () => {
@@ -920,7 +922,7 @@ describe( 'The item location service', () => {
 
   describe( 'set to the three chests in the side of the escape', () => {
     const location = LocationKey.SewerEscapeSideRoom;
-    const tempSettings = new SettingsService(new LocalStorageService());
+    const tempSettings = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
     let tempService: ItemLocationService;
 
     beforeEach( () => {
@@ -947,7 +949,7 @@ describe( 'The item location service', () => {
 
   describe( 'set to the lone chest in the dark of the sewer escape', () => {
     const location = LocationKey.SewerEscapeDarkRoom;
-    const tempSettings = new SettingsService(new LocalStorageService());
+    const tempSettings = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
     let tempService: ItemLocationService;
 
     beforeEach( () => {

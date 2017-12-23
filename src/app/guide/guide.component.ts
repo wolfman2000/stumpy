@@ -9,10 +9,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class GuideComponent {
-  constructor(
+ /* istanbul ignore next */
+ constructor(
     private _modalService: NgbModal
   ) {}
 
+ /* istanbul ignore next */
   open( content: any ): void {
     this._modalService.open( content );
   }

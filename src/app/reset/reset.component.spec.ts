@@ -2,6 +2,9 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@a
 import { NgModule, DebugElement } from '@angular/core';
 import { ResetComponent } from './reset.component';
 
+import { CamelCasePipe } from '../camel-case.pipe';
+import { WordSpacingPipe } from '../word-spacing.pipe';
+
 import { ItemService } from '../items/item.service';
 import { SettingsService } from '../settings/settings.service';
 import { LocalStorageService } from '../local-storage.service';
@@ -28,7 +31,7 @@ describe( 'The reset component', () => {
   let dungeonLocationService: DungeonLocationService;
 
   beforeAll( () => {
-    settingsService = new SettingsService( new LocalStorageService() );
+    settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
     spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Open );
     spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
   });
@@ -37,6 +40,8 @@ describe( 'The reset component', () => {
     TestBed.configureTestingModule( {
       declarations: [ResetComponent],
       providers: [
+        CamelCasePipe,
+        WordSpacingPipe,
         LocalStorageService,
         SettingsService,
         ItemService,
