@@ -376,7 +376,13 @@ export class ItemLocationService {
 
   private getDesertWestLedgeAvailability(): Availability {
     const inventory = this._inventory;
-    return inventory.book || inventory.flute && inventory.glove === Glove.Titan ? Availability.Available : Availability.Visible;
+    if ( inventory.book ) {
+      return Availability.Available;
+    }
+
+    return inventory.flute && inventory.mirror && inventory.glove === Glove.Titan
+      ? Availability.Available
+      : Availability.Visible;
   }
 
   private getLakeHyliaIslandAvailability(): Availability {
