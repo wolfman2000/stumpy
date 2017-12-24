@@ -815,8 +815,9 @@ describe( 'The item location service', () => {
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
 
-    it( 'can be gotten with the flute and titan\'s mitt.', () => {
+    it( 'can be gotten with the flute, mirror, and titan\'s mitt.', () => {
       itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
       itemService.setItemState(ItemKey.Glove, 2);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
