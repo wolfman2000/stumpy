@@ -7,6 +7,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   [ [
     Location.CastleTower, new Dungeon(
       Location.CastleTower,
+      'CT',
       'Agahnim\'s Tower',
       'Agahnim',
       Reward.None,
@@ -15,6 +16,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.EasternPalace, new Dungeon(
       Location.EasternPalace,
+      'EP',
       'Eastern Palace',
       'Armos Knights',
       Reward.Unknown,
@@ -23,6 +25,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.DesertPalace, new Dungeon(
       Location.DesertPalace,
+      'DP',
       'Desert Palace',
       'Lanmolas',
       Reward.Unknown,
@@ -31,6 +34,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.TowerOfHera, new Dungeon(
       Location.TowerOfHera,
+      'ToH',
       'Tower of Hera',
       'Moldorm',
       Reward.Unknown,
@@ -39,6 +43,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.PalaceOfDarkness, new Dungeon(
       Location.PalaceOfDarkness,
+      'PoD',
       'Palace of Darkness',
       'Helmasaur King',
       Reward.Unknown,
@@ -47,6 +52,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.SwampPalace, new Dungeon(
       Location.SwampPalace,
+      'SP',
       'Swamp Palace',
       'Arrghus',
       Reward.Unknown,
@@ -55,6 +61,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.SkullWoods, new Dungeon(
       Location.SkullWoods,
+      'SW',
       'Skull Woods',
       'Mothula',
       Reward.Unknown,
@@ -63,6 +70,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.ThievesTown, new Dungeon(
       Location.ThievesTown,
+      'TT',
       'Thieves Town',
       'Blind',
       Reward.Unknown,
@@ -71,6 +79,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.IcePalace, new Dungeon(
       Location.IcePalace,
+      'IP',
       'Ice Palace',
       'Kholdstare',
       Reward.Unknown,
@@ -79,6 +88,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.MiseryMire, new Dungeon(
       Location.MiseryMire,
+      'MM',
       'Misery Mire',
       'Vitreous',
       Reward.Unknown,
@@ -88,6 +98,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.TurtleRock, new Dungeon(
       Location.TurtleRock,
+      'TR',
       'Turtle Rock',
       'Trinexx',
       Reward.Unknown,
@@ -97,6 +108,7 @@ export const Dungeons = new Map<Location, Dungeon>(
   ], [
     Location.GanonsTower, new Dungeon(
       Location.GanonsTower,
+      'GT',
       'Ganon\'s Tower',
       'Agahnim 2',
       Reward.None,

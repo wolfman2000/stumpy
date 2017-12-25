@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row mt-2">
-    <div class="col-xs-12">
+    <div class="col-12">
       <ul class="list-inline">
         <li class="list-inline-item">
           <button class="btn btn-outline-primary btn-sm" type="button" [routerLink]="['/settings']">
@@ -10,11 +10,12 @@
         </li>
         <li class="list-inline-item"><stumpy-guide></stumpy-guide></li>
         <li class="list-inline-item"><stumpy-reset></stumpy-reset></li>
+        <li class="list-inline-item"><stumpy-go-mode></stumpy-go-mode></li>
       </ul>
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-6">
+    <div class="col-4 offset-1">
       <article>
         <div>
           <stumpy-item [itemId]="0"></stumpy-item>
@@ -23,10 +24,6 @@
           <stumpy-item [itemId]="3"></stumpy-item>
           <stumpy-item [itemId]="4"></stumpy-item>
           <stumpy-item [itemId]="5"></stumpy-item>
-          <stumpy-item [itemId]="6"></stumpy-item>
-          <stumpy-item [itemId]="7"></stumpy-item>
-          <stumpy-item [itemId]="8"></stumpy-item>
-          <stumpy-item [itemId]="9"></stumpy-item>
         </div>
         <div>
           <stumpy-item [itemId]="10"></stumpy-item>
@@ -34,40 +31,66 @@
           <stumpy-item [itemId]="12"></stumpy-item>
           <stumpy-item [itemId]="13"></stumpy-item>
           <stumpy-item [itemId]="14"></stumpy-item>
+          <stumpy-item [itemId]="30"></stumpy-item>
+        </div>
+        <div>
           <stumpy-item [itemId]="15"></stumpy-item>
+          <stumpy-item [itemId]="21"></stumpy-item>
+          <stumpy-item [itemId]="23"></stumpy-item>
+          <stumpy-item [itemId]="24"></stumpy-item>
+          <stumpy-item [itemId]="25"></stumpy-item>
+          <stumpy-item [itemId]="28"></stumpy-item>
+        </div>
+        <div>
+          <stumpy-item [itemId]="20"></stumpy-item>
           <stumpy-item [itemId]="16"></stumpy-item>
           <stumpy-item [itemId]="17"></stumpy-item>
           <stumpy-item [itemId]="18"></stumpy-item>
           <stumpy-item [itemId]="19"></stumpy-item>
-        </div>
-        <div>
-          <stumpy-item [itemId]="20"></stumpy-item>
-          <stumpy-item [itemId]="21"></stumpy-item>
-          <stumpy-item [itemId]="22"></stumpy-item>
-          <stumpy-item [itemId]="23"></stumpy-item>
-          <stumpy-item [itemId]="24"></stumpy-item>
-          <stumpy-item [itemId]="25"></stumpy-item>
-          <stumpy-item [itemId]="26"></stumpy-item>
           <stumpy-item [itemId]="27"></stumpy-item>
-          <stumpy-item [itemId]="28"></stumpy-item>
-          <stumpy-dungeon [dungeonId]="0"></stumpy-dungeon>
         </div>
         <div>
-          <stumpy-dungeon [dungeonId]="1"></stumpy-dungeon>
-          <stumpy-dungeon [dungeonId]="2"></stumpy-dungeon>
-          <stumpy-dungeon [dungeonId]="3"></stumpy-dungeon>
-          <stumpy-dungeon [dungeonId]="4"></stumpy-dungeon>
-          <stumpy-dungeon [dungeonId]="5"></stumpy-dungeon>
-          <stumpy-dungeon [dungeonId]="6"></stumpy-dungeon>
-          <stumpy-dungeon [dungeonId]="7"></stumpy-dungeon>
-          <stumpy-dungeon [dungeonId]="8"></stumpy-dungeon>
-          <stumpy-dungeon [dungeonId]="9"></stumpy-dungeon>
-          <stumpy-dungeon [dungeonId]="10"></stumpy-dungeon>
+          <stumpy-item [itemId]="22"></stumpy-item>
+          <stumpy-item [itemId]="6"></stumpy-item>
+          <stumpy-item [itemId]="7"></stumpy-item>
+          <stumpy-item [itemId]="8"></stumpy-item>
+          <stumpy-item [itemId]="9"></stumpy-item>
+          <stumpy-item [itemId]="26"></stumpy-item>
         </div>
       </article>
     </div>
-    <div class="col-xs-2">
-      <stumpy-go-mode></stumpy-go-mode>
+    <div class="col-6">
+      <div class="container">
+        <table class="table table-fixed table-hover table-sm">
+          <thead>
+            <tr>
+              <th class="col-1">Abbr</th>
+              <th class="col-1">Med.</th>
+              <th class="col-2" colspan="2">Boss</th>
+              <th class="col-1">Prize</th>
+              <th class="col-4">Items</th>
+              <th class="col-2"><span class="hiding">Small</span></th>
+              <th class="col-1"><span class="bigKey hiding">&nbsp;</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of allDungeons()">
+              <td class="col-1"><span class="abbr" title="{{d.dungeonName}}">{{d.dungeonAbbr}}</span></td>
+              <td class="col-1"><span [ngClass]="getMedallionClasses(d.entranceLock)" (click)="whenMedallionClicked($event, d)">&nbsp;</span></td>
+              <td class="col-1"><span [ngClass]="getBossImageClass(d)" title="{{d.bossName}}">&nbsp;</span></td>
+              <td class="col-1"><input type="checkbox" [ngModel]="d.isBossDefeated" (click)="whenDefeatedClicked($event, d)"></td>
+              <td class="col-1"><span [ngClass]="getRewardClasses(d.reward)" (click)="whenRewardClicked($event, d)">&nbsp;</span></td>
+              <td class="col-4">
+                <span [ngClass]="getChestCountClasses(d)" (click)="whenChestCountClicked($event, d)">{{getChestCount(d)}}</span>
+                <span>/</span>
+                <span class="chests">{{getMaxChests(d)}}</span>
+              </td>
+              <td class="col-2"><span class="hiding">Test</span></td>
+              <td class="col-1"><span [ngClass]="getBigKeyClasses(d.hasBigKey)">&nbsp;</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <stumpy-map></stumpy-map>

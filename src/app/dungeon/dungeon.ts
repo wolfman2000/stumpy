@@ -5,30 +5,47 @@ import { Reward } from './reward';
 export class Dungeon {
   constructor(
     private _location: Location,
+    private _dungeonAbbr: string,
     private _dungeonName: string,
     private _bossName: string,
     private _reward: Reward,
-    private _maxChests: number,
+    private _maxItemChests: number,
     private _entranceLock: EntranceLock = EntranceLock.None
   ) {
-    this._chestCount = this._maxChests;
+    this._itemChestCount = this._maxItemChests;
+    this._bossId = this._location;
+    this._isBossDefeated = false;
+    this._hasBigKey = false;
   }
 
-  private _chestCount: number;
+  private _bossId: Location;
+  private _itemChestCount: number;
   private _isBossDefeated: boolean;
+  private _hasBigKey: boolean;
 
   get location(): Location {
     return this._location;
   }
-
+  get dungeonAbbr(): string {
+    return this._dungeonAbbr;
+  }
+  get dungeonName(): string {
+    return this._dungeonName;
+  }
   get bossName(): string {
     return this._bossName;
   }
-  get maxChests(): number {
-    return this._maxChests;
+  get maxItemChests(): number {
+    return this._maxItemChests;
   }
-  get chestCount(): number {
-    return this._chestCount;
+  get itemChestCount(): number {
+    return this._itemChestCount;
+  }
+  get hasBigKey(): boolean {
+    return this._hasBigKey;
+  }
+  get bossId(): Location {
+    return this._bossId;
   }
   get entranceLock(): EntranceLock {
     return this._entranceLock;
@@ -48,7 +65,7 @@ export class Dungeon {
   }
 
   decrementChestCount(): void {
-    this._chestCount = (this.chestCount === 0) ? this.maxChests : this.chestCount - 1;
+    this._itemChestCount = (this.itemChestCount === 0) ? this.maxItemChests : this.itemChestCount - 1;
   }
   cycleEntranceLock(): void {
     switch ( this.entranceLock ) {
@@ -93,9 +110,15 @@ export class Dungeon {
     this._isBossDefeated = !this.isBossDefeated;
   }
 
+  toggleBigKey(): void {
+    this._hasBigKey = !this._hasBigKey;
+  }
+
   reset(): void {
-    this._chestCount = this.maxChests;
+    this._itemChestCount = this.maxItemChests;
     this._isBossDefeated = false;
+    this._bossId = this._location;
+    this._hasBigKey = false;
     if ( this._reward !== Reward.None ) {
       this._reward = Reward.Unknown;
     }

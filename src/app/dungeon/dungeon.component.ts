@@ -27,7 +27,7 @@ export class DungeonComponent implements OnInit {
   }
 
   hasChests(): boolean {
-    return this.dungeon.maxChests > 0;
+    return this.dungeon.maxItemChests > 0;
   }
 
   hasReward(): boolean {
@@ -51,13 +51,13 @@ export class DungeonComponent implements OnInit {
       chest: true
     };
 
-    results['chest' + this.dungeon.chestCount] = true;
-    results['items-remaining'] = this.dungeon.chestCount > 0;
+    results['chest' + this.dungeon.itemChestCount] = true;
+    results['items-remaining'] = this.dungeon.itemChestCount > 0;
     return results;
   }
 
   getChestResults(): string {
-    const remainingCount = this.dungeon.chestCount;
+    const remainingCount = this.dungeon.itemChestCount;
     return remainingCount ? remainingCount + '' : '';
   }
 
