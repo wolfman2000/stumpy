@@ -22,6 +22,18 @@
 
 :host > .chest {
   top: 32px;
+  font-size: 14px;
+  padding-top: 5px;
+  font-family: "Arial Black", Gadget, sans-serif;
+  text-align: center;
+  user-select: none;
+}
+.chest.items-remaining {
+  background-image: url('/assets/chests/keychest.png');
+}
+
+.chest:not(.items-remaining) {
+  background-image: url('/assets/chests/keychest0.png');
 }
 
 :host > .reward {
@@ -83,34 +95,6 @@
 
 .agahnim2 {
   background-image: url('/assets/bosses/ganonTower.png');
-}
-
-.chest0 {
-  background-image: url('/assets/chests/chest0.png');
-}
-
-.chest1 {
-  background-image: url('/assets/chests/chest1.png');
-}
-
-.chest2 {
-  background-image: url('/assets/chests/chest2.png');
-}
-
-.chest3 {
-  background-image: url('/assets/chests/chest3.png');
-}
-
-.chest4 {
-  background-image: url('/assets/chests/chest4.png');
-}
-
-.chest5 {
-  background-image: url('/assets/chests/chest5.png');
-}
-
-.chest6 {
-  background-image: url('/assets/chests/chest6.png');
 }
 
 .reward.unknown {

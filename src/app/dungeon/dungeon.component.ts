@@ -52,7 +52,13 @@ export class DungeonComponent implements OnInit {
     };
 
     results['chest' + this.dungeon.chestCount] = true;
+    results['items-remaining'] = this.dungeon.chestCount > 0;
     return results;
+  }
+
+  getChestResults(): string {
+    const remainingCount = this.dungeon.chestCount;
+    return remainingCount ? remainingCount + '' : '';
   }
 
   getRewardClasses(): any {
