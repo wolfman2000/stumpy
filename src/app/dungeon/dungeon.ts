@@ -10,16 +10,22 @@ export class Dungeon {
     private _bossName: string,
     private _reward: Reward,
     private _maxItemChests: number,
+    private _maxTotalChests: number,
+    private _maxSmallKeys: number,
     private _entranceLock: EntranceLock = EntranceLock.None
   ) {
     this._itemChestCount = this._maxItemChests;
+    this._totalChestCount = this._maxTotalChests;
     this._bossId = this._location;
     this._isBossDefeated = false;
     this._hasBigKey = false;
+    this._smallKeyCount = 0;
   }
 
   private _bossId: Location;
   private _itemChestCount: number;
+  private _totalChestCount: number;
+  private _smallKeyCount: number;
   private _isBossDefeated: boolean;
   private _hasBigKey: boolean;
 
@@ -40,6 +46,18 @@ export class Dungeon {
   }
   get itemChestCount(): number {
     return this._itemChestCount;
+  }
+  get maxTotalChests(): number {
+    return this._maxTotalChests;
+  }
+  get totalChestCount(): number {
+    return this._totalChestCount;
+  }
+  get maxSmallKeys(): number {
+    return this._maxSmallKeys;
+  }
+  get smallKeyCount(): number {
+    return this._smallKeyCount;
   }
   get hasBigKey(): boolean {
     return this._hasBigKey;
@@ -64,9 +82,18 @@ export class Dungeon {
     return this.entranceLock !== EntranceLock.None;
   }
 
-  decrementChestCount(): void {
+  decrementItemChestCount(): void {
     this._itemChestCount = (this.itemChestCount === 0) ? this.maxItemChests : this.itemChestCount - 1;
   }
+
+  decrementTotalChestCount(): void {
+    this._totalChestCount = (this.totalChestCount === 0) ? this.maxTotalChests : this.totalChestCount - 1;
+  }
+
+  incrementSmallKeyCount(): void {
+    this._smallKeyCount = (this.smallKeyCount === this.maxSmallKeys) ? 0 : this.smallKeyCount + 1;
+  }
+
   cycleEntranceLock(): void {
     switch ( this.entranceLock ) {
       case EntranceLock.Unknown:
@@ -116,6 +143,8 @@ export class Dungeon {
 
   reset(): void {
     this._itemChestCount = this.maxItemChests;
+    this._totalChestCount = this.maxTotalChests;
+    this._smallKeyCount = 0;
     this._isBossDefeated = false;
     this._bossId = this._location;
     this._hasBigKey = false;

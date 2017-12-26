@@ -135,14 +135,14 @@ describe( 'The dungeon location service', () => {
       });
 
       it( 'may be possible, may not be if one chest is claimed and the lantern is not on hand.', () => {
-        dungeonService.getDungeon(location).decrementChestCount();
+        dungeonService.getDungeon(location).decrementItemChestCount();
 
         expect( dungeonLocationService.getChestAvailability(location)).toBe( Availability.Possible );
       });
 
       it( 'may be possible, may not be if one chest is left and the bow is not on hand.', () => {
-        dungeonService.getDungeon(location).decrementChestCount();
-        dungeonService.getDungeon(location).decrementChestCount();
+        dungeonService.getDungeon(location).decrementItemChestCount();
+        dungeonService.getDungeon(location).decrementItemChestCount();
         itemService.getItem(ItemKey.Lantern).state = 1;
 
         expect( dungeonLocationService.getChestAvailability(location)).toBe( Availability.Possible );
@@ -355,10 +355,10 @@ describe( 'The dungeon location service', () => {
         itemService.getItem(ItemKey.Lantern).state = 1;
         const dungeon = dungeonService.getDungeon(location);
 
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
 
         expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
       });
@@ -482,7 +482,7 @@ describe( 'The dungeon location service', () => {
 
       it( 'is no longer fully raidable if the first chest does not have a hammer.', () => {
         const dungeon = dungeonService.getDungeon(location);
-        dungeon.decrementChestCount();
+        dungeon.decrementItemChestCount();
 
         itemService.getItem(ItemKey.MoonPearl).state = 1;
         itemService.getItem(ItemKey.Mirror).state = 1;
@@ -494,7 +494,7 @@ describe( 'The dungeon location service', () => {
 
       it( 'is now fully raidable if the first chest does have a hammer.', () => {
         const dungeon = dungeonService.getDungeon(location);
-        dungeon.decrementChestCount();
+        dungeon.decrementItemChestCount();
 
         itemService.getItem(ItemKey.MoonPearl).state = 1;
         itemService.getItem(ItemKey.Mirror).state = 1;
@@ -507,8 +507,8 @@ describe( 'The dungeon location service', () => {
 
       it( 'is not fully raidable if the first two chests do not have a hammer.', () => {
         const dungeon = dungeonService.getDungeon(location);
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
 
         itemService.getItem(ItemKey.MoonPearl).state = 1;
         itemService.getItem(ItemKey.Mirror).state = 1;
@@ -520,8 +520,8 @@ describe( 'The dungeon location service', () => {
 
       it( 'is potentially fully raidable if the first two chests do not have a hookshot.', () => {
         const dungeon = dungeonService.getDungeon(location);
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
 
         itemService.getItem(ItemKey.MoonPearl).state = 1;
         itemService.getItem(ItemKey.Mirror).state = 1;
@@ -534,8 +534,8 @@ describe( 'The dungeon location service', () => {
 
       it( 'is now fully raidable if the first two chests have a hookshot and hammer.', () => {
         const dungeon = dungeonService.getDungeon(location);
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
 
         itemService.getItem(ItemKey.MoonPearl).state = 1;
         itemService.getItem(ItemKey.Mirror).state = 1;
@@ -549,10 +549,10 @@ describe( 'The dungeon location service', () => {
 
       it( 'requires the hookshot and hammer for the last two chests.', () => {
         const dungeon = dungeonService.getDungeon(location);
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
 
         itemService.getItem(ItemKey.MoonPearl).state = 1;
         itemService.getItem(ItemKey.Mirror).state = 1;
@@ -564,10 +564,10 @@ describe( 'The dungeon location service', () => {
 
       it( 'is fully raidable with the hookshot and hammer assuming there are only two chests left.', () => {
         const dungeon = dungeonService.getDungeon(location);
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
 
         itemService.getItem(ItemKey.MoonPearl).state = 1;
         itemService.getItem(ItemKey.Mirror).state = 1;
@@ -681,9 +681,9 @@ describe( 'The dungeon location service', () => {
 
       it( 'becomes restricted to possible if down to one chest without the hammer.', () => {
         const dungeon = dungeonService.getDungeon(location);
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
-        dungeon.decrementChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
+        dungeon.decrementItemChestCount();
 
         itemService.getItem(ItemKey.Glove).state = 2;
         itemService.getItem(ItemKey.MoonPearl).state = 1;
@@ -948,7 +948,7 @@ describe( 'The dungeon location service', () => {
         itemService.getItem(ItemKey.Quake).state = 1;
         itemService.getItem(ItemKey.Sword).state = 1;
         itemService.getItem(ItemKey.Lantern).state = 1;
-        dungeonService.getDungeon(location).decrementChestCount();
+        dungeonService.getDungeon(location).decrementItemChestCount();
 
         expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
       });

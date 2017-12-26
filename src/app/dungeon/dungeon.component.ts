@@ -87,7 +87,7 @@ export class DungeonComponent implements OnInit {
     evt.stopPropagation();
     evt.preventDefault();
 
-    this.dungeon.decrementChestCount();
+    this.dungeon.decrementItemChestCount();
   }
 
   whenRewardClicked(evt: MouseEvent): void {

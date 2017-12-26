@@ -11,15 +11,21 @@
             </select>
           </div>
           <div class="form-group">
+              <label for="stumpy-goal">Select your goal.</label>
+              <select id="stumpy-goal" name="stumpy-goal" class="form-control form-control-sm" [(ngModel)]="options.goal">
+                <option *ngFor="let c of options.goalKeys" value="{{c.value}}">{{c.label}}</option>
+              </select>
+            </div>
+            <div class="form-group">
             <label for="stumpy-difficulty">Select your difficulty.</label>
             <select id="stumpy-difficulty" name="stumpy-difficulty" class="form-control form-control-sm" [(ngModel)]="options.difficulty">
               <option *ngFor="let c of options.difficultyKeys" value="{{c.value}}">{{c.label}}</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="stumpy-goal">Select your goal.</label>
-            <select id="stumpy-goal" name="stumpy-goal" class="form-control form-control-sm" [(ngModel)]="options.goal">
-              <option *ngFor="let c of options.goalKeys" value="{{c.value}}">{{c.label}}</option>
+            <label for="stumpy-item-shuffle">Select the shuffling mode.</label>
+            <select id="stumpy-item-shuffle" name="stumpy-item-shuffle" class="form-control form-control-sm" [(ngModel)]="options.itemShuffle">
+              <option *ngFor="let c of options.itemShuffleKeys" value="{{c.value}}">{{c.label}}</option>
             </select>
           </div>
           <div class="form-group">
