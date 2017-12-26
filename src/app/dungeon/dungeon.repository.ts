@@ -11,7 +11,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Agahnim\'s Tower',
       'Agahnim',
       Reward.None,
-      0
+      0,
+      2,
+      2
     )
   ], [
     Location.EasternPalace, new Dungeon(
@@ -20,7 +22,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Eastern Palace',
       'Armos Knights',
       Reward.Unknown,
-      3
+      3,
+      6,
+      0
     )
   ], [
     Location.DesertPalace, new Dungeon(
@@ -29,7 +33,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Desert Palace',
       'Lanmolas',
       Reward.Unknown,
-      2
+      2,
+      6,
+      1
     )
   ], [
     Location.TowerOfHera, new Dungeon(
@@ -38,7 +44,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Tower of Hera',
       'Moldorm',
       Reward.Unknown,
-      2
+      2,
+      6,
+      1
     )
   ], [
     Location.PalaceOfDarkness, new Dungeon(
@@ -47,7 +55,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Palace of Darkness',
       'Helmasaur King',
       Reward.Unknown,
-      5
+      5,
+      14,
+      6
     )
   ], [
     Location.SwampPalace, new Dungeon(
@@ -56,7 +66,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Swamp Palace',
       'Arrghus',
       Reward.Unknown,
-      6
+      6,
+      10,
+      1
     )
   ], [
     Location.SkullWoods, new Dungeon(
@@ -65,7 +77,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Skull Woods',
       'Mothula',
       Reward.Unknown,
-      2
+      2,
+      8,
+      3
     )
   ], [
     Location.ThievesTown, new Dungeon(
@@ -74,7 +88,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Thieves Town',
       'Blind',
       Reward.Unknown,
-      4
+      4,
+      8,
+      1
     )
   ], [
     Location.IcePalace, new Dungeon(
@@ -83,7 +99,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Ice Palace',
       'Kholdstare',
       Reward.Unknown,
-      3
+      3,
+      8,
+      2
     )
   ], [
     Location.MiseryMire, new Dungeon(
@@ -93,6 +111,8 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Vitreous',
       Reward.Unknown,
       2,
+      8,
+      3,
       EntranceLock.Unknown
     )
   ], [
@@ -103,6 +123,8 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Trinexx',
       Reward.Unknown,
       5,
+      12,
+      4,
       EntranceLock.Unknown
     )
   ], [
@@ -112,7 +134,9 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Ganon\'s Tower',
       'Agahnim 2',
       Reward.None,
-      0
+      0,
+      27,
+      4
     )
   ] ]
 );

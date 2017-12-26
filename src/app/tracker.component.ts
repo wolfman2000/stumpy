@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Mode } from './settings/mode';
+import { ItemShuffle } from './settings/item-shuffle';
 
 import { Dungeon } from './dungeon/dungeon';
 import { EntranceLock } from './dungeon/entrance-lock';
 import { Location } from './dungeon/location';
 import { Reward } from './dungeon/reward';
 import { DungeonService } from './dungeon/dungeon.service';
+import { SettingsService } from './settings/settings.service';
 
 @Component({
   selector: 'app-randomizer-tracker',
@@ -17,13 +19,18 @@ import { DungeonService } from './dungeon/dungeon.service';
 export class RandomizerTrackerComponent {
   constructor(
     private route: ActivatedRoute,
-    private dungeons: DungeonService
+    private dungeons: DungeonService,
+    private _settings: SettingsService
   ) {}
-
-  tmpMode: Mode;
 
   allDungeons(): Dungeon[] {
     return this.dungeons.allDungeons();
+  }
+
+  getKeysanityClass(): any {
+    return {
+      hiding: this._settings.itemShuffle !== ItemShuffle.Keysanity
+    };
   }
 
   getBossImageClass(dungeon: Dungeon) {
@@ -61,7 +68,11 @@ export class RandomizerTrackerComponent {
       counter: true
     };
 
-    if ( dungeon.itemChestCount === 0 ) {
+    const count = this._settings.itemShuffle !== ItemShuffle.Keysanity
+      ? dungeon.itemChestCount
+      : dungeon.totalChestCount;
+
+    if ( count === 0 ) {
       results['chests-claimed'] = true;
     }
 
@@ -69,20 +80,30 @@ export class RandomizerTrackerComponent {
   }
 
   getChestCount( dungeon: Dungeon ): string {
-    const count = dungeon.itemChestCount;
+    const count = this._settings.itemShuffle !== ItemShuffle.Keysanity
+     ? dungeon.itemChestCount
+     : dungeon.totalChestCount;
 
     return count > 0 ? count + '' : '\xa0';
   }
 
   getMaxChests( dungeon: Dungeon ) {
-    return dungeon.maxItemChests;
+    const count = this._settings.itemShuffle !== ItemShuffle.Keysanity
+      ? dungeon.maxItemChests
+      : dungeon.maxTotalChests;
+
+      return count > 0 ? count + '' : '\xa0';
   }
 
   whenChestCountClicked( evt: MouseEvent, dungeon: Dungeon ) {
     evt.stopPropagation();
     evt.preventDefault();
 
-    dungeon.decrementChestCount();
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      dungeon.decrementTotalChestCount();
+    } else {
+      dungeon.decrementItemChestCount();
+    }
   }
 
   getMedallionClasses( entranceLock: EntranceLock ) {
@@ -102,14 +123,65 @@ export class RandomizerTrackerComponent {
     dungeon.cycleEntranceLock();
   }
 
-  getBigKeyClasses( hasBigKey: boolean ) {
+  getSmallKeyCountClasses( dungeon: Dungeon ) {
     const results = {
-      hiding: true,
+      chests: true,
+      counter: true
+    };
+
+    if ( dungeon.smallKeyCount === 0 ) {
+      results['chests-claimed'] = true;
+    }
+
+    return results;
+  }
+
+  getSmallKeyCount( dungeon: Dungeon ) {
+    const count = dungeon.smallKeyCount;
+
+    return count > 0 ? count + '' : '\xa0';
+  }
+
+  getMaxSmallKeyCountClasses( dungeon: Dungeon ) {
+    const results = {
+      chests: true
+    };
+
+    if ( dungeon.maxSmallKeys === 0 ) {
+      results['chests-claimed'] = true;
+    }
+
+    return results;
+  }
+
+  getMaxSmallKeyCount( dungeon: Dungeon ) {
+    const count = dungeon.maxSmallKeys;
+
+    return count > 0 ? count + '' : '\xa0';
+  }
+
+  whenKeyCountClicked( evt: MouseEvent, dungeon: Dungeon ) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    dungeon.incrementSmallKeyCount();
+  }
+
+  getBigKeyClasses( dungeon: Dungeon ) {
+    const results = {
+      hiding: this._settings.itemShuffle !== ItemShuffle.Keysanity || dungeon.bossId === Location.CastleTower,
       bigKey: true,
-      claimed: hasBigKey
+      claimed: dungeon.hasBigKey
     };
 
     return results;
+  }
+
+  whenBigKeyClicked( evt: MouseEvent, dungeon: Dungeon ) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    dungeon.toggleBigKey();
   }
 
 } /* istanbul ignore next */

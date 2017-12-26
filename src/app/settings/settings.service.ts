@@ -5,8 +5,18 @@ import { WordSpacingPipe } from '../word-spacing.pipe';
 
 import { Difficulty } from './difficulty';
 import { Goal } from './goal';
+import { ItemShuffle } from './item-shuffle';
 import { Mode } from './mode';
 import { GlitchLogic } from './glitch-logic';
+
+interface EnumItem<E> {
+  value: E;
+  key: keyof E;
+}
+
+function enumToArray<E>(Enum: any): EnumItem<E>[] {
+  return Object.keys(Enum).map(key => ({value: Enum[key], key: key} as EnumItem<E>));
+}
 
 @Injectable()
 export class SettingsService {
@@ -43,6 +53,12 @@ export class SettingsService {
     } else {
       this._goal = parseInt( localStorage.getItem( 'goal' ), 10 );
     }
+
+    if ( !this.localStorageService.hasItem( 'itemShuffle' ) ) {
+      this.itemShuffle = ItemShuffle.Normal;
+    } else {
+      this._itemShuffle = parseInt( localStorage.getItem( 'itemShuffle' ), 10 );
+    }
   }
 
   private _mode: Mode;
@@ -50,6 +66,7 @@ export class SettingsService {
   private _difficulty: Difficulty;
   private _showGoMode: number;
   private _goal: Goal;
+  private _itemShuffle: ItemShuffle;
 
   get mode(): Mode {
     return this._mode;
@@ -59,20 +76,8 @@ export class SettingsService {
     this.localStorageService.setItem( 'mode', this.mode + '' );
   }
 
-  /* istanbul ignore next */
   get modeKeys(): any {
-    const results: Array<any> = [];
-    for ( const member in Mode ) {
-      if ( typeof Mode[member]  === 'number' ) {
-        results.push({ label: member, value: Mode[member]});
-      }
-    }
-
-    return results;
-  }
-
-  get modeString(): string {
-    return Mode[this.mode];
+    return this.getDropDownPairs( enumToArray(Mode));
   }
 
   get difficulty(): Difficulty {
@@ -83,16 +88,8 @@ export class SettingsService {
     this.localStorageService.setItem( 'difficulty', this.difficulty + '' );
   }
 
-  /* istanbul ignore next */
   get difficultyKeys(): any {
-    const results: Array<any> = [];
-    for ( const member in Difficulty ) {
-      if ( typeof Difficulty[member]  === 'number' ) {
-        results.push({ label: member, value: Difficulty[member]});
-      }
-    }
-
-    return results;
+    return this.getDropDownPairs( enumToArray(Difficulty));
   }
 
   get logic(): GlitchLogic {
@@ -103,20 +100,8 @@ export class SettingsService {
     this.localStorageService.setItem( 'logic', this.logic + '' );
   }
 
-  /* istanbul ignore next */
   get logicKeys(): any {
-    const results: Array<any> = [];
-    for ( const member in GlitchLogic ) {
-      if ( typeof GlitchLogic[member]  === 'number' ) {
-        results.push({ label: member, value: GlitchLogic[member]});
-      }
-    }
-
-    return results;
-  }
-
-  get logicString(): string {
-    return GlitchLogic[this.logic];
+    return this.getDropDownPairs( enumToArray(GlitchLogic));
   }
 
   get showGoMode(): number {
@@ -127,7 +112,6 @@ export class SettingsService {
     this.localStorageService.setItem( 'showGoMode', this.showGoMode + '' );
   }
 
-  /* istanbul ignore next */
   get showGoModeKeys(): any {
     return [ {
       label: 'No', value: 0
@@ -144,16 +128,29 @@ export class SettingsService {
     this.localStorageService.setItem( 'goal', this.goal + '' );
   }
 
-  /* istanbul ignore next */
   get goalKeys(): any {
-    const results: Array<any> = [];
-    for ( const member in Goal ) {
-      if ( typeof Goal[member]  === 'number' ) {
-        results.push({ label: this.wordSpacingPipe.transform(member), value: Goal[member]});
-      }
-    }
+    return this.getDropDownPairs( enumToArray(Goal));
+  }
 
-    return results;
+  get itemShuffle(): ItemShuffle {
+    return this._itemShuffle;
+  }
+  set itemShuffle(itemShuffle: ItemShuffle) {
+    this._itemShuffle = parseInt( itemShuffle + '', 10 );
+    this.localStorageService.setItem( 'itemShuffle', this.itemShuffle + '' );
+  }
+
+  get itemShuffleKeys(): any {
+    return this.getDropDownPairs( enumToArray(ItemShuffle));
+  }
+
+  private getDropDownPairs( items: Array<any> ): any {
+    return items
+      .filter( e => typeof e.value === 'number' )
+      .map( e => { return {
+        label: this.wordSpacingPipe.transform( e.key ),
+        value: e.value
+      }; } );
   }
 
   isExpertOrInsane(): boolean {

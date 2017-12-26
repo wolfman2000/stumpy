@@ -11,10 +11,11 @@ describe( 'The settings service', () => {
 
   beforeAll(() => {
     service = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
-    service.mode = Mode.Standard; // Hack job to keep the tests working.
   });
 
   beforeEach(() => {
+    service.mode = Mode.Standard;
+
     const store: any = {};
 
     spyOn( localStorage, 'getItem' ).and.callFake( (key: string): string => {
@@ -43,5 +44,14 @@ describe( 'The settings service', () => {
 
     expect( secondService.mode ).toBe( service.mode );
     expect( secondService.logic ).toBe( service.logic );
+  });
+
+  it( 'should get the correct number of drop down choices sucessfully for each option.', () => {
+    expect( service.modeKeys.length ).toBe( 3 );
+    expect( service.logicKeys.length ).toBe( 3 );
+    expect( service.showGoModeKeys.length ).toBe( 2 );
+    expect( service.difficultyKeys.length ).toBe( 5 );
+    expect( service.goalKeys.length ).toBe( 2 );
+    expect( service.itemShuffleKeys.length ).toBe( 2 );
   });
 });

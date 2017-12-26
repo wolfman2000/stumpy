@@ -69,8 +69,8 @@
               <th class="col-2" colspan="2">Boss</th>
               <th class="col-1">Prize</th>
               <th class="col-4">Items</th>
-              <th class="col-2"><span class="hiding">Small</span></th>
-              <th class="col-1"><span class="bigKey hiding">&nbsp;</span></th>
+              <th class="col-2"><span [ngClass]="getKeysanityClass()">Small Keys</span></th>
+              <th class="col-1"><span class="bigKey" [ngClass]="getKeysanityClass()">&nbsp;</span></th>
             </tr>
           </thead>
           <tbody>
@@ -85,8 +85,12 @@
                 <span>/</span>
                 <span class="chests">{{getMaxChests(d)}}</span>
               </td>
-              <td class="col-2"><span class="hiding">Test</span></td>
-              <td class="col-1"><span [ngClass]="getBigKeyClasses(d.hasBigKey)">&nbsp;</span></td>
+              <td class="col-2"><span [ngClass]="getKeysanityClass()">
+                <span [ngClass]="getSmallKeyCountClasses(d)" (click)="whenKeyCountClicked($event, d)">{{getSmallKeyCount(d)}}</span>
+                <span>/</span>
+                <span [ngClass]="getMaxSmallKeyCountClasses(d)">{{getMaxSmallKeyCount(d)}}</span>
+              </span></td>
+              <td class="col-1"><span [ngClass]="getBigKeyClasses(d)" (click)="whenBigKeyClicked($event, d)">&nbsp;</span></td>
             </tr>
           </tbody>
         </table>

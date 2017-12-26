@@ -178,6 +178,7 @@ th .bigKey {
   user-select: none;
   background-image: url('/assets/chests/bigkey.png');
   opacity: 0.25;
+  cursor: pointer;
 }
 
 .bigKey.claimed {
