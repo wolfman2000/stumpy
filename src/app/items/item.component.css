@@ -1,13 +1,14 @@
 :host {
-  width: 64px;
-  height: 64px;
+  width: 40px;
+  height: 40px;
   display: table-cell;
 }
 div {
-  width: 64px;
-  height: 64px;
+  width: 40px;
+  height: 40px;
   opacity: 0.25;
   cursor: pointer;
+  background-size: 100%;
 }
 div.restricted {
   cursor: default;
@@ -186,4 +187,12 @@ div.restricted {
 
 .tunic3 {
   background-image: url('/assets/items/tunic3.png');
+}
+
+.magic1 {
+  background-image: url('/assets/items/magic1.png');
+}
+
+.magic2 {
+  background-image: url('/assets/items/magic2.png');
 }

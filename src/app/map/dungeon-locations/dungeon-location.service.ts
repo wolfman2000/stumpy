@@ -104,11 +104,11 @@ export class DungeonLocationService {
 
   private isArmosKnightsRaidable(): Availability {
     const dungeon = this._dungeons.easternPalace;
-    if ( dungeon.chestCount <= 2 && !this._inventory.lantern ) {
+    if ( dungeon.itemChestCount <= 2 && !this._inventory.lantern ) {
       return Availability.Possible;
     }
 
-    if ( dungeon.chestCount === 1 && !this._inventory.bow ) {
+    if ( dungeon.itemChestCount === 1 && !this._inventory.bow ) {
       return Availability.Possible;
     }
 
@@ -146,7 +146,7 @@ export class DungeonLocationService {
     }
 
     const dungeon = this._dungeons.desertPalace;
-    return dungeon.chestCount > 1 && items.boots ? Availability.Available : Availability.Possible;
+    return dungeon.itemChestCount > 1 && items.boots ? Availability.Available : Availability.Possible;
   }
 
   private isMoldormAvailable(): Availability {
@@ -201,7 +201,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    return !(items.bow && !!items.lantern) || dungeon.chestCount === 1 && !items.hammer ?
+    return !(items.bow && !!items.lantern) || dungeon.itemChestCount === 1 && !items.hammer ?
       Availability.Possible : Availability.Available;
   }
 
@@ -235,15 +235,15 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( dungeon.chestCount <= 2) {
+    if ( dungeon.itemChestCount <= 2) {
       return !items.hammer || !items.hookshot ? Availability.Unavailable : Availability.Available;
     }
 
-    if ( dungeon.chestCount <= 4) {
+    if ( dungeon.itemChestCount <= 4) {
       return !items.hammer ? Availability.Unavailable : !items.hookshot ? Availability.Possible : Availability.Available;
     }
 
-    if ( dungeon.chestCount <= 5) {
+    if ( dungeon.itemChestCount <= 5) {
       return !items.hammer ? Availability.Unavailable : Availability.Available;
     }
 
@@ -293,7 +293,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    return this._dungeons.getDungeon(Location.ThievesTown).chestCount === 1 && !this._inventory.hammer ?
+    return this._dungeons.getDungeon(Location.ThievesTown).itemChestCount === 1 && !this._inventory.hammer ?
       Availability.Possible : Availability.Available;
   }
 
@@ -366,7 +366,7 @@ export class DungeonLocationService {
     }
 
     let hasItems: boolean;
-    if ( this._dungeons.getDungeon( Location.MiseryMire ).chestCount > 1) {
+    if ( this._dungeons.getDungeon( Location.MiseryMire ).itemChestCount > 1) {
       hasItems = items.hasFireSource();
     } else {
       hasItems = !!items.lantern && !!items.somaria;
@@ -420,14 +420,14 @@ export class DungeonLocationService {
     const darkAvailability = items.lantern ? Availability.Available : Availability.Glitches;
     const dungeon = this._dungeons.getDungeon(Location.TurtleRock);
 
-    if ( dungeon.chestCount <= 1) {
+    if ( dungeon.itemChestCount <= 1) {
       return !hasLaserSafety ? Availability.Unavailable : items.fireRod && items.iceRod ? darkAvailability : Availability.Possible;
     }
-    if ( dungeon.chestCount <= 2) {
+    if ( dungeon.itemChestCount <= 2) {
       return !hasLaserSafety ? Availability.Unavailable : items.fireRod ? darkAvailability : Availability.Possible;
     }
 
-    if ( dungeon.chestCount <= 4) {
+    if ( dungeon.itemChestCount <= 4) {
       return hasLaserSafety && items.fireRod && items.lantern ? Availability.Available : Availability.Possible;
     }
 
@@ -574,7 +574,7 @@ export class DungeonLocationService {
   }
 
   getChestCount(id: Location): number {
-    return this._dungeons.getDungeon(id).chestCount;
+    return this._dungeons.getDungeon(id).itemChestCount;
   }
 
   isBossDefeated(id: Location): boolean {
