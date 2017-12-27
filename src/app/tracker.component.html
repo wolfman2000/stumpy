@@ -15,7 +15,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-4 offset-1">
+    <div class="col-3">
       <article>
         <div>
           <stumpy-item [itemId]="0"></stumpy-item>
@@ -59,41 +59,53 @@
         </div>
       </article>
     </div>
-    <div class="col-6">
+    <div class="col-9">
       <div class="container">
-        <table class="table table-fixed table-hover table-sm">
-          <thead>
-            <tr>
-              <th class="col-1">Abbr</th>
-              <th class="col-1">Med.</th>
-              <th class="col-2" colspan="2">Boss</th>
-              <th class="col-1">Prize</th>
-              <th class="col-4">Items</th>
-              <th class="col-2"><span [ngClass]="getKeysanityClass()">Small Keys</span></th>
-              <th class="col-1"><span class="bigKey" [ngClass]="getKeysanityClass()">&nbsp;</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let d of allDungeons()">
-              <td class="col-1"><span class="abbr" title="{{d.dungeonName}}">{{d.dungeonAbbr}}</span></td>
-              <td class="col-1"><span [ngClass]="getMedallionClasses(d.entranceLock)" (click)="whenMedallionClicked($event, d)">&nbsp;</span></td>
-              <td class="col-1"><span [ngClass]="getBossImageClass(d)" title="{{d.bossName}}">&nbsp;</span></td>
-              <td class="col-1"><input type="checkbox" [ngModel]="d.isBossDefeated" (click)="whenDefeatedClicked($event, d)"></td>
-              <td class="col-1"><span [ngClass]="getRewardClasses(d.reward)" (click)="whenRewardClicked($event, d)">&nbsp;</span></td>
-              <td class="col-4">
+        <div class="row">
+          <div class="col-12">
+            <div class="row">
+              <span class="col-1 border border-primary">Abbr</span>
+              <span class="col-1 border border-primary">Med.</span>
+              <span class="col-2 border border-primary">Boss</span>
+              <span class="col-1 border border-primary">Prize</span>
+              <span class="col-3 border border-primary">Items</span>
+              <span class="col-3 border border-primary" [ngClass]="getKeysanityClass()"><span>Small Keys</span></span>
+              <span class="col-1 border border-primary" [ngClass]="getKeysanityClass()"><span class="bigKey noClick">&nbsp;</span></span>
+            </div>
+          </div>
+          <div class="col-12" *ngFor="let d of allDungeons()">
+            <div class="row">
+              <div class="col-1 border border-primary">
+                <span class="abbr" title="{{d.dungeonName}}">{{d.dungeonAbbr}}</span>
+              </div>
+              <div class="col-1 border border-primary">
+                <span [ngClass]="getMedallionClasses(d.entranceLock)" (click)="whenMedallionClicked($event, d)">&nbsp;</span>
+              </div>
+              <div class="col-1 border border-right-0 border-primary">
+                <span [ngClass]="getBossImageClass(d)" title="{{d.bossName}}">&nbsp;</span>
+              </div>
+              <div class="col-1 border border-left-0 border-primary">
+                <input type="checkbox" [ngModel]="d.isBossDefeated" (click)="whenDefeatedClicked($event, d)">
+              </div>
+              <div class="col-1 border border-primary">
+                <span [ngClass]="getRewardClasses(d.reward)" (click)="whenRewardClicked($event, d)">&nbsp;</span>
+              </div>
+              <div class="col-3 border border-primary">
                 <span [ngClass]="getChestCountClasses(d)" (click)="whenChestCountClicked($event, d)">{{getChestCount(d)}}</span>
                 <span>/</span>
-                <span class="chests">{{getMaxChests(d)}}</span>
-              </td>
-              <td class="col-2"><span [ngClass]="getKeysanityClass()">
+                <span [ngClass]="getMaxChestCountClasses(d)" class="chests">{{getMaxChests(d)}}</span>
+              </div>
+              <div class="col-3 border border-primary" [ngClass]="getKeysanityClass()">
                 <span [ngClass]="getSmallKeyCountClasses(d)" (click)="whenKeyCountClicked($event, d)">{{getSmallKeyCount(d)}}</span>
                 <span>/</span>
                 <span [ngClass]="getMaxSmallKeyCountClasses(d)">{{getMaxSmallKeyCount(d)}}</span>
-              </span></td>
-              <td class="col-1"><span [ngClass]="getBigKeyClasses(d)" (click)="whenBigKeyClicked($event, d)">&nbsp;</span></td>
-            </tr>
-          </tbody>
-        </table>
+              </div>
+              <div class="col-1 border border-primary" [ngClass]="getKeysanityClass()">
+                <span [ngClass]="getBigKeyClasses(d)" (click)="whenBigKeyClicked($event, d)">&nbsp;</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

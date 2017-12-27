@@ -515,8 +515,12 @@ export class ItemService {
     return this.glove > 0;
   }
 
+  hasSword(): boolean {
+    return this.sword !== Sword.None;
+  }
+
   hasMelee(): boolean {
-    return this.sword !== Sword.None || !!this.hammer;
+    return this.hasSword() || !!this.hammer;
   }
 
   hasMeleeOrBow(): boolean {

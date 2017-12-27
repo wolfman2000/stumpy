@@ -18,50 +18,6 @@ export class DungeonService {
     return this._dungeons;
   }
 
-  get agahnimTower(): Dungeon {
-    return this.dungeons.get(Location.CastleTower);
-  }
-
-  get easternPalace(): Dungeon {
-    return this.dungeons.get(Location.EasternPalace);
-  }
-
-  get desertPalace(): Dungeon {
-    return this.dungeons.get(Location.DesertPalace);
-  }
-
-  get towerOfHera(): Dungeon {
-    return this.dungeons.get(Location.TowerOfHera);
-  }
-
-  get palaceOfDarkness(): Dungeon {
-    return this.dungeons.get(Location.PalaceOfDarkness);
-  }
-
-  get swampPalace(): Dungeon {
-    return this.dungeons.get(Location.SwampPalace);
-  }
-
-  get skullWoods(): Dungeon {
-    return this.dungeons.get(Location.SkullWoods);
-  }
-
-  get thievesTown(): Dungeon {
-    return this.dungeons.get(Location.ThievesTown);
-  }
-
-  get icePalace(): Dungeon {
-    return this.dungeons.get(Location.IcePalace);
-  }
-
-  get miseryMire(): Dungeon {
-    return this.dungeons.get(Location.MiseryMire);
-  }
-
-  get turtleRock(): Dungeon {
-    return this.dungeons.get(Location.TurtleRock);
-  }
-
   hasGreenPendant(): boolean {
     const dungeons = Array.from( this.dungeons.values() );
     if ( dungeons.some( d => d.reward === Reward.GreenPendant && d.isBossDefeated ) ) {

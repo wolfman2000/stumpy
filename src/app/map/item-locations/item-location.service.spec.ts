@@ -89,7 +89,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'cannot be available if you only defeated Agahnim and have the hookshot.', () => {
-      dungeonService.agahnimTower.toggleDefeat();
+      dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
       itemService.setItemState(ItemKey.MoonPearl, 1);
       itemService.setItemState(ItemKey.Hookshot, 1);
 
@@ -97,7 +97,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be available if you defeated Agahnim and have the hookshot, a hammer, and boots.', () => {
-      dungeonService.agahnimTower.toggleDefeat();
+      dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
       itemService.setItemState(ItemKey.Hookshot, 1);
       itemService.setItemState(ItemKey.MoonPearl, 1);
       itemService.setItemState(ItemKey.Hammer, 1);
@@ -108,7 +108,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be available if you defeated Agahnim and have the hookshot, flippers, and boots.', () => {
-      dungeonService.agahnimTower.toggleDefeat();
+      dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
       itemService.setItemState(ItemKey.Hookshot, 1);
       itemService.setItemState(ItemKey.MoonPearl, 1);
       itemService.setItemState(ItemKey.Flippers, 1);
@@ -651,13 +651,13 @@ describe( 'The item location service', () => {
     });
 
     it( 'needs more than Agahnim to be defeated.', () => {
-      dungeonService.agahnimTower.toggleDefeat();
+      dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Visible );
     });
 
     it( 'also needs the boots.', () => {
-      dungeonService.agahnimTower.toggleDefeat();
+      dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
       itemService.setItemState(ItemKey.Boots, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
@@ -1157,7 +1157,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'could be gotten through the Agahnim route.', () => {
-      dungeonService.agahnimTower.toggleDefeat();
+      dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
       itemService.setItemState(ItemKey.MoonPearl, 1);
       itemService.setItemState(ItemKey.Hammer, 1);
 
@@ -1283,7 +1283,7 @@ describe( 'The item location service', () => {
     it( 'could be gotten with Agahnim\'s death.', () => {
       itemService.setItemState(ItemKey.MoonPearl, 1);
       itemService.setItemState(ItemKey.Glove, 1);
-      dungeonService.agahnimTower.toggleDefeat();
+      dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1375,7 +1375,7 @@ describe( 'The item location service', () => {
     });
 
     it( 'can be gotten with Agahnim\'s defeat.', () => {
-      dungeonService.agahnimTower.toggleDefeat();
+      dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });

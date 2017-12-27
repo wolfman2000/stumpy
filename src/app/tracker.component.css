@@ -1,24 +1,5 @@
 .hiding {
-  visibility: hidden;
-}
-
-.table-fixed {
-  width: 100%;
-}
-
-.table-fixed > tbody {
-  height: 10rem;
-  width: 100%;
-  overflow-y: scroll;
-}
-
-.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
-  display: block;
-}
-
-tbody td,
-thead th {
-  float: left;
+  display: none;
 }
 
 .abbr {
@@ -164,10 +145,9 @@ thead th {
   background-image: url('/assets/overlay/medallion-quake.png');
 }
 
-th .bigKey {
+.bigKey.noClick {
   opacity: 1;
-  width: 20px;
-  height: 20px;
+  cursor: default;
 }
 
 .bigKey {
@@ -179,6 +159,10 @@ th .bigKey {
   background-image: url('/assets/chests/bigkey.png');
   opacity: 0.25;
   cursor: pointer;
+}
+
+.bigKey.hiding {
+  display: none;
 }
 
 .bigKey.claimed {

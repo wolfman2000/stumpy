@@ -16,6 +16,7 @@ import { ItemLocations } from './item-location.repository';
 import { EntranceLock } from '../../dungeon/entrance-lock';
 import { Location } from '../../dungeon/location';
 import { Mode } from '../../settings/mode';
+import { ItemShuffle } from '../../settings/item-shuffle';
 
 @Injectable()
 export class ItemLocationService {
@@ -172,7 +173,7 @@ export class ItemLocationService {
   }
 
   private isAgahnimDefeated(): boolean {
-    return this._dungeons.agahnimTower.isBossDefeated;
+    return this._dungeons.getDungeon(Location.CastleTower).isBossDefeated;
   }
 
   private hasSouthDarkWorldFromPyramidAccess(): boolean {
@@ -225,6 +226,14 @@ export class ItemLocationService {
     const medallionState = this.medallionState( Location.TurtleRock);
     if ( medallionState !== Availability.Available ) {
       return medallionState;
+    }
+
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      if ( this._dungeons.getDungeon(Location.TurtleRock).smallKeyCount <= 1 ) {
+        return Availability.Unavailable;
+      }
+
+      return Availability.Available;
     }
 
     if ( !inventory.fireRod) {

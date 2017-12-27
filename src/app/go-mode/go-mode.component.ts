@@ -25,23 +25,20 @@ export class GoModeComponent {
       };
     }
 
-    const results = {
-      alert: true
-    };
+    const results = {};
 
     const availability = this._goMode.isGoMode();
     results[this.camelCasePipe.transform(Availability[availability])] = true;
 
-
     switch ( availability ) {
       case Availability.Available:
-        results['alert-success'] = true;
+        results['btn-outline-success'] = true;
         break;
       case Availability.Possible:
-        results['alert-warning'] = true;
+        results['btn-outline-warning'] = true;
         break;
       case Availability.Glitches:
-        results['alert-danger'] = true;
+        results['btn-outline-danger'] = true;
         break;
       case Availability.Unavailable:
         results['hidden'] = true;
