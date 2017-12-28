@@ -53,6 +53,7 @@ export class ItemService {
         [ItemKey.Sword, this.setSword],
         [ItemKey.Shield, this.setShield],
         [ItemKey.Tunic, this.setTunic],
+        [ItemKey.Bomb, this.setBomb],
         [ItemKey.Magic, this.setMagic]
       ]
     );
@@ -73,12 +74,20 @@ export class ItemService {
   private _itemMap: Map<ItemKey, (state: number) => void>;
   private _classMap: Map<ItemKey, () => any>;
 
+  get bomb(): number {
+    return this.getItem(ItemKey.Bomb).state;
+  }
+
   get bombos(): number {
     return this.getItem(ItemKey.Bombos).state;
   }
 
   get book(): number {
     return this.getItem(ItemKey.Book).state;
+  }
+
+  get boomerang(): number {
+    return this.getItem(ItemKey.Boomerangs).state;
   }
 
   get boots(): number {
@@ -209,6 +218,10 @@ export class ItemService {
 
   private setHookshot(state: number) {
     this.setGeneralItem(ItemKey.Hookshot, state);
+  }
+
+  private setBomb(state: number) {
+    this.setGeneralItem(ItemKey.Bomb, state);
   }
 
   private setMushroom(state: number) {
@@ -525,6 +538,14 @@ export class ItemService {
 
   hasMeleeOrBow(): boolean {
     return this.hasMelee() || !!this.bow;
+  }
+
+  hasPrimaryMelee(): boolean {
+    if ( this._settings.isSwordless() ) {
+      return !!this.hammer;
+    }
+
+    return this.hasSword();
   }
 
   hasCane(): boolean {
