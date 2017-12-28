@@ -13,6 +13,7 @@ import { DungeonLocation } from './dungeon-location';
 import { DungeonLocations } from './dungeon-location.repository';
 
 import { Goal } from '../../settings/goal';
+import { ItemShuffle } from '../../settings/item-shuffle';
 import { Mode } from '../../settings/mode';
 import { Sword } from '../../items/sword';
 import { Glove } from '../../items/glove';
@@ -45,7 +46,7 @@ export class DungeonLocationService {
 
     this._chestAvailability = new Map<Location, () => Availability>(
       [
-        [Location.CastleTower, this.isCastleTowerAvailable],
+        [Location.CastleTower, this.isCastleTowerRaidable],
         [Location.EasternPalace, this.isArmosKnightsRaidable],
         [Location.DesertPalace, this.isLanmolasRaidable],
         [Location.TowerOfHera, this.isMoldormRaidable],
@@ -56,7 +57,7 @@ export class DungeonLocationService {
         [Location.IcePalace, this.isKholdstareRaidable],
         [Location.MiseryMire, this.isVitreousRaidable],
         [Location.TurtleRock, this.isTrinexxRaidable],
-        [Location.GanonsTower, this.isAgahnimAvailable]
+        [Location.GanonsTower, this.isAgahnimRaidable]
       ]
     );
   }
@@ -91,10 +92,50 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      const dungeon = this._dungeons.getDungeon(Location.CastleTower);
+      if ( dungeon.smallKeyCount !== dungeon.maxSmallKeys ) {
+        return Availability.Unavailable;
+      }
+    }
+
+    return items.lantern ? Availability.Available : Availability.Glitches;
+  }
+
+  private isCastleTowerRaidable(): Availability {
+    if ( this._settings.itemShuffle === ItemShuffle.Normal ) {
+      return this.isCastleTowerAvailable();
+    }
+
+    const items = this._inventory;
+    const dungeon = this._dungeons.getDungeon(Location.CastleTower);
+
+    let hasMeleeWeapon: boolean;
+    if ( this._settings.mode === Mode.Swordless ) {
+      hasMeleeWeapon = !!items.hammer;
+    } else {
+      hasMeleeWeapon = ( items.sword !== Sword.None && items.sword !== Sword.Wooden );
+    }
+
+    const canEnter = hasMeleeWeapon || items.cape;
+
+    if ( !canEnter ) {
+      return Availability.Unavailable;
+    }
+
+    if ( dungeon.smallKeyCount === 0 ) {
+      return Availability.Possible;
+    }
+
     return items.lantern ? Availability.Available : Availability.Glitches;
   }
 
   private isArmosKnightsAvailable(): Availability {
+    const dungeon = this._dungeons.getDungeon(Location.EasternPalace);
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity && !dungeon.hasBigKey ) {
+      return Availability.Unavailable;
+    }
+
     if ( !this._inventory.bow ) {
       return Availability.Unavailable;
     }
@@ -103,12 +144,41 @@ export class DungeonLocationService {
   }
 
   private isArmosKnightsRaidable(): Availability {
-    const dungeon = this._dungeons.easternPalace;
-    if ( dungeon.itemChestCount <= 2 && !this._inventory.lantern ) {
+    const dungeon = this._dungeons.getDungeon(Location.EasternPalace);
+    const items = this._inventory;
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      if ( dungeon.hasBigKey && items.bow && items.lantern ) {
+        return Availability.Available;
+      }
+
+      if ( dungeon.totalChestCount >= 4 ) {
+        return Availability.Possible;
+      }
+
+      if ( dungeon.totalChestCount >= 3 && !dungeon.hasBigKey && !items.lantern ) {
+        return Availability.Glitches;
+      }
+
+      if ( dungeon.totalChestCount >= 3 && ( dungeon.hasBigKey || items.lantern ) ) {
+        return Availability.Possible;
+      }
+
+      if ( dungeon.totalChestCount >= 2 && dungeon.hasBigKey ) {
+        return items.lantern ? Availability.Possible : Availability.Glitches;
+      }
+
+      if ( dungeon.hasBigKey && items.bow && !items.lantern ) {
+        return Availability.Glitches;
+      }
+
+      return Availability.Unavailable;
+    }
+
+    if ( dungeon.itemChestCount <= 2 && !items.lantern ) {
       return Availability.Possible;
     }
 
-    if ( dungeon.itemChestCount === 1 && !this._inventory.bow ) {
+    if ( dungeon.itemChestCount === 1 && !items.bow ) {
       return Availability.Possible;
     }
 
@@ -117,6 +187,12 @@ export class DungeonLocationService {
 
   private isLanmolasAvailable(): Availability {
     const items = this._inventory;
+    const dungeon = this._dungeons.getDungeon(Location.DesertPalace);
+    const isKeysanity = this._settings.itemShuffle === ItemShuffle.Keysanity;
+
+    if ( isKeysanity && !dungeon.hasBigKey ) {
+      return Availability.Unavailable;
+    }
 
     if ( !(items.hasMeleeOrBow() || items.hasCane() || items.hasRod()) ) {
       return Availability.Unavailable;
@@ -132,11 +208,63 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    return items.boots ? Availability.Available : Availability.Possible;
+    if ( isKeysanity || items.boots ) {
+      return Availability.Available;
+    }
+
+    return Availability.Possible;
   }
 
   private isLanmolasRaidable(): Availability {
     const items = this._inventory;
+    const dungeon = this._dungeons.getDungeon(Location.DesertPalace);
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      if ( !this.canEnterDesertPalaceFront() ) {
+        return Availability.Unavailable;
+      }
+
+      const keys = dungeon.smallKeyCount;
+      const chests = dungeon.totalChestCount;
+
+      if ( dungeon.hasBigKey && keys === 1 && items.hasGlove() &&
+        items.hasFireSource() && items.boots ) {
+        return Availability.Available;
+      }
+
+      if ( chests === 6 ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 5 && (dungeon.hasBigKey || items.boots ) ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 4 ) {
+        if ( keys === 1 || (dungeon.hasBigKey && items.boots ) ) {
+          return Availability.Possible;
+        }
+        if ( dungeon.hasBigKey && items.hasFireSource() ) {
+          return Availability.Possible;
+        }
+      }
+
+      if ( chests >= 3 ) {
+        if ( keys === 1 && (dungeon.hasBigKey || items.boots)) {
+          return Availability.Possible;
+        }
+
+        if ( dungeon.hasBigKey && items.boots && items.hasFireSource() ) {
+          return Availability.Possible;
+        }
+      }
+
+      if ( chests >= 2 && dungeon.hasBigKey && keys === 1 && (items.hasGlove() && items.hasFireSource() ) || items.boots) {
+        return Availability.Possible;
+      }
+
+      return Availability.Unavailable;
+    }
+
     if ( !items.book && !items.hasDarkMireMirrorAccess()) {
       return Availability.Unavailable;
     }
@@ -145,20 +273,100 @@ export class DungeonLocationService {
       return Availability.Available;
     }
 
-    const dungeon = this._dungeons.desertPalace;
     return dungeon.itemChestCount > 1 && items.boots ? Availability.Available : Availability.Possible;
   }
 
+  private canEnterDesertPalaceViaWarping(): boolean {
+    const items = this._inventory;
+    return !!items.flute && items.glove === Glove.Titan && !!items.mirror;
+  }
+
+  private canEnterDesertPalaceFront(): Availability {
+    const items = this._inventory;
+    if ( items.book ) {
+      return Availability.Available;
+    }
+
+    return this.canEnterDesertPalaceViaWarping() ? Availability.Available : Availability.Unavailable;
+  }
+
+  private canEnterDesertPalaceBack(): Availability {
+    if ( this.canEnterDesertPalaceViaWarping()) {
+      return Availability.Available;
+    }
+
+    const items = this._inventory;
+    return items.book && items.hasGlove() ? Availability.Available : Availability.Unavailable;
+  }
+
   private isMoldormAvailable(): Availability {
-    if ( !this._inventory.hasMelee()) {
+    const dungeon = this._dungeons.getDungeon(Location.TowerOfHera);
+    const items = this._inventory;
+
+    if ( !items.hasMelee()) {
       return Availability.Unavailable;
     }
 
-    return this.isMoldormRaidable();
+    if ( this._settings.itemShuffle === ItemShuffle.Normal ) {
+      return this.isMoldormRaidable();
+    }
+
+    // TODO: Have some of the entrance checks moved.
+    if ( !items.hasGlove() && !items.flute ) {
+      return Availability.Unavailable;
+    }
+
+    if ( !items.mirror && !(items.hookshot && items.hammer )) {
+      return Availability.Unavailable;
+    }
+
+    return items.hasDeathMountainLogicalAccess()
+      ? Availability.Available
+      : Availability.Glitches;
   }
 
   private isMoldormRaidable(): Availability {
     const items = this._inventory;
+    const dungeon = this._dungeons.getDungeon(Location.TowerOfHera);
+
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      if ( !items.hasDeathMountainAccess()) {
+        return Availability.Unavailable;
+      }
+
+      if ( !items.mirror && !(items.hookshot && items.hammer )) {
+        return Availability.Unavailable;
+      }
+
+      const isInLogic = items.flute || items.lantern;
+      const canGetBasement = dungeon.smallKeyCount === 1 && items.hasFireSource();
+
+      if ( dungeon.hasBigKey && items.hasMelee() && canGetBasement) {
+        return !isInLogic ? Availability.Glitches : Availability.Available;
+      }
+
+      const chests = dungeon.totalChestCount;
+      const keys = dungeon.smallKeyCount;
+
+      if ( chests >= 5) {
+        return !isInLogic ? Availability.Glitches : Availability.Possible;
+      }
+
+      if ( chests >= 4 && canGetBasement) {
+        return !isInLogic ? Availability.Glitches : Availability.Possible;
+      }
+
+      if ( chests >= 3 && dungeon.hasBigKey ) {
+        return !isInLogic ? Availability.Glitches : Availability.Possible;
+      }
+
+      if ( chests >= 2 && dungeon.hasBigKey && ( items.hasMelee() || canGetBasement ) ) {
+        return !isInLogic ? Availability.Glitches : Availability.Possible;
+      }
+
+      return Availability.Unavailable;
+    }
+
     if ( !items.hasDeathMountainAccess() ) {
       return Availability.Unavailable;
     }
@@ -176,6 +384,7 @@ export class DungeonLocationService {
 
   private isHelmasaurKingAvailable(): Availability {
     const items = this._inventory;
+    const dungeon = this._dungeons.getDungeon(Location.PalaceOfDarkness);
 
     if ( !items.moonPearl || !items.bow || !items.hammer ) {
       return Availability.Unavailable;
@@ -183,6 +392,16 @@ export class DungeonLocationService {
 
     if ( !this.isCastleTowerDefeated() && !items.hasGlove()) {
       return Availability.Unavailable;
+    }
+
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      if ( !dungeon.hasBigKey || dungeon.smallKeyCount === 0 ) {
+        return Availability.Unavailable;
+      }
+
+      if ( dungeon.smallKeyCount < 6) {
+        return items.lantern ? Availability.Possible : Availability.Glitches;
+      }
     }
 
     return items.lantern ? Availability.Available : Availability.Glitches;
@@ -196,13 +415,76 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( !this.isCastleTowerDefeated() && !(!!items.hammer && items.hasGlove()) &&
-      !(items.glove === Glove.Titan && !!items.flippers) ) {
+    const canAccessDarkWorldViaSwamp = items.hammer && items.hasGlove();
+    const canAccessDarkWorldViaForestSwim = items.glove === Glove.Titan && !!items.flippers;
+
+    if ( !this.isCastleTowerDefeated() && !canAccessDarkWorldViaSwamp && !canAccessDarkWorldViaForestSwim ) {
       return Availability.Unavailable;
     }
 
-    return !(items.bow && !!items.lantern) || dungeon.itemChestCount === 1 && !items.hammer ?
-      Availability.Possible : Availability.Available;
+    if ( this._settings.itemShuffle === ItemShuffle.Normal) {
+      return !(items.bow && !!items.lantern) || dungeon.itemChestCount === 1 && !items.hammer ?
+        Availability.Possible : Availability.Available;
+    }
+
+    if ( dungeon.smallKeyCount === 6 && dungeon.hasBigKey && items.hammer && items.bow && items.lantern ) {
+      return Availability.Available;
+    }
+
+    // TODO: Possibly change the logic since it will be tricky here.
+    let currentKeys = dungeon.smallKeyCount;
+    let reachableChests = 1;
+    let darkChests = 0;
+
+    if ( items.bow ) {
+      // The bow is required for the right hand side.
+      reachableChests += 2;
+    }
+
+    if ( items.bow && items.hammer ) {
+      reachableChests += 2; // The bridge and dropdown are accessible.
+    } else if ( currentKeys > 0 ) {
+      reachableChests += 2;
+      currentKeys -= 1; // The front door had to be used.
+    }
+
+    if ( currentKeys > 0 ) {
+      reachableChests += 3; // Back side of POD: the likely ones at least.
+      currentKeys -= 1;
+      darkChests += 2;
+    }
+
+    if ( currentKeys > 0 ) {
+      // The dark area with the big chest.
+      reachableChests += dungeon.hasBigKey ? 3 : 2;
+      currentKeys -= 1;
+      darkChests += dungeon.hasBigKey ? 3 : 2;
+    }
+
+    if ( items.bow && items.hammer && dungeon.hasBigKey && currentKeys > 0) {
+      reachableChests += 1; // King Helmasaur: prioritized in a special way.
+      currentKeys -= 1;
+      darkChests += 1;
+    }
+
+    if ( currentKeys > 0) {
+      reachableChests += 1; // Spike Room
+      currentKeys -= 1;
+    }
+
+    if ( currentKeys > 0) {
+      reachableChests += 1; // The vanilla big key chest overlooking the lobby
+      currentKeys -= 1;
+    }
+
+    if ( dungeon.totalChestCount > dungeon.maxTotalChests - reachableChests) {
+      if ( dungeon.totalChestCount > dungeon.maxTotalChests - (reachableChests - darkChests)) {
+        return Availability.Possible;
+      }
+      return items.lantern ? Availability.Possible : Availability.Glitches;
+    }
+
+    return Availability.Unavailable;
   }
 
   private isArgghusAvailable(): Availability {
@@ -220,6 +502,11 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
+    const dungeon = this._dungeons.getDungeon(Location.SwampPalace);
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity && dungeon.smallKeyCount === 0 ) {
+      return Availability.Unavailable;
+    }
+
     return Availability.Available;
   }
 
@@ -232,6 +519,37 @@ export class DungeonLocationService {
     }
 
     if ( !this.canReachOutcast() && !(this.isCastleTowerDefeated && items.hammer)) {
+      return Availability.Unavailable;
+    }
+
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      if ( dungeon.hasBigKey && dungeon.smallKeyCount === 1 && items.hammer && items.hookshot ) {
+        return Availability.Available;
+      }
+
+      const chests = dungeon.totalChestCount;
+      const keys = dungeon.smallKeyCount;
+
+      if ( chests === 10 ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 9 && keys === 1 ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 6 && keys === 1 && items.hammer ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 5 && dungeon.hasBigKey && keys === 1 && items.hammer ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 2 && keys === 1 && items.hammer && items.hookshot ) {
+        return Availability.Possible;
+      }
+
       return Availability.Unavailable;
     }
 
@@ -256,6 +574,7 @@ export class DungeonLocationService {
     }
 
     const items = this._inventory;
+
     if ( !items.fireRod ) {
       return Availability.Unavailable;
     }
@@ -272,7 +591,32 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    return this._inventory.fireRod ? Availability.Available : Availability.Possible;
+    const items = this._inventory;
+    const dungeon = this._dungeons.getDungeon(Location.SkullWoods);
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      const chests = dungeon.totalChestCount;
+      const canGoBeyondCurtain = this._settings.mode === Mode.Swordless || items.hasSword();
+
+      if ( dungeon.hasBigKey && items.fireRod && canGoBeyondCurtain ) {
+        return Availability.Available;
+      }
+
+      if ( chests >= 4 ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 3 && (dungeon.hasBigKey || items.fireRod )) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 2 && items.fireRod && ( canGoBeyondCurtain || dungeon.hasBigKey ) ) {
+        return Availability.Possible;
+      }
+
+      return Availability.Unavailable;
+    }
+
+    return items.fireRod ? Availability.Available : Availability.Possible;
   }
 
   private isBlindAvailable(): Availability {
@@ -285,6 +629,11 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity &&
+      !this._dungeons.getDungeon(Location.ThievesTown).hasBigKey) {
+        return Availability.Unavailable;
+      }
+
     return Availability.Available;
   }
 
@@ -293,7 +642,31 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    return this._dungeons.getDungeon(Location.ThievesTown).itemChestCount === 1 && !this._inventory.hammer ?
+    const dungeon = this._dungeons.getDungeon(Location.ThievesTown);
+    const items = this._inventory;
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity) {
+      const chests = dungeon.totalChestCount;
+      const keys = dungeon.smallKeyCount;
+      if ( dungeon.hasBigKey && keys === 1 && items.hammer ) {
+        return Availability.Available;
+      }
+
+      if ( chests >= 5) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 3 && dungeon.hasBigKey) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 2 && dungeon.hasBigKey && ( items.hasMelee() || items.hasCane() ) ) {
+        return Availability.Possible;
+      }
+
+      return Availability.Unavailable;
+    }
+
+    return dungeon.itemChestCount === 1 && !items.hammer ?
       Availability.Possible : Availability.Available;
   }
 
@@ -305,6 +678,11 @@ export class DungeonLocationService {
 
     if ( !items.fireRod && !(items.bombos && items.hasMelee())) {
       return Availability.Unavailable;
+    }
+
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      const keys = this._dungeons.getDungeon(Location.IcePalace).smallKeyCount;
+      return ( keys > 0 && items.somaria || keys > 1 ) ? Availability.Available : Availability.Possible;
     }
 
     return items.hookshot || items.somaria ? Availability.Available : Availability.Glitches;
@@ -320,7 +698,31 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    return items.hammer ? Availability.Available : Availability.Glitches;
+    if ( this._settings.itemShuffle === ItemShuffle.Normal) {
+      return items.hammer ? Availability.Available : Availability.Glitches;
+    }
+
+    const dungeon = this._dungeons.getDungeon(Location.IcePalace);
+    const keys = dungeon.smallKeyCount;
+    const chests = dungeon.totalChestCount;
+
+    if ( dungeon.hasBigKey && items.hammer ) {
+      return ( keys > 0 && items.somaria || keys > 1 ) ? Availability.Available : Availability.Possible;
+    }
+
+    if ( chests >= 5 ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 4 && dungeon.hasBigKey ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 2 && items.hammer ) {
+      return Availability.Possible;
+    }
+
+    return Availability.Unavailable;
   }
 
   private isVitreousAvailable(): Availability {
@@ -340,6 +742,14 @@ export class DungeonLocationService {
     const medallionState = this.medallionState( Location.MiseryMire );
     if ( medallionState !== Availability.Available ) {
       return medallionState;
+    }
+
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      if ( !this._dungeons.getDungeon(Location.MiseryMire).hasBigKey) {
+        return Availability.Unavailable;
+      }
+
+      return items.lantern ? Availability.Available : Availability.Glitches;
     }
 
     if ( !items.hasFireSource() ) {
@@ -363,6 +773,41 @@ export class DungeonLocationService {
     const medallionState = this.medallionState( Location.MiseryMire );
     if ( medallionState !== Availability.Available ) {
       return medallionState;
+    }
+
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity) {
+      const dungeon = this._dungeons.getDungeon(Location.MiseryMire);
+      const chests = dungeon.totalChestCount;
+
+      if ( items.lantern && items.somaria && dungeon.hasBigKey ) {
+        return Availability.Available;
+      }
+
+      if ( chests >= 5) {
+        return Availability.Possible;
+      }
+
+      const hasFire = items.hasFireSource();
+
+      if ( chests >= 3 ) {
+        if ( dungeon.hasBigKey || hasFire) {
+          return Availability.Possible;
+        }
+
+        if ( dungeon.hasBigKey && items.somaria && !hasFire) {
+          return Availability.Glitches;
+        }
+      }
+
+      if ( chests >= 2 && items.fireRod && dungeon.hasBigKey) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 1 && items.fireRod && !items.lantern && items.somaria && dungeon.hasBigKey) {
+        return Availability.Glitches;
+      }
+
+      return Availability.Unavailable;
     }
 
     let hasItems: boolean;
@@ -394,6 +839,19 @@ export class DungeonLocationService {
       return medallionState;
     }
 
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      const dungeon = this._dungeons.getDungeon(Location.TurtleRock);
+      if ( !dungeon.hasBigKey || dungeon.smallKeyCount < 3) {
+        return Availability.Unavailable;
+      }
+
+      if ( dungeon.smallKeyCount === 3) {
+        return items.lantern ? Availability.Possible : Availability.Glitches;
+      }
+
+      return items.lantern ? Availability.Available : Availability.Glitches;
+    }
+
     if ( !this.hasLaserBridgeSafety()) {
       return Availability.Possible;
     }
@@ -416,9 +874,63 @@ export class DungeonLocationService {
       return medallionState;
     }
 
-    const hasLaserSafety = this.hasLaserBridgeSafety();
-    const darkAvailability = items.lantern ? Availability.Available : Availability.Glitches;
     const dungeon = this._dungeons.getDungeon(Location.TurtleRock);
+    const hasLaserSafety = this.hasLaserBridgeSafety();
+
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      const chests = dungeon.totalChestCount;
+      const keys = dungeon.smallKeyCount;
+
+      if ( dungeon.hasBigKey && keys === 4 && items.fireRod && items.iceRod && items.lantern && hasLaserSafety ) {
+        return Availability.Available;
+      }
+
+      if ( chests >= 12) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 10 && ( items.fireRod || keys >= 2 ) ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 9 && ( ( keys >= 1 && items.fireRod ) || ( keys >= 2 && dungeon.hasBigKey ) ) ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 8 && keys >= 2 && items.fireRod ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 7 && dungeon.hasBigKey && keys >= 2 && items.fireRod ) {
+        return Availability.Possible;
+      }
+
+      if ( chests >= 5 && dungeon.hasBigKey && keys >= 2 && hasLaserSafety ) {
+        return items.lantern ? Availability.Possible : Availability.Glitches;
+      }
+
+      if ( chests >= 4 && dungeon.hasBigKey && keys >= 3 && hasLaserSafety ) {
+        return items.lantern ? Availability.Possible : Availability.Glitches;
+      }
+
+      if ( chests >= 3 && dungeon.hasBigKey) {
+        if ( keys >= 2 && items.fireRod && hasLaserSafety ) {
+          return items.lantern ? Availability.Possible : Availability.Glitches;
+        }
+
+        if ( keys === 4 && items.fireRod && items.iceRod) {
+          return items.lantern ? Availability.Possible : Availability.Glitches;
+        }
+      }
+
+      if ( chests >= 2 && dungeon.hasBigKey && keys >= 3 && items.fireRod && hasLaserSafety ) {
+        return items.lantern ? Availability.Possible : Availability.Glitches;
+      }
+
+      return Availability.Unavailable;
+    }
+
+    const darkAvailability = items.lantern ? Availability.Available : Availability.Glitches;
 
     if ( dungeon.itemChestCount <= 1) {
       return !hasLaserSafety ? Availability.Unavailable : items.fireRod && items.iceRod ? darkAvailability : Availability.Possible;
@@ -470,8 +982,120 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
+    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+      const dungeon = this._dungeons.getDungeon(Location.GanonsTower);
+      if ( !dungeon.hasBigKey) {
+        return Availability.Unavailable;
+      }
+
+      if ( dungeon.smallKeyCount < 3) {
+        return Availability.Possible;
+      }
+    }
+
     // Not going through all of them right now.
     return Availability.Available;
+  }
+
+  private isAgahnimRaidable(): Availability {
+    if ( this._settings.itemShuffle === ItemShuffle.Normal ) {
+      return this.isAgahnimAvailable();
+    }
+
+    const dungeons = this.getCorrectDungeons();
+    if ( !this.isDungeonCountCorrect( dungeons ) ) {
+      return Availability.Unavailable;
+    }
+
+    if ( !this.arePriorBossesDefeated()) {
+      return Availability.Unavailable;
+    }
+
+    const items = this._inventory;
+
+    if ( items.glove !== Glove.Titan ) {
+      return Availability.Unavailable;
+    }
+
+    if ( !items.moonPearl ) {
+      return Availability.Unavailable;
+    }
+
+    // Add check for dark death mountain check here.
+    const canClimbSuperBunnyCave = items.hookshot;
+    const canAccessTurtleRock = items.hammer;
+
+    if ( !canClimbSuperBunnyCave && !canAccessTurtleRock ) {
+      return Availability.Unavailable;
+    }
+
+    const dungeon = this._dungeons.getDungeon(Location.GanonsTower);
+    const chests = dungeon.totalChestCount;
+    const keys = dungeon.smallKeyCount;
+    const hasFireSource = items.hasFireSource();
+
+    if ( dungeon.hasBigKey && keys > 2 && items.bow && items.hookshot && hasFireSource && items.somaria) {
+      return Availability.Available;
+    }
+
+    // Start counting keys and chests.
+    let currentKeys = keys + 1; // free key on the left side.
+    let reachableChests = 2; // two chests on the right are free.
+
+    if ( items.boots ) {
+      reachableChests += 1; // The torch.
+    }
+
+    if ( items.somaria ) {
+      reachableChests += 1; // Tile Room.
+    }
+
+    if ( items.hookshot && items.hammer ) {
+      reachableChests += 4; // Skeleton room, west side.
+    }
+
+    if ( dungeon.hasBigKey && items.bow && hasFireSource ) {
+      reachableChests += 2;
+      currentKeys += 1; // The mini helmasaur room.
+    }
+
+    // Now for some easy chests with few keys needed.
+    if ( items.somaria && items.fireRod && currentKeys > 0) {
+      reachableChests += 4; // End of right side. Free key in the room beyond.
+    }
+
+    if ( items.hookshot && items.hammer ) {
+      reachableChests += 1; // Firebar Room. A key is used, but a freebie one is found on left side.
+    }
+
+    if ( dungeon.hasBigKey && items.bow && hasFireSource && currentKeys > 0 ) {
+      reachableChests += 1;
+      currentKeys -= 1; // Consolation chest.
+    }
+
+    // Now for chests that need a key to be spent.
+    if ( currentKeys > 0) {
+      if ( items.hookshot && items.hammer ) {
+        // Rando room + Armos Knights area.
+        reachableChests += dungeon.hasBigKey ? 9 : 8;
+        currentKeys -= 1;
+      } else if ( items.somaria && items.fireRod ) {
+        // Just Armos Knights.
+        reachableChests += dungeon.hasBigKey ? 5 : 4;
+        currentKeys -= 1;
+      }
+    }
+
+    if ( ( items.hookshot || items.bombos ) && items.hammer && currentKeys > 0 ) {
+      reachableChests += 1;
+      currentKeys -= 1; // Map room with double fire bars.
+    }
+
+    if ( chests > (dungeon.maxTotalChests - reachableChests ) ) {
+      return Availability.Possible;
+    }
+
+    return Availability.Unavailable;
   }
 
   private getCorrectDungeons(): Dungeon[] {

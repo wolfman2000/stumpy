@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Mode } from './settings/mode';
 import { ItemShuffle } from './settings/item-shuffle';
 
@@ -18,7 +17,6 @@ import { SettingsService } from './settings/settings.service';
 
 export class RandomizerTrackerComponent {
   constructor(
-    private route: ActivatedRoute,
     private dungeons: DungeonService,
     private _settings: SettingsService
   ) {}
@@ -87,7 +85,21 @@ export class RandomizerTrackerComponent {
     return count > 0 ? count + '' : '\xa0';
   }
 
-  getMaxChests( dungeon: Dungeon ) {
+  getMaxChestCountClasses( dungeon: Dungeon ): any {
+    const results = {
+      'chests': true
+    };
+
+    const count = this._settings.itemShuffle !== ItemShuffle.Keysanity
+      ? dungeon.maxItemChests
+      : dungeon.maxTotalChests;
+
+    results['chests-claimed'] = count === 0;
+
+    return results;
+  }
+
+  getMaxChests( dungeon: Dungeon ): string {
     const count = this._settings.itemShuffle !== ItemShuffle.Keysanity
       ? dungeon.maxItemChests
       : dungeon.maxTotalChests;
@@ -169,7 +181,7 @@ export class RandomizerTrackerComponent {
 
   getBigKeyClasses( dungeon: Dungeon ) {
     const results = {
-      hiding: this._settings.itemShuffle !== ItemShuffle.Keysanity || dungeon.bossId === Location.CastleTower,
+      hiding: dungeon.bossId === Location.CastleTower,
       bigKey: true,
       claimed: dungeon.hasBigKey
     };
