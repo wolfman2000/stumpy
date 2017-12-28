@@ -19,6 +19,7 @@ import { DungeonLocationService } from './map/dungeon-locations/dungeon-location
 import { ItemService } from './items/item.service';
 import { ItemLocationService } from './map/item-locations/item-location.service';
 import { SettingsService } from './settings/settings.service';
+import { BossService } from './boss/boss.service';
 
 import { AppComponent } from './app.component';
 import { RandomizerSettingsComponent } from './settings/settings.component';
@@ -58,7 +59,8 @@ import { WordSpacingPipe } from './word-spacing.pipe';
     DungeonService,
     DungeonLocationService,
     LocalStorageService,
-    SettingsService
+    SettingsService,
+    BossService
   ],
   bootstrap: [AppComponent]
 })

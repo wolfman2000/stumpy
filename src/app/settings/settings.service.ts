@@ -156,4 +156,8 @@ export class SettingsService {
   isExpertOrInsane(): boolean {
     return this._difficulty === Difficulty.Expert || this._difficulty === Difficulty.Insane;
   }
+
+  isSwordless(): boolean {
+    return this.mode === Mode.Swordless;
+  }
 }
