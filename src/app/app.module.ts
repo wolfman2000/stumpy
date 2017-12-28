@@ -34,7 +34,8 @@ import { WordSpacingPipe } from './word-spacing.pipe';
     RandomizerSettingsComponent,
     RandomizerTrackerComponent,
     DungeonComponent,
-    CamelCasePipe
+    CamelCasePipe,
+    WordSpacingPipe
   ],
   imports: [
     NgbModule.forRoot(),
