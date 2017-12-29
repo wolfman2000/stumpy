@@ -15,6 +15,12 @@ export const Items = new Map<ItemKey, Item>(
       ['silver-arrows', 'silver-arrows']
     )
   ], [
+    ItemKey.BowAndArrows, new Item(
+      'Bow and Arrows',
+      [false, true, true, true],
+      ['bow2, bow2, bow1, bow3']
+    )
+  ], [
     ItemKey.Boomerangs, new Item(
       'Boomerangs',
       [false, true, true, true],

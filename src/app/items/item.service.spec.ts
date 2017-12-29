@@ -16,6 +16,11 @@ describe( 'The item service', () => {
   let itemService: ItemService;
   let settingsService: SettingsService;
 
+  function reset() {
+    itemService = new ItemService( settingsService );
+    itemService.reset();
+  }
+
   describe( '-- in swordless mode --', () => {
     beforeAll(() => {
       settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
@@ -23,9 +28,7 @@ describe( 'The item service', () => {
       spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
     });
 
-    beforeEach(() => {
-      itemService = new ItemService( settingsService );
-    });
+    beforeEach( reset );
 
     it( 'starts without a sword.', () => {
       expect( itemService.sword ).toBe( Sword.None );
@@ -75,9 +78,7 @@ describe( 'The item service', () => {
       spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Expert );
     });
 
-    beforeEach(() => {
-      itemService = new ItemService( settingsService );
-    });
+    beforeEach( reset );
 
     it( 'can still get the bow as it is required to win.', () => {
       itemService.setItemState(ItemKey.Bow, 1);
@@ -196,9 +197,7 @@ describe( 'The item service', () => {
       spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Hard );
     });
 
-    beforeEach(() => {
-      itemService = new ItemService( settingsService );
-    });
+    beforeEach( reset );
 
     it( 'cannot have three or more bottles normally.', () => {
       itemService.setItemState(ItemKey.Bottle, 3);
@@ -261,4 +260,6 @@ describe( 'The item service', () => {
       expect( classes.sword1 ).toBeTruthy();
     });
   });
+
+  afterAll( reset );
 });
