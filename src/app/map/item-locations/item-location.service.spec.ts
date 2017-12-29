@@ -23,23 +23,6 @@ describe( 'The item location service', () => {
   beforeAll(() => {
     settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
   });
-  /*
-  beforeEach(() => {
-    const store: any = {};
-
-    spyOn( localStorage, 'getItem' ).and.callFake( (key: string): string => {
-      return store[key] || null;
-    });
-
-    spyOn( localStorage, 'removeItem' ).and.callFake( (key: string): void => {
-      delete store[key];
-    });
-
-    spyOn( localStorage, 'setItem' ).and.callFake( (key: string, value: string): void => {
-      store[key] = value;
-    });
-  });
-  */
 
   beforeEach( () => {
     itemService = new ItemService( settingsService );
@@ -180,6 +163,59 @@ describe( 'The item location service', () => {
 
       expect( itemLocationService.getAvailability( LocationKey.SpiralCave)).toBe( Availability.Available);
     });
+  });
+
+  describe( 'set to Kakariko Well', () => {
+    it( 'can potentially be fully raided if lucky with the first few chests.', () => {
+      expect( itemLocationService.getAvailability( LocationKey.KakarikoWell ) ).toBe( Availability.Possible );
+    });
+
+    it( 'is fully clearable if bombs are on hand.', () => {
+      itemService.setItemState( ItemKey.Bomb, 1 );
+      expect( itemLocationService.getAvailability( LocationKey.KakarikoWell ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to Paradox Cave', () => {
+    const location = LocationKey.ParadoxCave;
+
+    it( 'requires access to East Death Mountain on the light world.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'is possible to get all of the chests, though two are missing without bombs.', () => {
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Hookshot, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Possible );
+    } );
+
+    it( 'can be raided fully with bombs.', () => {
+      itemService.setItemState(ItemKey.Flute, 1);
+      itemService.setItemState(ItemKey.Hookshot, 1);
+      itemService.setItemState(ItemKey.Bomb, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    } );
+
+    it( 'is possible to illogically get all of the chests, though two are missing without bombs.', () => {
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Hookshot, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    } );
+
+    it( 'can be illogically raided fully with bombs.', () => {
+      itemService.setItemState(ItemKey.Glove, 1);
+      itemService.setItemState(ItemKey.Mirror, 1);
+      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Hookshot, 1);
+      itemService.setItemState(ItemKey.Bomb, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Glitches );
+    } );
   });
 
   describe( 'set to the Mimic Cave', () => {
@@ -931,20 +967,21 @@ describe( 'The item location service', () => {
       tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
     });
 
-    it( 'starts off as available through skipping the lantern.', () => {
-      expect( tempService.getAvailability( location ) ).toBe( Availability.Glitches );
+    it( 'starts off as unavailable since boots and bombs are required.', () => {
+      expect( tempService.getAvailability( location ) ).toBe( Availability.Unavailable );
     });
 
-    it( 'is possible to get with the lantern alone, though it is dependant on key locations.', () => {
+    it( 'can be gotten with boots and power glove, skipping the lantern.', () => {
+      itemService.setItemState(ItemKey.Boots, 1);
+      itemService.setItemState(ItemKey.Glove, 1);
+      expect( tempService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+
+    it( 'is possible to get with the lantern and bombs, though it is dependant on key locations.', () => {
       itemService.setItemState(ItemKey.Lantern, 1);
+      itemService.setItemState(ItemKey.Bomb, 1);
 
       expect( tempService.getAvailability( location ) ).toBe( Availability.Possible );
-    });
-
-    it( 'is definitely available if a glove is owned.', () => {
-      itemService.setItemState(ItemKey.Glove, 1);
-
-      expect( tempService.getAvailability( location ) ).toBe( Availability.Available );
     });
   });
 
@@ -1152,6 +1189,7 @@ describe( 'The item location service', () => {
     it( 'could be gotten through the outcast route.', () => {
       itemService.setItemState(ItemKey.Glove, 2);
       itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Bomb, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
@@ -1160,6 +1198,7 @@ describe( 'The item location service', () => {
       dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
       itemService.setItemState(ItemKey.MoonPearl, 1);
       itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Bomb, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });

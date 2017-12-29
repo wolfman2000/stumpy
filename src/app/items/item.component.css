@@ -17,6 +17,10 @@ div.restricted {
   opacity: 1;
 }
 
+.bomb {
+  background-image: url('/assets/items/bomb.png');
+}
+
 .bombos {
   background-image: url('/assets/items/bombos.png');
 }
@@ -63,6 +67,16 @@ div.restricted {
 
 .bow {
   background-image: url('/assets/items/bow.png');
+}
+
+.bow1 {
+  background-image: url('/assets/items/bow1.png');
+}
+.bow2 {
+  background-image: url('/assets/items/bow2.png');
+}
+.bow3 {
+  background-image: url('/assets/items/bow3.png');
 }
 
 .byrna {
@@ -154,7 +168,7 @@ div.restricted {
 }
 
 .silver-arrows {
-  background-image: url('/assets/items/silvers.png');
+  background-image: url('/assets/items/bow1.png');
 }
 
 .somaria {

@@ -31,5 +31,6 @@ export enum ItemKey {
   Bomb,
   Magic,
   HeartContainer,
-  HeartPiece
+  HeartPiece,
+  BowAndArrows
 }

@@ -26,6 +26,7 @@ export class ItemService {
       [
         [ItemKey.Bow, this.setBow],
         [ItemKey.SilverArrows, this.setSilverArrows],
+        [ItemKey.BowAndArrows, this.setBowAndArrows],
         [ItemKey.Boomerangs, this.setBoomerangs],
         [ItemKey.Hookshot, this.setHookshot],
         [ItemKey.Mushroom, this.setMushroom],
@@ -65,7 +66,8 @@ export class ItemService {
         [ItemKey.Tunic, this.getTunicClasses],
         [ItemKey.Shield, this.getShieldClasses],
         [ItemKey.Bottle, this.getBottleClasses],
-        [ItemKey.SilverArrows, this.getSilverArrowClasses]
+        [ItemKey.SilverArrows, this.getSilverArrowClasses],
+        [ItemKey.BowAndArrows, this.getBowAndArrowClasses]
       ]
     );
   }
@@ -196,14 +198,33 @@ export class ItemService {
   }
 
   private setBow(state: number) {
-    this.setGeneralItem(ItemKey.Bow, state);
+    state += !!this.silvers ? 2 : 0;
+    this.setBowAndArrows(state);
   }
 
   private setSilverArrows(state: number) {
     if ( this._settings.mode !== Mode.Swordless && this._settings.isExpertOrInsane()) {
       state = 0;
     }
-    this.setGeneralItem(ItemKey.SilverArrows, state);
+
+    state = ( state * 2 ) + this.bow;
+    this.setBowAndArrows(state);
+  }
+
+  private setBowAndArrows(state: number) {
+    // Set the bow and arrow items separately.
+    if ( state >= 2 && !this._settings.isSwordless() && this._settings.isExpertOrInsane()) {
+      state = 0;
+    } else {
+      state = state % 4;
+    }
+
+    const bowState = ( state % 2 === 1 ) ? 1 : 0;
+    const silverState = (state >= 2 ) ? 1 : 0;
+
+    this.setGeneralItem(ItemKey.BowAndArrows, state);
+    this.setGeneralItem(ItemKey.Bow, bowState);
+    this.setGeneralItem(ItemKey.SilverArrows, silverState);
   }
 
   private setBoomerangs(state: number) {
@@ -504,6 +525,26 @@ export class ItemService {
     return this.getStandardItemClasses(ItemKey.SilverArrows);
   }
 
+  private getBowAndArrowClasses(): any {
+    const hasBow = !!this.bow;
+    const canUseSilvers = this._settings.isSwordless() || !this._settings.isExpertOrInsane();
+    const hasSilvers = !!this.silvers && canUseSilvers;
+
+    const results = {
+      isActive: hasBow || hasSilvers
+    };
+
+    if ( hasBow && hasSilvers ) {
+      results['bow3'] = true;
+    } else if ( hasSilvers ) {
+      results['bow1'] = true;
+    } else {
+      results['bow2'] = true;
+    }
+
+    return results;
+  }
+
   getItemClasses(id: number): any {
     if ( !this._classMap.has(id)) {
       return this.getStandardItemClasses(id);
@@ -573,6 +614,10 @@ export class ItemService {
   }
 
   hasDeathMountainLogicalAccess(): boolean {
-    return ( this.hasGlove() && !!this.lantern ) || !!this.flute;
+    if ( !!this.flute ) {
+      return true;
+    }
+
+    return this.hasGlove() && !!this.lantern;
   }
 }

@@ -34,15 +34,15 @@ export class ItemLocationService {
         [LocationKey.SpiralCave, this.getEastDeathMountainAvailability],
         [LocationKey.MimicCave, this.getMimicCaveAvailability],
         [LocationKey.Tavern, ItemLocationService.always],
-        [LocationKey.ChickenHouse, ItemLocationService.always],
-        [LocationKey.AginahsCave, ItemLocationService.always],
+        [LocationKey.ChickenHouse, this.hasBomb],
+        [LocationKey.AginahsCave, this.hasBomb],
         [LocationKey.SahasrahlasHut, ItemLocationService.always],
-        [LocationKey.KakarikoWell, ItemLocationService.always],
-        [LocationKey.BlindsHut, ItemLocationService.always],
-        [LocationKey.ParadoxCave, this.getEastDeathMountainAvailability],
+        [LocationKey.KakarikoWell, this.getKakarikoWellAvailability],
+        [LocationKey.BlindsHut, this.getKakarikoWellAvailability],
+        [LocationKey.ParadoxCave, this.getParadoxCaveAvailability],
         [LocationKey.BonkRocks, this.getBonkRocksAvailability],
-        [LocationKey.MiniMoldormCave, ItemLocationService.always],
-        [LocationKey.IceRodCave, ItemLocationService.always],
+        [LocationKey.MiniMoldormCave, this.hasBomb],
+        [LocationKey.IceRodCave, this.hasBomb],
         [LocationKey.BottleVendor, ItemLocationService.always],
         [LocationKey.SahasrahlasReward, this.getGreenPendantAvailability],
         [LocationKey.SickKid, this.getSickKidAvailability],
@@ -62,7 +62,7 @@ export class ItemLocationService {
         [LocationKey.Mushroom, ItemLocationService.always],
         [LocationKey.SpectacleRock, this.getSpectacleRockAvailability],
         [LocationKey.FloatingIsland, this.getFloatingIslandAvailability],
-        [LocationKey.RaceMinigame, ItemLocationService.always],
+        [LocationKey.RaceMinigame, this.getRaceMinigameAvailability],
         [LocationKey.DesertWestLedge, this.getDesertWestLedgeAvailability],
         [LocationKey.LakeHyliaIsland, this.getLakeHyliaIslandAvailability],
         [LocationKey.ZoraLedge, this.getZoraLedgeAvailability],
@@ -76,7 +76,7 @@ export class ItemLocationService {
         [LocationKey.MasterSwordPedestal, this.getPedestalAvailability],
         [LocationKey.SewerEscapeDarkRoom, this.getSewerDarkRoomAvailability],
         [LocationKey.WaterfallOfWishing, this.getWaterfallOfWishingAvailability],
-        [LocationKey.BombableHut, this.getOutcastAvailability],
+        [LocationKey.BombableHut, this.getBombableHutAvailability],
         [LocationKey.CShapedHouse, this.getOutcastAvailability],
         [LocationKey.MireHut, this.getDarkMireAvailability],
         [LocationKey.SuperBunnyCave, this.getSuperBunnyCaveAvailability],
@@ -110,6 +110,12 @@ export class ItemLocationService {
 
   private static always(): Availability {
     return Availability.Available;
+  }
+
+  private hasBomb(): Availability {
+    return this._inventory.bomb
+      ? Availability.Available
+      : Availability.Unavailable;
   }
 
   private medallionState( location: Location ): Availability {
@@ -210,7 +216,10 @@ export class ItemLocationService {
       return Availability.Unavailable;
     }
 
-    if ( !(inventory.hookshot || inventory.mirror && inventory.hammer)) {
+    const canTakeBridge = !!inventory.hookshot;
+    const canGoUpAndAround = !!inventory.mirror && !!inventory.hammer;
+
+    if ( !canTakeBridge && !canGoUpAndAround ) {
       return Availability.Unavailable;
     }
 
@@ -243,6 +252,30 @@ export class ItemLocationService {
     return this.getDeathMountainLogicalAccessibility();
   }
 
+  private getKakarikoWellAvailability(): Availability {
+    if ( this._inventory.bomb ) {
+      return Availability.Available;
+    }
+
+    return Availability.Possible;
+  }
+
+  private getParadoxCaveAvailability(): Availability {
+    const hasEastDeathMountainAccess = this.getEastDeathMountainAvailability();
+    if ( hasEastDeathMountainAccess === Availability.Unavailable ) {
+      return Availability.Unavailable;
+    }
+
+    const items = this._inventory;
+    const logicalAvailability = this.getDeathMountainLogicalAccessibility();
+    const hasLogicalWay = logicalAvailability === Availability.Available;
+    if ( items.bomb ) {
+      return hasLogicalWay ? Availability.Available : Availability.Glitches;
+    }
+
+    return hasLogicalWay ? Availability.Possible : Availability.Glitches;
+  }
+
   private getBonkRocksAvailability(): Availability {
     return this._inventory.boots ? Availability.Available : Availability.Unavailable;
   }
@@ -270,6 +303,15 @@ export class ItemLocationService {
     }
 
     return this._inventory.moonPearl ? Availability.Glitches : Availability.Unavailable;
+  }
+
+  private getBombableHutAvailability(): Availability {
+    const outcast = this.canReachOutcast();
+    if ( !outcast ) {
+      return Availability.Unavailable;
+    }
+
+    return this.hasBomb();
   }
 
   private getEtherTabletAvailability(): Availability {
@@ -383,6 +425,17 @@ export class ItemLocationService {
     return this.getDeathMountainLogicalAccessibility();
   }
 
+  private getRaceMinigameAvailability(): Availability {
+    const items = this._inventory;
+    if ( items.bomb || items.boots ) {
+      return Availability.Available;
+    }
+
+    return this.canReachOutcast() && items.mirror
+      ? Availability.Available
+      : Availability.Unavailable;
+  }
+
   private getDesertWestLedgeAvailability(): Availability {
     const inventory = this._inventory;
     if ( inventory.book ) {
@@ -438,10 +491,19 @@ export class ItemLocationService {
   }
 
   private getSewerEscapeSideRoomAvailability(): Availability {
-    if ( this._settings.mode === Mode.Standard || this._inventory.hasGlove() ) {
+    const items = this._inventory;
+    const canBreakWall = items.bomb || items.boots;
+    const hasEasyPath = this._settings.mode === Mode.Standard || this._inventory.hasGlove();
+
+    if ( !canBreakWall ) {
+      return Availability.Unavailable;
+    }
+
+    if ( hasEasyPath ) {
       return Availability.Available;
     }
 
+    // This depends on key placement.
     return this._inventory.lantern ? Availability.Possible : Availability.Glitches;
   }
 
@@ -549,6 +611,10 @@ export class ItemLocationService {
   }
 
   private getHypeCaveAvailability(): Availability {
+    if ( !this._inventory.bomb ) {
+      return Availability.Unavailable;
+    }
+
     if ( this.canReachOutcast()) {
       return Availability.Available;
     }
