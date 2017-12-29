@@ -11,6 +11,7 @@ import { LocalStorageService } from '../local-storage.service';
 import { DungeonService } from '../dungeon/dungeon.service';
 import { ItemLocationService } from '../map/item-locations/item-location.service';
 import { DungeonLocationService } from '../map/dungeon-locations/dungeon-location.service';
+import { BossService } from '../boss/boss.service';
 
 import { ItemKey } from '../items/item-key';
 
@@ -47,7 +48,8 @@ describe( 'The reset component', () => {
         ItemService,
         DungeonService,
         ItemLocationService,
-        DungeonLocationService
+        DungeonLocationService,
+        BossService
       ]
     }).compileComponents();
 

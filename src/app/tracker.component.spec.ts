@@ -19,6 +19,7 @@ import { ItemService } from './items/item.service';
 import { ItemLocationService } from './map/item-locations/item-location.service';
 import { DungeonLocationService } from './map/dungeon-locations/dungeon-location.service';
 import { CaptionService } from './caption/caption.service';
+import { BossService } from './boss/boss.service';
 
 import { Mode } from './settings/mode';
 import { Difficulty } from './settings/difficulty';
@@ -54,7 +55,8 @@ describe( 'The main tracking component', () => {
         ItemService,
         ItemLocationService,
         DungeonLocationService,
-        CaptionService
+        CaptionService,
+        BossService
       ],
       imports: [
         NgbModule.forRoot(),

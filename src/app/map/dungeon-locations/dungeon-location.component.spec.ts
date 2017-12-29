@@ -11,6 +11,7 @@ import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 import { LocalStorageService } from '../../local-storage.service';
 import { CaptionService } from '../../caption/caption.service';
+import { BossService } from '../../boss/boss.service';
 
 describe( 'The dungeon item component', () => {
   let comp: DungeonLocationComponent;
@@ -47,7 +48,8 @@ describe( 'The dungeon item component', () => {
         ItemService,
         DungeonService,
         SettingsService,
-        LocalStorageService
+        LocalStorageService,
+        BossService
       ]
     }).compileComponents();
   }));
