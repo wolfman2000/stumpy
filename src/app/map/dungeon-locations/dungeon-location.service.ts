@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ItemService } from '../../items/item.service';
 import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
+import { BossService } from '../../boss/boss.service';
 
 import { Availability } from '../availability';
 import { Dungeon } from '../../dungeon/dungeon';
@@ -24,7 +25,8 @@ export class DungeonLocationService {
   constructor(
     private _inventory: ItemService,
     private _dungeons: DungeonService,
-    private _settings: SettingsService
+    private _settings: SettingsService,
+    private _boss: BossService
   ) {
     this._dungeonLocations = DungeonLocations;
     this._bossAvailability = new Map<Location, () => Availability>(
@@ -86,7 +88,8 @@ export class DungeonLocationService {
     const items = this._inventory;
 
     const canEnter = items.cape || ( items.sword !== Sword.None && items.sword !== Sword.Wooden );
-    const canBeatAgahnim = items.net || items.sword !== Sword.None;
+
+    const canBeatAgahnim = this._boss.canDefeatBoss(Location.CastleTower);
 
     if ( !canEnter || !canBeatAgahnim ) {
       return Availability.Unavailable;
@@ -137,6 +140,10 @@ export class DungeonLocationService {
     }
 
     if ( !this._inventory.bow ) {
+      return Availability.Unavailable;
+    }
+
+    if ( !this._boss.canDefeatBoss(dungeon.bossId)) {
       return Availability.Unavailable;
     }
 
@@ -194,10 +201,6 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( !(items.hasMeleeOrBow() || items.hasCane() || items.hasRod()) ) {
-      return Availability.Unavailable;
-    }
-
     const canEnterLightWay = items.book && items.hasGlove();
     const canEnterDarkWay = items.hasDarkMireMirrorAccess();
     if ( !canEnterLightWay && !canEnterDarkWay ) {
@@ -205,6 +208,10 @@ export class DungeonLocationService {
     }
 
     if (!items.hasFireSource()) {
+      return Availability.Unavailable;
+    }
+
+    if ( !this._boss.canDefeatBoss(dungeon.bossId)) {
       return Availability.Unavailable;
     }
 
@@ -303,7 +310,7 @@ export class DungeonLocationService {
     const dungeon = this._dungeons.getDungeon(Location.TowerOfHera);
     const items = this._inventory;
 
-    if ( !items.hasMelee()) {
+    if ( !this._boss.canDefeatBoss(dungeon.bossId)) {
       return Availability.Unavailable;
     }
 
@@ -391,6 +398,10 @@ export class DungeonLocationService {
     }
 
     if ( !this.isCastleTowerDefeated() && !items.hasGlove()) {
+      return Availability.Unavailable;
+    }
+
+    if ( !this._boss.canDefeatBoss(dungeon.bossId)) {
       return Availability.Unavailable;
     }
 
@@ -503,6 +514,11 @@ export class DungeonLocationService {
     }
 
     const dungeon = this._dungeons.getDungeon(Location.SwampPalace);
+
+    if ( !this._boss.canDefeatBoss(dungeon.bossId)) {
+      return Availability.Unavailable;
+    }
+
     if ( this._settings.itemShuffle === ItemShuffle.Keysanity && dungeon.smallKeyCount === 0 ) {
       return Availability.Unavailable;
     }
@@ -579,6 +595,11 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
+    const dungeon = this._dungeons.getDungeon(Location.SkullWoods);
+    if (!this._boss.canDefeatBoss(dungeon.bossId)) {
+      return Availability.Unavailable;
+    }
+
     if ( this._settings.mode !== Mode.Swordless && items.sword === Sword.None ) {
       return Availability.Unavailable;
     }
@@ -621,18 +642,20 @@ export class DungeonLocationService {
 
   private isBlindAvailable(): Availability {
     const items = this._inventory;
-    if (!items.hasMelee() && !items.hasCane()) {
-      return Availability.Unavailable;
-    }
+    const dungeon = this._dungeons.getDungeon(Location.ThievesTown);
 
     if ( !this.canReachOutcast()) {
       return Availability.Unavailable;
     }
 
+    if ( !this._boss.canDefeatBoss(dungeon.bossId)) {
+      return Availability.Unavailable;
+    }
+
     if ( this._settings.itemShuffle === ItemShuffle.Keysanity &&
-      !this._dungeons.getDungeon(Location.ThievesTown).hasBigKey) {
-        return Availability.Unavailable;
-      }
+      !dungeon.hasBigKey) {
+      return Availability.Unavailable;
+    }
 
     return Availability.Available;
   }
@@ -672,16 +695,17 @@ export class DungeonLocationService {
 
   private isKholdstareAvailable(): Availability {
     const items = this._inventory;
+    const dungeon = this._dungeons.getDungeon(Location.IcePalace);
     if (!items.moonPearl || !items.flippers || items.glove !== Glove.Titan || !items.hammer) {
       return Availability.Unavailable;
     }
 
-    if ( !items.fireRod && !(items.bombos && items.hasMelee())) {
+    if ( !this._boss.canDefeatBoss(dungeon.bossId) ) {
       return Availability.Unavailable;
     }
 
     if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
-      const keys = this._dungeons.getDungeon(Location.IcePalace).smallKeyCount;
+      const keys = dungeon.smallKeyCount;
       return ( keys > 0 && items.somaria || keys > 1 ) ? Availability.Available : Availability.Possible;
     }
 
@@ -727,9 +751,6 @@ export class DungeonLocationService {
 
   private isVitreousAvailable(): Availability {
     const items = this._inventory;
-    if ( !items.hasMeleeOrBow()) {
-      return Availability.Unavailable;
-    }
 
     if (!items.moonPearl || items.glove !== Glove.Titan || !items.somaria) {
       return Availability.Unavailable;
@@ -744,8 +765,13 @@ export class DungeonLocationService {
       return medallionState;
     }
 
+    const dungeon = this._dungeons.getDungeon(Location.MiseryMire);
+    if ( !this._boss.canDefeatBoss(dungeon.bossId)) {
+      return Availability.Unavailable;
+    }
+
     if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
-      if ( !this._dungeons.getDungeon(Location.MiseryMire).hasBigKey) {
+      if ( !dungeon.hasBigKey) {
         return Availability.Unavailable;
       }
 
@@ -839,8 +865,12 @@ export class DungeonLocationService {
       return medallionState;
     }
 
+    const dungeon = this._dungeons.getDungeon(Location.TurtleRock);
+    if ( !this._boss.canDefeatBoss(dungeon.bossId)) {
+      return Availability.Unavailable;
+    }
+
     if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
-      const dungeon = this._dungeons.getDungeon(Location.TurtleRock);
       if ( !dungeon.hasBigKey || dungeon.smallKeyCount < 3) {
         return Availability.Unavailable;
       }
@@ -982,8 +1012,12 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
+    const dungeon = this._dungeons.getDungeon(Location.GanonsTower);
+    if ( !this._boss.canDefeatBoss(dungeon.bossId)) {
+      return Availability.Unavailable;
+    }
+
     if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
-      const dungeon = this._dungeons.getDungeon(Location.GanonsTower);
       if ( !dungeon.hasBigKey) {
         return Availability.Unavailable;
       }

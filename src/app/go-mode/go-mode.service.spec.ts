@@ -5,6 +5,7 @@ import { DungeonService } from '../dungeon/dungeon.service';
 import { SettingsService } from '../settings/settings.service';
 import { DungeonLocationService } from '../map/dungeon-locations/dungeon-location.service';
 import { LocalStorageService } from '../local-storage.service';
+import { BossService } from '../boss/boss.service';
 
 import { WordSpacingPipe } from '../word-spacing.pipe';
 
@@ -24,6 +25,7 @@ describe( 'The Go Mode service', () => {
   let dungeonService: DungeonService;
   let settingsService: SettingsService;
   let goModeService: GoModeService;
+  let bossService: BossService;
 
   beforeAll(() => {
     settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
@@ -35,7 +37,8 @@ describe( 'The Go Mode service', () => {
     itemService.reset();
     dungeonService = new DungeonService();
     dungeonService.reset();
-    dungeonLocationService = new DungeonLocationService( itemService, dungeonService, settingsService );
+    bossService = new BossService( settingsService, itemService );
+    dungeonLocationService = new DungeonLocationService( itemService, dungeonService, settingsService, bossService );
     dungeonLocationService.reset();
 
     goModeService = new GoModeService( itemService, dungeonService, dungeonLocationService, settingsService );

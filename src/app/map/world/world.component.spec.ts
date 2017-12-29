@@ -14,6 +14,7 @@ import { ItemService } from '../../items/item.service';
 import { DungeonService } from '../../dungeon/dungeon.service';
 import { ItemLocationService } from '../item-locations/item-location.service';
 import { DungeonLocationService } from '../dungeon-locations/dungeon-location.service';
+import { BossService } from '../../boss/boss.service';
 
 describe( 'The world component', () => {
   let comp: WorldComponent;
@@ -33,7 +34,8 @@ describe( 'The world component', () => {
         ItemService,
         DungeonService,
         ItemLocationService,
-        DungeonLocationService
+        DungeonLocationService,
+        BossService
       ]
     }).compileComponents();
 

@@ -3,6 +3,7 @@ import { ItemService } from '../../items/item.service';
 import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 import { LocalStorageService } from '../../local-storage.service';
+import { BossService } from '../../boss/boss.service';
 
 import { WordSpacingPipe } from '../../word-spacing.pipe';
 
@@ -21,6 +22,7 @@ describe( 'The dungeon location service', () => {
   let itemService: ItemService;
   let dungeonService: DungeonService;
   let settingsService: SettingsService;
+  let bossService: BossService;
 
   beforeAll(() => {
     settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
@@ -32,7 +34,8 @@ describe( 'The dungeon location service', () => {
     itemService.reset();
     dungeonService = new DungeonService();
     dungeonService.reset();
-    dungeonLocationService = new DungeonLocationService( itemService, dungeonService, settingsService );
+    bossService = new BossService( settingsService, itemService );
+    dungeonLocationService = new DungeonLocationService( itemService, dungeonService, settingsService, bossService );
     dungeonLocationService.reset();
   }
 
@@ -80,7 +83,7 @@ describe( 'The dungeon location service', () => {
 
         beforeEach( () => {
           spyOnProperty(tempSettings, 'mode', 'get').and.returnValue(Mode.Swordless);
-          tempService = new DungeonLocationService( itemService, dungeonService, tempSettings );
+          tempService = new DungeonLocationService( itemService, dungeonService, tempSettings, bossService );
         });
 
         it( 'starts off as unavailable.', () => {
