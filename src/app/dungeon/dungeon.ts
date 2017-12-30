@@ -141,6 +141,32 @@ export class Dungeon {
     this._hasBigKey = !this._hasBigKey;
   }
 
+  cycleBossForward(): void {
+    if ( !this.hasDungeonEndingReward ) {
+      return;
+    }
+
+    let number = this.bossId + 1;
+    if ( number === Location.GanonsTower ) {
+      number = Location.EasternPalace;
+    }
+
+    this._bossId = number;
+  }
+
+  cycleBossBackward(): void {
+    if ( !this.hasDungeonEndingReward ) {
+      return;
+    }
+
+    let number = this.bossId - 1;
+    if ( number === Location.CastleTower ) {
+      number = Location.TurtleRock;
+    }
+
+    this._bossId = number;
+  }
+
   reset(): void {
     this._itemChestCount = this.maxItemChests;
     this._totalChestCount = this.maxTotalChests;

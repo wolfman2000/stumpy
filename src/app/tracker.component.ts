@@ -32,12 +32,45 @@ export class RandomizerTrackerComponent {
   }
 
   getBossImageClass(dungeon: Dungeon) {
+    const isBossShuffleOn = this._settings.isBossShuffleOn();
     const results = {
       'boss': true,
-      'defeated': dungeon.isBossDefeated
+      'defeated': dungeon.isBossDefeated,
+      'pointer': isBossShuffleOn && dungeon.hasDungeonEndingReward
     };
+
     results['boss' + dungeon.bossId] = true;
     return results;
+  }
+
+  whenBossClicked(evt: MouseEvent, dungeon: Dungeon ) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    if ( !this._settings.isBossShuffleOn() ) {
+      return;
+    }
+
+    if ( !dungeon.hasDungeonEndingReward ) {
+      return;
+    }
+
+    dungeon.cycleBossForward();
+  }
+
+  whenBossRightClicked( evt: MouseEvent, dungeon: Dungeon ) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    if ( !this._settings.isBossShuffleOn() ) {
+      return;
+    }
+
+    if ( !dungeon.hasDungeonEndingReward ) {
+      return;
+    }
+
+    dungeon.cycleBossBackward();
   }
 
   whenDefeatedClicked( evt: MouseEvent, dungeon: Dungeon ) {

@@ -82,7 +82,12 @@
                 <span [ngClass]="getMedallionClasses(d.entranceLock)" (click)="whenMedallionClicked($event, d)">&nbsp;</span>
               </div>
               <div class="col-1 border border-right-0 border-primary">
-                <span [ngClass]="getBossImageClass(d)" title="{{d.bossName}}">&nbsp;</span>
+                <span
+                  [ngClass]="getBossImageClass(d)"
+                  title="{{d.bossName}}"
+                  (click)="whenBossClicked($event, d)"
+                  (contextmenu)="whenBossRightClicked($event, d)"
+                >&nbsp;</span>
               </div>
               <div class="col-1 border border-left-0 border-primary">
                 <input type="checkbox" [ngModel]="d.isBossDefeated" (click)="whenDefeatedClicked($event, d)">

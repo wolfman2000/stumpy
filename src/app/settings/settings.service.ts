@@ -8,6 +8,7 @@ import { Goal } from './goal';
 import { ItemShuffle } from './item-shuffle';
 import { Mode } from './mode';
 import { GlitchLogic } from './glitch-logic';
+import { Enemy } from './enemy';
 
 interface EnumItem<E> {
   value: E;
@@ -59,6 +60,12 @@ export class SettingsService {
     } else {
       this._itemShuffle = parseInt( localStorage.getItem( 'itemShuffle' ), 10 );
     }
+
+    if( !this.localStorageService.hasItem( 'enemy' ) ) {
+      this.enemy = Enemy.Normal;
+    } else {
+      this._enemy = parseInt( localStorage.getItem( 'enemy' ) , 10 );
+    }
   }
 
   private _mode: Mode;
@@ -67,6 +74,7 @@ export class SettingsService {
   private _showGoMode: number;
   private _goal: Goal;
   private _itemShuffle: ItemShuffle;
+  private _enemy: Enemy;
 
   get mode(): Mode {
     return this._mode;
@@ -144,6 +152,18 @@ export class SettingsService {
     return this.getDropDownPairs( enumToArray(ItemShuffle));
   }
 
+  get enemy(): Enemy {
+    return this._enemy;
+  }
+  set enemy(enemy: Enemy) {
+    this._enemy = parseInt( enemy + '', 10 );
+    this.localStorageService.setItem( 'enemy', this.enemy + '' );
+  }
+
+  get enemyKeys(): any {
+    return this.getDropDownPairs( enumToArray( Enemy ) );
+  }
+
   private getDropDownPairs( items: Array<any> ): any {
     return items
       .filter( e => typeof e.value === 'number' )
@@ -159,5 +179,9 @@ export class SettingsService {
 
   isSwordless(): boolean {
     return this.mode === Mode.Swordless;
+  }
+
+  isBossShuffleOn(): boolean {
+    return this.enemy === Enemy.Boss;
   }
 }

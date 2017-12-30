@@ -6,7 +6,104 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>The color guide for almost everything is below.</p>
+    <h5>General Usage</h5>
+    <p>
+      The mouse is heavily used for this tracker. Use the mouse
+      to mark which items you have, which bosses you have defeated,
+      and which overworld locations have been cleaned out.
+    </p>
+    <h5>Settings</h5>
+    <p>If the settings are confusing, the explanations are here.</p>
+    <h6>Mode</h6>
+    <p>This states the general mode of the game.</p>
+    <ul>
+      <li>
+        <strong>Standard</strong>
+        The standard opening of the game plays out. One sword is guaranteed.
+      </li>
+      <li>
+        <strong>Open</strong>
+        The rainy intro is pre-done. You can start from Sanctuary. No sword is guaranteed.
+      </li>
+      <li>
+        <strong>Swordless</strong>
+        Open Mode, but without any swords at all! The hammer can be used against Ganon, at least.
+      </li>
+    </ul>
+    <h6>Goal</h6>
+    <p>What must be done to finish the game?</p>
+    <ul>
+      <li>
+        <strong>Ganon</strong>
+        Get the seven crystals, finish off Agahnim in Ganon's Tower, then finish the big pig.
+      </li>
+      <li>
+        <strong>All Dungeons</strong>
+        All dungeons must be beaten. Agahnim must be killed in both Castle Tower and Ganon's Tower.
+      </li>
+    </ul>
+    <h6>Difficulty</h6>
+    <p>How hard is the seed?</p>
+    <ul>
+      <li>
+        <strong>Easy</strong>
+        Double the chances for progressive items. Quarter magic available.
+      </li>
+      <li>
+        <strong>Normal</strong>
+        The default selection.
+      </li>
+      <li>
+        <strong>Hard</strong>
+        Many safety items are removed.
+      </li>
+      <li>
+        <strong>Expert</strong>
+        Heart containers are removed.
+      </li>
+      <li>
+        <strong>Insane</strong>
+        Heart pieces are removed.
+      </li>
+    </ul>
+    <h6>Shuffling Mode</h6>
+    <p>What is shuffled?</p>
+    <ul>
+      <li>
+        <strong>Normal</strong>
+        The normal items are shuffled.
+      </li>
+      <li>
+        <strong>Keysanity</strong>
+        Keys, maps, and dungeons are also shuffled.
+      </li>
+    </ul>
+    <h6>Go Mode Label</h6>
+    <p>Show an indicator if you can just rush to the end?</p>
+    <ul>
+      <li>
+        <strong>No</strong>
+        No special label shows up when the end is near.
+      </li>
+      <li>
+        <strong>Yes</strong>
+        The Go Mode label shows. It includes visual indication of potential sequence breaks.
+      </li>
+    </ul>
+    <h6>Enemy Shuffle Option</h6>
+    <p>Are enemies (well, bosses) shuffled? This affects the logic.</p>
+    <ul>
+      <li>
+        <strong>Normal</strong>
+        The normal enemies and bosses are at the dungeons.
+      </li>
+      <li>
+        <strong>Boss</strong>
+        The bosses are shuffled. Are dungeons no longer beatable on the first try? Left/right click on the boss images to change the boss.
+      </li>
+    </ul>
+    <h5>Map Key</h5>
+    <p>The color guide for the map is below.</p>
     <table class="table table-bordered table-hover table-sm">
       <thead class="thead">
         <tr>
@@ -59,6 +156,7 @@
     <button type="button" class="btn btn-sm btn-outline-primary" (click)="c('Close click')">Close</button>
   </div>
 </ng-template>
+
 <button type="button" class="btn btn-outline-primary btn-sm" (click)="open(content)">
   <i class="fa fa-question-circle-o" aria-hidden="true"></i>
   Help
