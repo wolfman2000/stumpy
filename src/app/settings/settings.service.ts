@@ -173,6 +173,18 @@ export class SettingsService {
       }; } );
   }
 
+  isNormalDifficulty(): boolean {
+    return this.difficulty === Difficulty.Normal;
+  }
+
+  isHardDifficulty(): boolean {
+    return this.difficulty === Difficulty.Hard;
+  }
+
+  isHardDifficultyOrHigher(): boolean {
+    return this.difficulty !== Difficulty.Easy && this.difficulty !== Difficulty.Normal;
+  }
+
   isExpertOrInsane(): boolean {
     return this._difficulty === Difficulty.Expert || this._difficulty === Difficulty.Insane;
   }

@@ -130,11 +130,7 @@ export class ItemLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.mode !== Mode.Swordless && inventory.sword === Sword.None ) {
-      return Availability.Unavailable;
-    }
-
-    if ( this._settings.mode === Mode.Swordless && !inventory.hammer ) {
+    if ( !inventory.hasPrimaryMelee() ) {
       return Availability.Unavailable;
     }
 

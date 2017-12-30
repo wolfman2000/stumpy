@@ -4,7 +4,6 @@ import { ItemKey } from './item-key';
 import { Item } from './item';
 import { Items } from './item.repository';
 
-import { Difficulty } from '../settings/difficulty';
 import { Mode } from '../settings/mode';
 import { GlitchLogic } from '../settings/glitch-logic';
 
@@ -228,8 +227,7 @@ export class ItemService {
   }
 
   private setBoomerangs(state: number) {
-    const difficulty = this._settings.difficulty;
-    if ( difficulty !== Difficulty.Easy && difficulty !== Difficulty.Normal) {
+    if ( this._settings.isHardDifficultyOrHigher() ) {
       this._items.get(ItemKey.Boomerangs).state = 0;
       return;
     }
@@ -311,10 +309,9 @@ export class ItemService {
 
   private setBottles(state: number) {
     const logic = this._settings.logic;
-    const difficulty = this._settings.difficulty;
 
     if ( logic !== GlitchLogic.Major && state >= 2 ) {
-      if ( difficulty === Difficulty.Hard && state >= 3) {
+      if ( this._settings.isHardDifficulty() && state >= 3) {
         state = 0;
       } else if ( this._settings.isExpertOrInsane() ) {
         state = 0;
@@ -350,8 +347,7 @@ export class ItemService {
       return;
     }
 
-    const difficulty = this._settings.difficulty;
-    if ( difficulty === Difficulty.Hard && state === 4 ) {
+    if ( this._settings.isHardDifficulty() && state === 4 ) {
       state = 0;
     } else if ( this._settings.isExpertOrInsane() && state >= 3) {
       state = 0;
@@ -361,10 +357,9 @@ export class ItemService {
   }
 
   private setShield(state: number) {
-    const difficulty = this._settings.difficulty;
     if ( this._settings.isExpertOrInsane() ) {
       state = 0;
-    } else if ( difficulty === Difficulty.Hard && state === Shield.Mirror) {
+    } else if ( this._settings.isHardDifficulty() && state === Shield.Mirror) {
       state = 0;
     }
 
@@ -372,10 +367,9 @@ export class ItemService {
   }
 
   private setTunic(state: number) {
-    const difficulty = this._settings.difficulty;
     if ( this._settings.isExpertOrInsane() ) {
       state = 0;
-    } else if ( difficulty === Difficulty.Hard && state === Tunic.Red) {
+    } else if ( this._settings.isHardDifficulty() && state === Tunic.Red) {
       state = 0;
     }
 
@@ -383,12 +377,11 @@ export class ItemService {
   }
 
   private setMagic(state: number) {
-    const difficulty = this._settings.difficulty;
-    if ( difficulty !== Difficulty.Easy && difficulty !== Difficulty.Normal ) {
+    if ( this._settings.isHardDifficultyOrHigher() ) {
       this._items.get(ItemKey.Magic).state = 0;
       return;
     }
-    if ( difficulty === Difficulty.Normal && state === 2 ) {
+    if ( this._settings.isNormalDifficulty() && state === 2 ) {
       state = 0;
     }
 
@@ -420,9 +413,8 @@ export class ItemService {
       };
     }
 
-    const difficulty = this._settings.difficulty;
     const item = this._items.get(ItemKey.Sword);
-    if ( difficulty === Difficulty.Hard && item.state === 4) {
+    if ( this._settings.isHardDifficulty() && item.state === 4) {
       item.state = 0;
     } else if ( this._settings.isExpertOrInsane() && item.state >= 3) {
       item.state = 0;
@@ -432,8 +424,7 @@ export class ItemService {
   }
 
   private getBoomerangClasses(): any {
-    const difficulty = this._settings.difficulty;
-    if ( difficulty !== Difficulty.Easy && difficulty !== Difficulty.Normal ) {
+    if ( this._settings.isHardDifficultyOrHigher() ) {
       return {
         isActive: false,
         boomerang1: true,
@@ -445,8 +436,7 @@ export class ItemService {
   }
 
   private getMagicUpgradeClasses(): any {
-    const difficulty = this._settings.difficulty;
-    if ( difficulty !== Difficulty.Easy && difficulty !== Difficulty.Normal) {
+    if ( this._settings.isHardDifficultyOrHigher() ) {
       return {
         isActive: false,
         magic1: true,
@@ -454,7 +444,7 @@ export class ItemService {
       };
     }
     const item = this._items.get(ItemKey.Magic);
-    if ( difficulty === Difficulty.Normal && item.state === 2) {
+    if ( this._settings.isNormalDifficulty() && item.state === 2) {
       item.state = 0;
     }
 
@@ -462,7 +452,6 @@ export class ItemService {
   }
 
   private getTunicClasses(): any {
-    const difficulty = this._settings.difficulty;
     if ( this._settings.isExpertOrInsane() ) {
       return {
         isActive: true,
@@ -472,7 +461,7 @@ export class ItemService {
     }
 
     const item = this._items.get(ItemKey.Tunic);
-    if ( difficulty === Difficulty.Hard && item.state === 2) {
+    if ( this._settings.isHardDifficulty() && item.state === 2) {
       item.state = Tunic.Green;
     }
 
@@ -480,7 +469,6 @@ export class ItemService {
   }
 
   private getShieldClasses(): any {
-    const difficulty = this._settings.difficulty;
     if ( this._settings.isExpertOrInsane() ) {
       return {
         isActive: false,
@@ -490,7 +478,7 @@ export class ItemService {
     }
 
     const item = this._items.get(ItemKey.Shield);
-    if ( difficulty === Difficulty.Hard && item.state === Shield.Mirror) {
+    if ( this._settings.isHardDifficulty() && item.state === Shield.Mirror) {
       item.state = Shield.None;
     }
 
@@ -499,11 +487,10 @@ export class ItemService {
 
   private getBottleClasses(): any {
     const item = this._items.get(ItemKey.Bottle);
-    const difficulty = this._settings.difficulty;
     const logic = this._settings.logic;
 
     if ( logic !== GlitchLogic.Major && item.state >= 2 ) {
-      if ( difficulty === Difficulty.Hard && item.state >= 3 ) {
+      if ( this._settings.isHardDifficulty() && item.state >= 3 ) {
         item.state = 0;
       } else if ( this._settings.isExpertOrInsane() ) {
         item.state = 0;
