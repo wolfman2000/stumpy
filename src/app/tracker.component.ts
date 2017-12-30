@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Mode } from './settings/mode';
 import { ItemShuffle } from './settings/item-shuffle';
 
 import { Dungeon } from './dungeon/dungeon';

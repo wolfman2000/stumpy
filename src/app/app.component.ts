@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { GlitchLogic } from './settings/glitch-logic';
-import { Mode } from './settings/mode';
 
 import '../assets/css/styles.css';
 

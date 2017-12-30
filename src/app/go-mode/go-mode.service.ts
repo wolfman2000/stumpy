@@ -8,7 +8,6 @@ import { DungeonLocationService } from '../map/dungeon-locations/dungeon-locatio
 import { Dungeon } from '../dungeon/dungeon';
 
 import { Goal } from '../settings/goal';
-import { Mode } from '../settings/mode';
 import { Availability } from '../map/availability';
 
 @Injectable()
@@ -39,7 +38,7 @@ export class GoModeService {
     }
 
     // When not in swordless mode, we need a sword.
-    if ( this._settings.mode !== Mode.Swordless && items.sword < 2 ) {
+    if ( !this._settings.isSwordless() && items.sword < 2 ) {
       return Availability.Unavailable;
     }
 
