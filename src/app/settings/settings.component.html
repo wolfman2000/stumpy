@@ -34,6 +34,12 @@
               <option *ngFor="let c of options.showGoModeKeys" value="{{c.value}}">{{c.label}}</option>
             </select>
           </div>
+          <div class="form-group">
+            <label for="stumpy-enemy">Select the enemy shuffle option (limited).</label>
+            <select id="stumpy-enemy" name="stumpy-enemy" class="form-control form-control-sm" [(ngModel)]="options.enemy">
+              <option *ngFor="let c of options.enemyKeys" value="{{c.value}}">{{c.label}}</option>
+            </select>
+          </div>
         </fieldset>
       </form>
     </div>
