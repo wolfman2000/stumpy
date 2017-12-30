@@ -13,9 +13,6 @@ import { EntranceLock } from '../../dungeon/entrance-lock';
 import { DungeonLocation } from './dungeon-location';
 import { DungeonLocations } from './dungeon-location.repository';
 
-import { Goal } from '../../settings/goal';
-import { ItemShuffle } from '../../settings/item-shuffle';
-import { Mode } from '../../settings/mode';
 import { Sword } from '../../items/sword';
 import { Glove } from '../../items/glove';
 import { Shield } from '../../items/shield';
@@ -81,7 +78,7 @@ export class DungeonLocationService {
   }
 
   private isCastleTowerAvailable(): Availability {
-    if ( this._settings.mode === Mode.Swordless ) {
+    if ( this._settings.isSwordless() ) {
       return this.isCastleTowerSwordlessAvailable();
     }
 
@@ -95,7 +92,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       const dungeon = this._dungeons.getDungeon(Location.CastleTower);
       if ( dungeon.smallKeyCount !== dungeon.maxSmallKeys ) {
         return Availability.Unavailable;
@@ -106,7 +103,7 @@ export class DungeonLocationService {
   }
 
   private isCastleTowerRaidable(): Availability {
-    if ( this._settings.itemShuffle === ItemShuffle.Normal ) {
+    if ( !this._settings.isKeysanity() ) {
       return this.isCastleTowerAvailable();
     }
 
@@ -114,7 +111,7 @@ export class DungeonLocationService {
     const dungeon = this._dungeons.getDungeon(Location.CastleTower);
 
     let hasMeleeWeapon: boolean;
-    if ( this._settings.mode === Mode.Swordless ) {
+    if ( this._settings.isSwordless() ) {
       hasMeleeWeapon = !!items.hammer;
     } else {
       hasMeleeWeapon = ( items.sword !== Sword.None && items.sword !== Sword.Wooden );
@@ -135,7 +132,7 @@ export class DungeonLocationService {
 
   private isArmosKnightsAvailable(): Availability {
     const dungeon = this._dungeons.getDungeon(Location.EasternPalace);
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity && !dungeon.hasBigKey ) {
+    if ( this._settings.isKeysanity() && !dungeon.hasBigKey ) {
       return Availability.Unavailable;
     }
 
@@ -153,7 +150,7 @@ export class DungeonLocationService {
   private isArmosKnightsRaidable(): Availability {
     const dungeon = this._dungeons.getDungeon(Location.EasternPalace);
     const items = this._inventory;
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       if ( dungeon.hasBigKey && items.bow && items.lantern ) {
         return Availability.Available;
       }
@@ -195,7 +192,7 @@ export class DungeonLocationService {
   private isLanmolasAvailable(): Availability {
     const items = this._inventory;
     const dungeon = this._dungeons.getDungeon(Location.DesertPalace);
-    const isKeysanity = this._settings.itemShuffle === ItemShuffle.Keysanity;
+    const isKeysanity = this._settings.isKeysanity();
 
     if ( isKeysanity && !dungeon.hasBigKey ) {
       return Availability.Unavailable;
@@ -225,7 +222,7 @@ export class DungeonLocationService {
   private isLanmolasRaidable(): Availability {
     const items = this._inventory;
     const dungeon = this._dungeons.getDungeon(Location.DesertPalace);
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       if ( !this.canEnterDesertPalaceFront() ) {
         return Availability.Unavailable;
       }
@@ -314,7 +311,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Normal ) {
+    if ( !this._settings.isKeysanity() ) {
       return this.isMoldormRaidable();
     }
 
@@ -336,7 +333,7 @@ export class DungeonLocationService {
     const items = this._inventory;
     const dungeon = this._dungeons.getDungeon(Location.TowerOfHera);
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       if ( !items.hasDeathMountainAccess()) {
         return Availability.Unavailable;
       }
@@ -405,7 +402,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       if ( !dungeon.hasBigKey || dungeon.smallKeyCount === 0 ) {
         return Availability.Unavailable;
       }
@@ -433,7 +430,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Normal) {
+    if ( !this._settings.isKeysanity()) {
       return !(items.bow && !!items.lantern) || dungeon.itemChestCount === 1 && !items.hammer ?
         Availability.Possible : Availability.Available;
     }
@@ -519,7 +516,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity && dungeon.smallKeyCount === 0 ) {
+    if ( this._settings.isKeysanity() && dungeon.smallKeyCount === 0 ) {
       return Availability.Unavailable;
     }
 
@@ -538,7 +535,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       if ( dungeon.hasBigKey && dungeon.smallKeyCount === 1 && items.hammer && items.hookshot ) {
         return Availability.Available;
       }
@@ -600,7 +597,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.mode !== Mode.Swordless && items.sword === Sword.None ) {
+    if ( !this._settings.isSwordless() && items.sword === Sword.None ) {
       return Availability.Unavailable;
     }
 
@@ -614,9 +611,9 @@ export class DungeonLocationService {
 
     const items = this._inventory;
     const dungeon = this._dungeons.getDungeon(Location.SkullWoods);
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       const chests = dungeon.totalChestCount;
-      const canGoBeyondCurtain = this._settings.mode === Mode.Swordless || items.hasSword();
+      const canGoBeyondCurtain = this._settings.isSwordless() || items.hasSword();
 
       if ( dungeon.hasBigKey && items.fireRod && canGoBeyondCurtain ) {
         return Availability.Available;
@@ -652,7 +649,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity &&
+    if ( this._settings.isKeysanity() &&
       !dungeon.hasBigKey) {
       return Availability.Unavailable;
     }
@@ -667,7 +664,7 @@ export class DungeonLocationService {
 
     const dungeon = this._dungeons.getDungeon(Location.ThievesTown);
     const items = this._inventory;
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity) {
+    if ( this._settings.isKeysanity()) {
       const chests = dungeon.totalChestCount;
       const keys = dungeon.smallKeyCount;
       if ( dungeon.hasBigKey && keys === 1 && items.hammer ) {
@@ -704,7 +701,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       const keys = dungeon.smallKeyCount;
       return ( keys > 0 && items.somaria || keys > 1 ) ? Availability.Available : Availability.Possible;
     }
@@ -722,7 +719,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Normal) {
+    if ( !this._settings.isKeysanity()) {
       return items.hammer ? Availability.Available : Availability.Glitches;
     }
 
@@ -770,7 +767,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       if ( !dungeon.hasBigKey) {
         return Availability.Unavailable;
       }
@@ -801,7 +798,7 @@ export class DungeonLocationService {
       return medallionState;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity) {
+    if ( this._settings.isKeysanity()) {
       const dungeon = this._dungeons.getDungeon(Location.MiseryMire);
       const chests = dungeon.totalChestCount;
 
@@ -870,7 +867,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       if ( !dungeon.hasBigKey || dungeon.smallKeyCount < 3) {
         return Availability.Unavailable;
       }
@@ -907,7 +904,7 @@ export class DungeonLocationService {
     const dungeon = this._dungeons.getDungeon(Location.TurtleRock);
     const hasLaserSafety = this.hasLaserBridgeSafety();
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       const chests = dungeon.totalChestCount;
       const keys = dungeon.smallKeyCount;
 
@@ -1017,7 +1014,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       if ( !dungeon.hasBigKey) {
         return Availability.Unavailable;
       }
@@ -1032,7 +1029,7 @@ export class DungeonLocationService {
   }
 
   private isAgahnimRaidable(): Availability {
-    if ( this._settings.itemShuffle === ItemShuffle.Normal ) {
+    if ( !this._settings.isKeysanity() ) {
       return this.isAgahnimAvailable();
     }
 
@@ -1133,7 +1130,7 @@ export class DungeonLocationService {
   }
 
   private getCorrectDungeons(): Dungeon[] {
-    if ( this._settings.goal === Goal.AllDungeons ) {
+    if ( this._settings.isGoalAllDungeons() ) {
       return this._dungeons.allDungeons();
     }
 
@@ -1141,7 +1138,7 @@ export class DungeonLocationService {
   }
 
   private isDungeonCountCorrect( dungeons: Dungeon[] ): boolean {
-    if ( this._settings.goal === Goal.AllDungeons ) {
+    if ( this._settings.isGoalAllDungeons() ) {
       return true;
     }
 
@@ -1169,11 +1166,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.mode !== Mode.Swordless && inventory.sword === Sword.None ) {
-      return Availability.Unavailable;
-    }
-
-    if ( this._settings.mode === Mode.Swordless && !inventory.hammer ) {
+    if ( !inventory.hasPrimaryMelee() ) {
       return Availability.Unavailable;
     }
 

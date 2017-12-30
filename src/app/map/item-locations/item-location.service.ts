@@ -15,8 +15,6 @@ import { ItemLocations } from './item-location.repository';
 
 import { EntranceLock } from '../../dungeon/entrance-lock';
 import { Location } from '../../dungeon/location';
-import { Mode } from '../../settings/mode';
-import { ItemShuffle } from '../../settings/item-shuffle';
 
 @Injectable()
 export class ItemLocationService {
@@ -170,7 +168,7 @@ export class ItemLocationService {
   }
 
   private hasMedallionWeapon(): boolean {
-    return ( this._settings.mode === Mode.Swordless && !!this._inventory.hammer ) ||
+    return ( this._settings.isSwordless() && !!this._inventory.hammer ) ||
       this._inventory.sword !== Sword.None && this._inventory.sword !== Sword.Wooden;
   }
 
@@ -233,7 +231,7 @@ export class ItemLocationService {
       return medallionState;
     }
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       if ( this._dungeons.getDungeon(Location.TurtleRock).smallKeyCount <= 1 ) {
         return Availability.Unavailable;
       }
@@ -489,7 +487,7 @@ export class ItemLocationService {
   private getSewerEscapeSideRoomAvailability(): Availability {
     const items = this._inventory;
     const canBreakWall = items.bomb || items.boots;
-    const hasEasyPath = this._settings.mode === Mode.Standard || this._inventory.hasGlove();
+    const hasEasyPath = this._settings.isStandard() || this._inventory.hasGlove();
 
     if ( !canBreakWall ) {
       return Availability.Unavailable;
@@ -523,7 +521,7 @@ export class ItemLocationService {
   }
 
   private getSewerDarkRoomAvailability(): Availability {
-    if ( this._settings.mode === Mode.Standard ) {
+    if ( this._settings.isStandard() ) {
       return Availability.Available;
     }
 
@@ -767,7 +765,7 @@ export class ItemLocationService {
   }
 
   canToggleOpened(id: LocationKey): boolean {
-    return parseInt( this._settings.mode + '', 10 ) !== Mode.Standard ||
+    return !this._settings.isStandard() ||
       this._standardClaimedLocations.indexOf(id) < 0;
   }
 

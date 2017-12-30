@@ -7,7 +7,6 @@ import { DungeonLocationService } from '../map/dungeon-locations/dungeon-locatio
 
 import { Dungeon } from '../dungeon/dungeon';
 
-import { Goal } from '../settings/goal';
 import { Availability } from '../map/availability';
 
 @Injectable()
@@ -71,7 +70,7 @@ export class GoModeService {
   }
 
   private getCorrectDungeons(): Dungeon[] {
-    if ( this._settings.goal === Goal.AllDungeons ) {
+    if ( this._settings.isGoalAllDungeons() ) {
       return this._dungeons.allDungeons();
     }
 
@@ -79,7 +78,7 @@ export class GoModeService {
   }
 
   private isDungeonCountCorrect( dungeons: Dungeon[] ): boolean {
-    if ( this._settings.goal === Goal.AllDungeons ) {
+    if ( this._settings.isGoalAllDungeons() ) {
       return true;
     }
 

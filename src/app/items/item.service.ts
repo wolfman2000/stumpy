@@ -4,9 +4,6 @@ import { ItemKey } from './item-key';
 import { Item } from './item';
 import { Items } from './item.repository';
 
-import { Mode } from '../settings/mode';
-import { GlitchLogic } from '../settings/glitch-logic';
-
 import { Sword } from './sword';
 import { Glove } from './glove';
 import { Tunic } from './tunic';
@@ -202,7 +199,7 @@ export class ItemService {
   }
 
   private setSilverArrows(state: number) {
-    if ( this._settings.mode !== Mode.Swordless && this._settings.isExpertOrInsane()) {
+    if ( !this._settings.isSwordless() && this._settings.isExpertOrInsane()) {
       state = 0;
     }
 
@@ -308,9 +305,7 @@ export class ItemService {
   }
 
   private setBottles(state: number) {
-    const logic = this._settings.logic;
-
-    if ( logic !== GlitchLogic.Major && state >= 2 ) {
+    if ( !this._settings.isMajorGlitches() && state >= 2 ) {
       if ( this._settings.isHardDifficulty() && state >= 3) {
         state = 0;
       } else if ( this._settings.isExpertOrInsane() ) {
@@ -341,8 +336,7 @@ export class ItemService {
   }
 
   private setSword(state: number) {
-    const mode = this._settings.mode;
-    if ( mode === Mode.Swordless ) {
+    if ( this._settings.isSwordless() ) {
       this._items.get(ItemKey.Sword).state = Sword.None;
       return;
     }
@@ -405,7 +399,7 @@ export class ItemService {
   }
 
   private getSwordClasses(): any {
-    if ( this._settings.mode === Mode.Swordless ) {
+    if ( this._settings.isSwordless() ) {
       return {
         isActive: false,
         sword1: true,
@@ -489,7 +483,7 @@ export class ItemService {
     const item = this._items.get(ItemKey.Bottle);
     const logic = this._settings.logic;
 
-    if ( logic !== GlitchLogic.Major && item.state >= 2 ) {
+    if ( !this._settings.isMajorGlitches() && item.state >= 2 ) {
       if ( this._settings.isHardDifficulty() && item.state >= 3 ) {
         item.state = 0;
       } else if ( this._settings.isExpertOrInsane() ) {
@@ -501,7 +495,7 @@ export class ItemService {
   }
 
   private getSilverArrowClasses(): any {
-    if ( this._settings.isExpertOrInsane() && this._settings.mode !== Mode.Swordless) {
+    if ( this._settings.isExpertOrInsane() && !this._settings.isSwordless() ) {
       return {
         isActive: false,
         restricted: true,
