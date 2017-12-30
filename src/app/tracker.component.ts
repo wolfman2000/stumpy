@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ItemShuffle } from './settings/item-shuffle';
 
 import { Dungeon } from './dungeon/dungeon';
 import { EntranceLock } from './dungeon/entrance-lock';
@@ -26,7 +25,7 @@ export class RandomizerTrackerComponent {
 
   getKeysanityClass(): any {
     return {
-      hiding: this._settings.itemShuffle !== ItemShuffle.Keysanity
+      hiding: !this._settings.isKeysanity()
     };
   }
 
@@ -98,7 +97,7 @@ export class RandomizerTrackerComponent {
       counter: true
     };
 
-    const count = this._settings.itemShuffle !== ItemShuffle.Keysanity
+    const count = !this._settings.isKeysanity()
       ? dungeon.itemChestCount
       : dungeon.totalChestCount;
 
@@ -110,7 +109,7 @@ export class RandomizerTrackerComponent {
   }
 
   getChestCount( dungeon: Dungeon ): string {
-    const count = this._settings.itemShuffle !== ItemShuffle.Keysanity
+    const count = !this._settings.isKeysanity()
      ? dungeon.itemChestCount
      : dungeon.totalChestCount;
 
@@ -122,7 +121,7 @@ export class RandomizerTrackerComponent {
       'chests': true
     };
 
-    const count = this._settings.itemShuffle !== ItemShuffle.Keysanity
+    const count = !this._settings.isKeysanity()
       ? dungeon.maxItemChests
       : dungeon.maxTotalChests;
 
@@ -132,7 +131,7 @@ export class RandomizerTrackerComponent {
   }
 
   getMaxChests( dungeon: Dungeon ): string {
-    const count = this._settings.itemShuffle !== ItemShuffle.Keysanity
+    const count = !this._settings.isKeysanity()
       ? dungeon.maxItemChests
       : dungeon.maxTotalChests;
 
@@ -143,7 +142,7 @@ export class RandomizerTrackerComponent {
     evt.stopPropagation();
     evt.preventDefault();
 
-    if ( this._settings.itemShuffle === ItemShuffle.Keysanity ) {
+    if ( this._settings.isKeysanity() ) {
       dungeon.decrementTotalChestCount();
     } else {
       dungeon.decrementItemChestCount();

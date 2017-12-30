@@ -189,8 +189,24 @@ export class SettingsService {
     return this._difficulty === Difficulty.Expert || this._difficulty === Difficulty.Insane;
   }
 
+  isMajorGlitches(): boolean {
+    return this.logic === GlitchLogic.Major;
+  }
+
   isSwordless(): boolean {
     return this.mode === Mode.Swordless;
+  }
+
+  isStandard(): boolean {
+    return this.mode === Mode.Standard;
+  }
+
+  isKeysanity(): boolean {
+    return this.itemShuffle === ItemShuffle.Keysanity;
+  }
+
+  isGoalAllDungeons(): boolean {
+    return this.goal === Goal.AllDungeons;
   }
 
   isBossShuffleOn(): boolean {

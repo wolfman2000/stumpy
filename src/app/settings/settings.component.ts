@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GlitchLogic } from './glitch-logic';
 import { SettingsService } from './settings.service';
 
 @Component({
