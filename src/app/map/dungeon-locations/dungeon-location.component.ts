@@ -32,9 +32,8 @@ export class DungeonLocationComponent implements OnInit {
 
   getSurroundingClasses(): any {
     const results = {
-      castle: this.dungeonLocationId === 0,
-      dungeon: this.dungeonLocationId !== 0,
-      claimed: this._dungeonLocationService.getChestCount(this.dungeonLocationId) === 0
+      dungeon: true,
+      claimed: this._dungeonLocationService.hasChestsOrBossClaimed(this.dungeonLocationId)
     };
 
     const availability = this._dungeonLocationService.getChestAvailability(this.dungeonLocationId);
