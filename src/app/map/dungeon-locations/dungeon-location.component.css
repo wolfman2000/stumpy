@@ -31,24 +31,14 @@
   background-color: gray;
 }
 
-.dungeon, .castle {
+.dungeon {
   background-image: url('/assets/overlay/poi.png');
   position: absolute;
   background-size: 100% 100%;
-}
-
-.dungeon {
   width: 48px;
   height: 48px;
   margin-left: -24px;
   margin-top: -24px;
-}
-
-.castle {
-  width: 36px;
-  height: 36px;
-  margin-left: -18px;
-  margin-top: -18px;
 }
 
 .boss {

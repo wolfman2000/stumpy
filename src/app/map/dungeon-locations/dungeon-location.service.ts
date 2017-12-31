@@ -1224,8 +1224,18 @@ export class DungeonLocationService {
     return this._dungeons.getDungeon(id).bossName;
   }
 
-  getChestCount(id: Location): number {
-    return this._dungeons.getDungeon(id).itemChestCount;
+  hasChestsOrBossClaimed(id: Location): boolean {
+    const dungeon = this._dungeons.getDungeon(id);
+
+    if ( this._settings.isKeysanity() ) {
+      return dungeon.totalChestCount === 0;
+    }
+
+    if ( dungeon.hasDungeonEndingReward ) {
+      return dungeon.itemChestCount === 0;
+    }
+
+    return dungeon.isBossDefeated;
   }
 
   isBossDefeated(id: Location): boolean {
