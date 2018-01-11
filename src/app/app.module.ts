@@ -8,9 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CaptionModule } from './caption/caption.module';
 import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
-import { GuideModule } from './guide/guide.module';
-import { ResetModule } from './reset/reset.module';
-import { GoModeModule } from './go-mode/go-mode.module';
+import { NavigationModule } from './navigation/navigation.module';
 
 import { LocalStorageService } from './local-storage.service';
 import { CaptionService } from './caption/caption.service';
@@ -46,9 +44,7 @@ import { WordSpacingPipe } from './word-spacing.pipe';
     CaptionModule.forRoot(),
     MapModule.forRoot(),
     ItemModule.forRoot(),
-    GuideModule.forRoot(),
-    ResetModule.forRoot(),
-    GoModeModule.forRoot()
+    NavigationModule.forRoot()
   ],
   providers: [
     CamelCasePipe,
