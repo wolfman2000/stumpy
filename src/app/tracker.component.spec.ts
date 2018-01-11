@@ -2,13 +2,14 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@a
 import { NgModule, DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { APP_BASE_HREF } from '@angular/common';
+
 import { RandomizerTrackerComponent } from './tracker.component';
+import { RandomizerSettingsComponent } from './settings/settings.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { GuideModule } from './guide/guide.module';
-import { ResetModule } from './reset/reset.module';
-import { GoModeModule } from './go-mode/go-mode.module';
+import { NavigationModule } from './navigation/navigation.module';
 import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
 
@@ -44,7 +45,8 @@ describe( 'The main tracking component', () => {
   beforeEach( async( () => {
     TestBed.configureTestingModule( {
       declarations: [
-        RandomizerTrackerComponent
+        RandomizerTrackerComponent,
+        RandomizerSettingsComponent
       ],
       providers: [
         WordSpacingPipe,
@@ -56,7 +58,11 @@ describe( 'The main tracking component', () => {
         ItemLocationService,
         DungeonLocationService,
         CaptionService,
-        BossService
+        BossService,
+        {
+          provide: APP_BASE_HREF,
+          useValue: '/'
+        }
       ],
       imports: [
         NgbModule.forRoot(),
@@ -64,9 +70,7 @@ describe( 'The main tracking component', () => {
         RouterTestingModule,
         MapModule.forRoot(),
         ItemModule.forRoot(),
-        GuideModule.forRoot(),
-        ResetModule.forRoot(),
-        GoModeModule.forRoot()
+        NavigationModule.forRoot()
       ]
     }).compileComponents();
 
