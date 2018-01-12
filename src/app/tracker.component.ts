@@ -8,7 +8,7 @@ import { DungeonService } from './dungeon/dungeon.service';
 import { SettingsService } from './settings/settings.service';
 
 @Component({
-  selector: 'app-randomizer-tracker',
+  selector: 'stumpy-tracker',
   templateUrl: './tracker.component.html',
   styleUrls: ['./tracker.component.css']
 })
