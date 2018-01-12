@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AppRoutingModule } from './app-routing.module';
 import { CaptionModule } from './caption/caption.module';
 import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
@@ -20,7 +19,6 @@ import { SettingsService } from './settings/settings.service';
 import { BossService } from './boss/boss.service';
 
 import { AppComponent } from './app.component';
-import { RandomizerSettingsComponent } from './settings/settings.component';
 import { RandomizerTrackerComponent } from './tracker.component';
 import { DungeonComponent } from './dungeon/dungeon.component';
 
@@ -30,7 +28,6 @@ import { WordSpacingPipe } from './word-spacing.pipe';
 @NgModule({
   declarations: [
     AppComponent,
-    RandomizerSettingsComponent,
     RandomizerTrackerComponent,
     DungeonComponent,
     CamelCasePipe,
@@ -40,7 +37,6 @@ import { WordSpacingPipe } from './word-spacing.pipe';
     NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
-    AppRoutingModule,
     CaptionModule.forRoot(),
     MapModule.forRoot(),
     ItemModule.forRoot(),

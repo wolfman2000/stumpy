@@ -1,8 +1,9 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@angular/core/testing';
 import { NgModule, DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { RandomizerSettingsComponent } from './settings.component';
+import { NgbModule, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
+import { SettingsComponent } from './settings.component';
 
 import { SettingsService } from './settings.service';
 
@@ -13,12 +14,14 @@ import { Mode } from './mode';
 import { Difficulty } from './difficulty';
 
 describe( 'The settings component', () => {
-  let comp: RandomizerSettingsComponent;
-  let fixture: ComponentFixture<RandomizerSettingsComponent>;
+  let comp: SettingsComponent;
+  let fixture: ComponentFixture<SettingsComponent>;
   let de: DebugElement;
   let el: HTMLElement;
 
   let settingsService: SettingsService;
+  let modalService: NgbModal;
+//  let modalRef: NgbModalRef;
 
   beforeAll( () => {
     settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
@@ -28,16 +31,18 @@ describe( 'The settings component', () => {
 
   beforeEach( async( () => {
     TestBed.configureTestingModule( {
-      declarations: [RandomizerSettingsComponent],
+      declarations: [SettingsComponent],
       providers: [
+        NgbModal,
         WordSpacingPipe,
         LocalStorageService,
         SettingsService
       ],
-      imports: [FormsModule, RouterTestingModule]
+      imports: [NgbModule.forRoot(),FormsModule]
     }).compileComponents();
 
-    fixture = TestBed.createComponent( RandomizerSettingsComponent );
+    modalService = TestBed.get(NgbModal);
+    fixture = TestBed.createComponent( SettingsComponent );
     comp = fixture.componentInstance;
     de = fixture.debugElement;
     el = de.nativeElement;

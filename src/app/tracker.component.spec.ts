@@ -1,11 +1,8 @@
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@angular/core/testing';
 import { NgModule, DebugElement } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { APP_BASE_HREF } from '@angular/common';
 
 import { RandomizerTrackerComponent } from './tracker.component';
-import { RandomizerSettingsComponent } from './settings/settings.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -45,8 +42,7 @@ describe( 'The main tracking component', () => {
   beforeEach( async( () => {
     TestBed.configureTestingModule( {
       declarations: [
-        RandomizerTrackerComponent,
-        RandomizerSettingsComponent
+        RandomizerTrackerComponent
       ],
       providers: [
         WordSpacingPipe,
@@ -58,16 +54,11 @@ describe( 'The main tracking component', () => {
         ItemLocationService,
         DungeonLocationService,
         CaptionService,
-        BossService,
-        {
-          provide: APP_BASE_HREF,
-          useValue: '/'
-        }
+        BossService
       ],
       imports: [
         NgbModule.forRoot(),
         FormsModule,
-        RouterTestingModule,
         MapModule.forRoot(),
         ItemModule.forRoot(),
         NavigationModule.forRoot()
