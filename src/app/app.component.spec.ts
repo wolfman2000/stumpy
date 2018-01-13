@@ -81,11 +81,11 @@ describe( 'The application component', () => {
   });
 
   it( 'should have the title be set correctly.', () => {
-    expect( de.componentInstance.title ).toEqual('Stumpy, a Link to the Past Item Tracker');
+    expect( de.componentInstance.title ).toEqual('Stumpy, a Link to the Past Item Tracker by Wolfman2000');
   });
 
   it( 'should have the title within a jumbotron\'s container\'s alert box.', () => {
     const targetEl = el.querySelector('.jumbotron').querySelector('.container').querySelector('ngb-alert');
-    expect( targetEl.textContent ).toContain('Welcome to Stumpy, a Link to the Past Item Tracker!');
+    expect( targetEl.textContent ).toContain('Welcome to Stumpy, a Link to the Past Item Tracker by Wolfman2000!');
   });
 });

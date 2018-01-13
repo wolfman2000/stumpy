@@ -749,7 +749,7 @@ export class DungeonLocationService {
   private isVitreousAvailable(): Availability {
     const items = this._inventory;
 
-    if (!items.moonPearl || items.glove !== Glove.Titan || !items.somaria) {
+    if (!items.flute || !items.moonPearl || items.glove !== Glove.Titan || !items.somaria) {
       return Availability.Unavailable;
     }
 
@@ -785,7 +785,7 @@ export class DungeonLocationService {
   private isVitreousRaidable(): Availability {
     const items = this._inventory;
 
-    if (!items.moonPearl || items.glove !== Glove.Titan) {
+    if (!items.flute || !items.moonPearl || items.glove !== Glove.Titan) {
       return Availability.Unavailable;
     }
 
