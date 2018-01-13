@@ -2,8 +2,11 @@ import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, async } from '@a
 import { DebugElement } from '@angular/core';
 import { DungeonComponent } from './dungeon.component';
 import { DungeonService } from './dungeon.service';
+import { SettingsService } from '../settings/settings.service';
+import { LocalStorageService } from '../local-storage.service';
 
 import { CamelCasePipe } from '../camel-case.pipe';
+import { WordSpacingPipe } from '../word-spacing.pipe';
 
 import { Location } from './location';
 import { EntranceLock } from './entrance-lock';
@@ -21,7 +24,13 @@ describe( 'The dungeon component', () => {
   beforeEach( async(() => {
     TestBed.configureTestingModule( {
       declarations: [DungeonComponent],
-      providers: [DungeonService, CamelCasePipe]
+      providers: [
+        DungeonService,
+        SettingsService,
+        LocalStorageService,
+        CamelCasePipe,
+        WordSpacingPipe
+      ]
     }).compileComponents();
   }));
 
@@ -67,8 +76,8 @@ describe( 'The dungeon component', () => {
       expect( comp.getBossClasses().isBeaten ).toBeFalsy();
     });
 
-    it( 'should have a defeated boss when the parent element is clicked.', () => {
-      comp.whenClicked(mouseEvt);
+    it( 'should have a defeated boss when the check box is clicked.', () => {
+      comp.whenBossToggleClicked(mouseEvt);
 
       expect( comp.getBossClasses().isBeaten ).toBeTruthy();
     });
@@ -120,8 +129,8 @@ describe( 'The dungeon component', () => {
       expect( comp.getBossClasses().isBeaten ).toBeFalsy();
     });
 
-    it( 'should have a defeated boss when the parent element is clicked.', () => {
-      comp.whenClicked(mouseEvt);
+    it( 'should have a defeated boss when the check box is clicked.', () => {
+      comp.whenBossToggleClicked(mouseEvt);
 
       expect( comp.getBossClasses().isBeaten ).toBeTruthy();
     });

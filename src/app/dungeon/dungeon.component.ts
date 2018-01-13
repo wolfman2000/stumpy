@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { DungeonService } from './dungeon.service';
+import { SettingsService } from '../settings/settings.service';
+
 import { Dungeon } from './dungeon';
 import { Location } from './location';
 import { Reward } from './reward';
@@ -14,6 +17,7 @@ import { CamelCasePipe } from '../camel-case.pipe';
 export class DungeonComponent implements OnInit {
   constructor(
     private dungeonService: DungeonService,
+    private _settings: SettingsService,
     private camelCasePipe: CamelCasePipe
   ) { }
 
@@ -26,8 +30,16 @@ export class DungeonComponent implements OnInit {
     this.dungeon = this.dungeonService.getDungeon(this.dungeonId);
   }
 
+  hasBigKey(): boolean {
+    if ( !this._settings.isKeysanity() ) {
+      return false;
+    }
+
+    return this.dungeonId !== Location.CastleTower;
+  }
+
   hasChests(): boolean {
-    return this.dungeon.maxItemChests > 0;
+    return this._settings.isKeysanity() || this.dungeon.maxItemChests > 0;
   }
 
   hasReward(): boolean {
@@ -38,11 +50,19 @@ export class DungeonComponent implements OnInit {
     return this.dungeon.hasMedallionEntrance;
   }
 
+  getDungeonAbbr(): string {
+    return this.dungeon.dungeonAbbr;
+  }
+
+  getDungeonName(): string {
+    return this.dungeon.dungeonName;
+  }
+
   getBossClasses(): any {
     const results = {
       isBeaten: this.dungeon.isBossDefeated
     };
-    results[this.camelCasePipe.transform(this.dungeon.bossName)] = true;
+    results['boss' + this.dungeon.bossId] = true;
     return results;
   }
 
@@ -51,14 +71,21 @@ export class DungeonComponent implements OnInit {
       chest: true
     };
 
-    results['chest' + this.dungeon.itemChestCount] = true;
-    results['items-remaining'] = this.dungeon.itemChestCount > 0;
+    const count = !this._settings.isKeysanity()
+      ? this.dungeon.itemChestCount
+      : this.dungeon.totalChestCount;
+
+    results['chest' + count] = true;
+    results['items-remaining'] = count > 0;
     return results;
   }
 
   getChestResults(): string {
-    const remainingCount = this.dungeon.itemChestCount;
-    return remainingCount ? remainingCount + '' : '';
+    const count = !this._settings.isKeysanity()
+     ? this.dungeon.itemChestCount
+     : this.dungeon.totalChestCount;
+
+    return count > 0 ? count + '' : '\xa0';
   }
 
   getRewardClasses(): any {
@@ -79,15 +106,45 @@ export class DungeonComponent implements OnInit {
     return results;
   }
 
-  whenClicked(evt: MouseEvent): void {
-    this.dungeon.toggleDefeat();
+  whenBossClicked(evt: MouseEvent ) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    if ( !this._settings.isBossShuffleOn() ) {
+      return;
+    }
+
+    if ( !this.dungeon.hasDungeonEndingReward ) {
+      return;
+    }
+
+    this.dungeon.cycleBossForward();
+  }
+
+  whenBossRightClicked( evt: MouseEvent ) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    if ( !this._settings.isBossShuffleOn() ) {
+      return;
+    }
+
+    if ( !this.dungeon.hasDungeonEndingReward ) {
+      return;
+    }
+
+    this.dungeon.cycleBossBackward();
   }
 
   whenChestClicked(evt: MouseEvent): void {
     evt.stopPropagation();
     evt.preventDefault();
 
-    this.dungeon.decrementItemChestCount();
+    if ( this._settings.isKeysanity() ) {
+      this.dungeon.decrementTotalChestCount();
+    } else {
+      this.dungeon.decrementItemChestCount();
+    }
   }
 
   whenRewardClicked(evt: MouseEvent): void {
@@ -102,5 +159,64 @@ export class DungeonComponent implements OnInit {
     evt.preventDefault();
 
     this.dungeon.cycleEntranceLock();
+  }
+
+  whenBigKeyClicked(evt: MouseEvent): void {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    this.dungeon.toggleBigKey();
+  }
+
+  getBigKeyClasses(): any {
+    const results = {};
+    results['big-key'] = true;
+    results['claimed'] = this.dungeon.hasBigKey;
+
+    return results;
+  }
+
+  getSmallKeyClasses(): any {
+    const results = {};
+    results['small-keys'] = true;
+    results['small-keys-' + this.dungeon.smallKeyCount] = true;
+
+    return results;
+  }
+
+  whenSmallKeysClicked(evt: MouseEvent): any {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    this.dungeon.incrementSmallKeyCount();
+  }
+
+  hasSmallKeys(): any {
+    if ( !this._settings.isKeysanity() ) {
+      return false;
+    }
+
+    return this.dungeonId !== Location.EasternPalace;
+  }
+
+  whenBossToggleClicked(evt: MouseEvent): void {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    this.dungeon.toggleDefeat();
+  }
+
+  getBossToggleClasses(): any {
+    const results = {
+      'fa': true
+    };
+
+    if ( this.dungeon.isBossDefeated ) {
+      results['fa-check-square-o'] = true;
+    } else {
+      results['fa-square-o'] = true;
+    }
+
+    return results;
   }
 } /* istanbul ignore next */

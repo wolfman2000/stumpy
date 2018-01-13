@@ -1,9 +1,8 @@
 :host {
-  width: 64px;
+  width: 128px;
   height: 64px;
-  display: table-cell;
   position: relative;
-  cursor: pointer;
+  user-select: none;
 }
 :host > .boss {
   width: 64px;
@@ -18,6 +17,61 @@
   position: absolute;
   width: 32px;
   height: 32px;
+  cursor: pointer;
+}
+
+:host > .abbr {
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
+
+:host > .big-key {
+  left: 96px;
+  background-size: 100%;
+  background-image: url('/assets/chests/bigkey.png');
+  opacity: 0.25;
+  cursor: pointer;
+}
+
+:host > .big-key.claimed {
+  opacity: 1;
+}
+
+:host > .small-keys {
+  left: 64px;
+  top: 32px;
+  width: 64px;
+  background-size: 100%;
+  cursor: pointer;
+}
+
+:host > .small-keys-0 {
+  background-image: url('/assets/chests/smallkey0.png');
+}
+
+:host > .small-keys-1 {
+  background-image: url('/assets/chests/smallkey1.png');
+}
+
+:host > .small-keys-2 {
+  background-image: url('/assets/chests/smallkey2.png');
+}
+
+:host > .small-keys-3 {
+  background-image: url('/assets/chests/smallkey3.png');
+}
+
+:host > .small-keys-4 {
+  background-image: url('/assets/chests/smallkey4.png');
+}
+
+:host > .small-keys-5 {
+  background-image: url('/assets/chests/smallkey5.png');
+}
+
+:host > .small-keys-6 {
+  background-image: url('/assets/chests/smallkey6.png');
 }
 
 :host > .chest {
@@ -45,55 +99,60 @@
   left: 32px;
 }
 
-.agahnim {
+:host > .defeat-toggle {
+  left: 64px;
+  font-size: 2.1rem;
+}
+
+.boss.boss0 {
   background-image: url('/assets/bosses/agahnim0.png');
 }
 
-.agahnim.boss.isBeaten {
+.boss.boss0.isBeaten {
   background-image: url('/assets/bosses/agahnim1.png');
 }
 
-.armosKnights {
+.boss.boss1 {
   background-image: url('/assets/bosses/armosKnights.png');
 }
 
-.arrghus {
-  background-image: url('/assets/bosses/arrghus.png');
-}
-
-.blind {
-  background-image: url('/assets/bosses/blind.png');
-}
-
-.helmasaurKing {
-  background-image: url('/assets/bosses/helmasaurKing.png');
-}
-
-.kholdstare {
-  background-image: url('/assets/bosses/kholdstare.png');
-}
-
-.lanmolas {
+.boss.boss2 {
   background-image: url('/assets/bosses/lanmolas.png');
 }
 
-.moldorm {
+.boss.boss3 {
   background-image: url('/assets/bosses/moldorm.png');
 }
 
-.mothula {
+.boss.boss4 {
+  background-image: url('/assets/bosses/helmasaurKing.png');
+}
+
+.boss.boss5 {
+  background-image: url('/assets/bosses/arrghus.png');
+}
+
+.boss.boss6 {
   background-image: url('/assets/bosses/mothula.png');
 }
 
-.trinexx {
-  background-image: url('/assets/bosses/trinexx.png');
+.boss.boss7 {
+  background-image: url('/assets/bosses/blind.png');
 }
 
-.vitreous {
+.boss.boss8 {
+  background-image: url('/assets/bosses/kholdstare.png');
+}
+
+.boss.boss9 {
   background-image: url('/assets/bosses/vitreous.png');
 }
 
-.agahnim2 {
+.boss.boss10 {
+  background-image: url('/assets/bosses/trinexx.png');
+}
+
+.boss.boss11 {
   background-image: url('/assets/bosses/ganonTower.png');
 }
 

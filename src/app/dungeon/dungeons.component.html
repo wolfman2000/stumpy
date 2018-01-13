@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row">
+    <stumpy-dungeon [dungeonId]="0"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="1"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="2"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="3"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="4"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="5"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="6"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="7"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="8"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="9"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="10"></stumpy-dungeon>
+    <stumpy-dungeon [dungeonId]="11"></stumpy-dungeon>
+
+    <!--
+    <div class="col-12">
+      <div class="row">
+        <span class="col-1 border border-primary">Abbr</span>
+        <span class="col-1 border border-primary">Med.</span>
+        <span class="col-2 border border-primary">Boss</span>
+        <span class="col-1 border border-primary">Prize</span>
+        <span class="col-3 border border-primary">Items</span>
+        <span class="col-3 border border-primary" [ngClass]="getKeysanityClass()"><span>Small Keys</span></span>
+        <span class="col-1 border border-primary" [ngClass]="getKeysanityClass()"><span class="bigKey noClick">&nbsp;</span></span>
+      </div>
+    </div>
+    <div class="col-12" *ngFor="let d of allDungeons()">
+      <div class="row">
+        <div class="col-1 border border-primary">
+          <span class="abbr" title="{{d.dungeonName}}">{{d.dungeonAbbr}}</span>
+        </div>
+        <div class="col-1 border border-primary">
+          <span [ngClass]="getMedallionClasses(d.entranceLock)" (click)="whenMedallionClicked($event, d)">&nbsp;</span>
+        </div>
+        <div class="col-1 border border-right-0 border-primary">
+          <span
+            [ngClass]="getBossImageClass(d)"
+            title="{{d.bossName}}"
+            (click)="whenBossClicked($event, d)"
+            (contextmenu)="whenBossRightClicked($event, d)"
+          >&nbsp;</span>
+        </div>
+        <div class="col-1 border border-left-0 border-primary">
+          <input type="checkbox" [ngModel]="d.isBossDefeated" (click)="whenDefeatedClicked($event, d)">
+        </div>
+        <div class="col-1 border border-primary">
+          <span [ngClass]="getRewardClasses(d.reward)" (click)="whenRewardClicked($event, d)">&nbsp;</span>
+        </div>
+        <div class="col-3 border border-primary">
+          <span [ngClass]="getChestCountClasses(d)" (click)="whenChestCountClicked($event, d)">{{getChestCount(d)}}</span>
+          <span>/</span>
+          <span [ngClass]="getMaxChestCountClasses(d)" class="chests">{{getMaxChests(d)}}</span>
+        </div>
+        <div class="col-3 border border-primary" [ngClass]="getKeysanityClass()">
+          <span [ngClass]="getSmallKeyCountClasses(d)" (click)="whenKeyCountClicked($event, d)">{{getSmallKeyCount(d)}}</span>
+          <span>/</span>
+          <span [ngClass]="getMaxSmallKeyCountClasses(d)">{{getMaxSmallKeyCount(d)}}</span>
+        </div>
+        <div class="col-1 border border-primary" [ngClass]="getKeysanityClass()">
+          <span [ngClass]="getBigKeyClasses(d)" (click)="whenBigKeyClicked($event, d)">&nbsp;</span>
+        </div>
+      </div>
+    </div>
+    -->
+  </div>
+</div>
