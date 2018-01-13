@@ -855,7 +855,19 @@ describe( 'The dungeon location service', () => {
           expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
         });
 
+        it( 'requires more than the flute to get there.', () => {
+          itemService.setItemState( ItemKey.Flute, 1 );
+          itemService.getItem(ItemKey.Bow).state = 1;
+          itemService.getItem(ItemKey.MoonPearl).state = 1;
+          itemService.getItem(ItemKey.Glove).state = 2;
+          itemService.getItem(ItemKey.Somaria).state = 1;
+          itemService.getItem(ItemKey.Hookshot).state = 1;
+
+          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+        });
+
         it( 'requires the medallions (and sword) to possibly finish the job.', () => {
+          itemService.setItemState( ItemKey.Flute, 1 );
           itemService.getItem(ItemKey.Bow).state = 1;
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
@@ -870,6 +882,7 @@ describe( 'The dungeon location service', () => {
         });
 
         it( 'requires a fire source to finish the job...with a dark room', () => {
+          itemService.setItemState( ItemKey.Flute, 1 );
           itemService.getItem(ItemKey.Bow).state = 1;
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
@@ -885,6 +898,7 @@ describe( 'The dungeon location service', () => {
         });
 
         it( 'is better to use the lantern to finish the job', () => {
+          itemService.setItemState( ItemKey.Flute, 1 );
           itemService.getItem(ItemKey.Bow).state = 1;
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
@@ -920,7 +934,17 @@ describe( 'The dungeon location service', () => {
           expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
         });
 
+        it( 'requires more than the flute.', () => {
+          itemService.setItemState( ItemKey.Flute, 1 );
+          itemService.getItem(ItemKey.MoonPearl).state = 1;
+          itemService.getItem(ItemKey.Glove).state = 2;
+          itemService.getItem(ItemKey.Hookshot).state = 1;
+
+          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+        });
+
         it( 'becomes possible with the medallions.', () => {
+          itemService.setItemState( ItemKey.Flute, 1 );
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Hookshot).state = 1;
@@ -933,6 +957,7 @@ describe( 'The dungeon location service', () => {
         });
 
         it( 'becomes guaranteed with a lantern on hand.', () => {
+          itemService.setItemState( ItemKey.Flute, 1 );
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Hookshot).state = 1;
@@ -946,6 +971,7 @@ describe( 'The dungeon location service', () => {
         });
 
         it( 'may require the cane of somaria if Vitreous has the second item.', () => {
+          itemService.setItemState( ItemKey.Flute, 1 );
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Hookshot).state = 1;
@@ -2229,6 +2255,7 @@ describe( 'The dungeon location service', () => {
 
       describe('-- the boss --', () => {
         it( 'requires the big key to get to the room.', () => {
+          itemService.setItemState(ItemKey.Flute, 1);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Somaria, 1);
@@ -2244,6 +2271,7 @@ describe( 'The dungeon location service', () => {
         it( 'can be done with dark room navigation if the big key is on hand.', () => {
           const dungeon = dungeonService.getDungeon(location);
           dungeon.toggleBigKey();
+          itemService.setItemState(ItemKey.Flute, 1);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Somaria, 1);
@@ -2259,6 +2287,7 @@ describe( 'The dungeon location service', () => {
         it( 'can be done logically if the big key & lantern are on hand.', () => {
           const dungeon = dungeonService.getDungeon(location);
           dungeon.toggleBigKey();
+          itemService.setItemState(ItemKey.Flute, 1);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Somaria, 1);
@@ -2275,6 +2304,7 @@ describe( 'The dungeon location service', () => {
 
       describe('-- the chests --', () => {
         it( 'starts off as possible with bare equipment.', () => {
+          itemService.setItemState(ItemKey.Flute, 1);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Hookshot, 1);
@@ -2293,6 +2323,7 @@ describe( 'The dungeon location service', () => {
           dungeon.decrementTotalChestCount();
           dungeon.decrementTotalChestCount();
           dungeon.decrementTotalChestCount();
+          itemService.setItemState(ItemKey.Flute, 1);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Hookshot, 1);
@@ -2312,6 +2343,7 @@ describe( 'The dungeon location service', () => {
           dungeon.decrementTotalChestCount();
           dungeon.decrementTotalChestCount();
           dungeon.decrementTotalChestCount();
+          itemService.setItemState(ItemKey.Flute, 1);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Hookshot, 1);
@@ -2332,6 +2364,7 @@ describe( 'The dungeon location service', () => {
           dungeon.decrementTotalChestCount();
           dungeon.decrementTotalChestCount();
           dungeon.decrementTotalChestCount();
+          itemService.setItemState(ItemKey.Flute, 1);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Hookshot, 1);
@@ -2354,6 +2387,7 @@ describe( 'The dungeon location service', () => {
           dungeon.decrementTotalChestCount();
           dungeon.decrementTotalChestCount();
           dungeon.decrementTotalChestCount();
+          itemService.setItemState(ItemKey.Flute, 1);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Hookshot, 1);
@@ -2370,6 +2404,7 @@ describe( 'The dungeon location service', () => {
         it( 'is fully raidable with the lantern, cane of somaria, and big key.', () => {
           const dungeon = dungeonService.getDungeon(location);
           dungeon.toggleBigKey();
+          itemService.setItemState(ItemKey.Flute, 1);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Hookshot, 1);

@@ -9,5 +9,5 @@ import '../assets/css/styles.css';
 })
 
 export class AppComponent {
-  title = 'Stumpy, a Link to the Past Item Tracker';
+  title = 'Stumpy, a Link to the Past Item Tracker by Wolfman2000';
 } /* istanbul ignore next */
