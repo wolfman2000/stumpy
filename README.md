@@ -1,8 +1,8 @@
-# Stumpy, a Link to the Past Item Tracker
+# Stumpy, a Link to the Past Item Tracker by Wolfman2000
 
 [![Build Status](https://travis-ci.org/wolfman2000/stumpy.svg?branch=master)](https://travis-ci.org/wolfman2000/stumpy)
 
-This is version 3.0.0 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
+This is version 3.2.0 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.2.
 
@@ -22,6 +22,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 * Flexible tracker layouts, whether through presets or full custom functionality.
 
 ## Releases
+
+Any full releases can be found on the official [Stumpy website](http://stumpy.nfshost.com).
 
 Any non pre-release is designed to work with an Apache server. Simply drop the files onto your webserver, restart it, and you should be good to go. Note that new releases will completely replace the old files due to the use of hashing.
 
