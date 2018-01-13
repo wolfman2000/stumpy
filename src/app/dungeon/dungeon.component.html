@@ -1,4 +1,47 @@
-<div [ngClass]="getBossClasses()" class="boss" (click)="whenClicked($event)"></div>
-<div *ngIf="hasChests()" class="chest-count" [ngClass]="getChestClasses()" (click)="whenChestClicked($event)">{{getChestResults()}}</div>
-<div *ngIf="hasReward()" [ngClass]="getRewardClasses()" (click)="whenRewardClicked($event)"></div>
-<div *ngIf="hasMedallion()" [ngClass]="getMedallionClasses()" (click)="whenMedallionClicked($event)"></div>
+<div
+  [ngClass]="getBossClasses()"
+  class="boss"
+  (click)="whenBossClicked($event)"
+  (contextmenu)="whenBossRightClicked($event)"
+></div>
+<div
+  class="abbr"
+  title="{{getDungeonName()}}"
+  (click)="whenBossClicked($event)"
+  (contextmenu)="whenBossRightClicked($event)"
+>
+  {{getDungeonAbbr()}}
+</div>
+<div
+  *ngIf="hasChests()"
+  class="chest-count"
+  [ngClass]="getChestClasses()"
+  (click)="whenChestClicked($event)"
+>
+  {{getChestResults()}}
+</div>
+<div
+  *ngIf="hasReward()"
+  [ngClass]="getRewardClasses()"
+  (click)="whenRewardClicked($event)"
+></div>
+<div
+  *ngIf="hasMedallion()"
+  [ngClass]="getMedallionClasses()"
+  (click)="whenMedallionClicked($event)"
+></div>
+<div
+  class="defeat-toggle"
+  [ngClass]="getBossToggleClasses()"
+  (click)="whenBossToggleClicked($event)"
+></div>
+<div
+  *ngIf="hasBigKey()"
+  [ngClass]="getBigKeyClasses()"
+  (click)="whenBigKeyClicked($event)"
+></div>
+<div
+  *ngIf="hasSmallKeys()"
+  [ngClass]="getSmallKeyClasses()"
+  (click)="whenSmallKeysClicked($event)"
+></div>

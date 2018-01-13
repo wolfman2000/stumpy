@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationModule } from './navigation/navigation.module';
 import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
+import { DungeonModule } from './dungeon/dungeon.module';
 
 import { LocalStorageService } from './local-storage.service';
 import { DungeonService } from './dungeon/dungeon.service';
@@ -59,6 +60,7 @@ describe( 'The main tracking component', () => {
       imports: [
         NgbModule.forRoot(),
         FormsModule,
+        DungeonModule.forRoot(),
         MapModule.forRoot(),
         ItemModule.forRoot(),
         NavigationModule.forRoot()
@@ -73,13 +75,5 @@ describe( 'The main tracking component', () => {
 
   it( 'should be created successfully.', () => {
     expect( de.componentInstance ).toBeTruthy();
-  });
-
-  it( 'can grab all of the dungeons.', () => {
-    expect( comp.allDungeons().length ).toBe( 12 );
-  });
-
-  it( 'can hide items depending on Keysanity statuses.', () => {
-    expect( comp.getKeysanityClass().hiding ).toBeTruthy();
   });
 });

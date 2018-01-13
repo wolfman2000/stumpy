@@ -8,10 +8,10 @@ import { CaptionModule } from './caption/caption.module';
 import { MapModule } from './map/map.module';
 import { ItemModule } from './items/item.module';
 import { NavigationModule } from './navigation/navigation.module';
+import { DungeonModule } from './dungeon/dungeon.module';
 
 import { AppComponent } from './app.component';
 import { RandomizerTrackerComponent } from './tracker.component';
-import { DungeonComponent } from './dungeon/dungeon.component';
 
 import { DungeonService } from './dungeon/dungeon.service';
 import { SettingsService } from './settings/settings.service';
@@ -36,8 +36,7 @@ describe( 'The application component', () => {
     TestBed.configureTestingModule( {
       declarations: [
         AppComponent,
-        RandomizerTrackerComponent,
-        DungeonComponent
+        RandomizerTrackerComponent
       ],
       imports: [
         NgbModule.forRoot(),
@@ -46,6 +45,7 @@ describe( 'The application component', () => {
         CaptionModule.forRoot(),
         MapModule.forRoot(),
         ItemModule.forRoot(),
+        DungeonModule.forRoot()
       ],
       providers: [
         WordSpacingPipe,
