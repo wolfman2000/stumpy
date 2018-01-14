@@ -4,7 +4,7 @@
 
 This is version 3.2.0 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.2.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.4.
 
 ## Features
 
