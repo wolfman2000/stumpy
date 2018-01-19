@@ -20,25 +20,29 @@ export class GoModeService {
 
   isGoMode(): Availability {
     const items = this._items;
-    // Bow is always required (assuming no enemizer): red mimics/goriyas.
-    if ( !items.bow ) {
-      return Availability.Unavailable;
-    }
+    const isGoalPedestal = this._settings.isGoalPedestal();
 
-    // Hammer is needed for practically all dark world navigation.
-    if ( !items.hammer ) {
-      return Availability.Unavailable;
-    }
+    if ( !isGoalPedestal ) {
+      // Bow is always required (assuming no enemizer): red mimics/goriyas.
+      if ( !items.bow ) {
+        return Availability.Unavailable;
+      }
 
-    // One light source is always required for the torches.
-    // Ideally, fire rod would always be required, but not guaranteed yet.
-    if ( !items.lantern && !items.fireRod ) {
-      return Availability.Unavailable;
-    }
+      // Hammer is needed for practically all dark world navigation.
+      if ( !items.hammer ) {
+        return Availability.Unavailable;
+      }
 
-    // When not in swordless mode, we need a sword.
-    if ( !this._settings.isSwordless() && items.sword < 2 ) {
-      return Availability.Unavailable;
+      // One light source is always required for the torches.
+      // Ideally, fire rod would always be required, but not guaranteed yet.
+      if ( !items.lantern && !items.fireRod ) {
+        return Availability.Unavailable;
+      }
+
+      // When not in swordless mode, we need a sword.
+      if ( !this._settings.isSwordless() && items.sword < 2 ) {
+        return Availability.Unavailable;
+      }
     }
 
     const dungeons = this.getCorrectDungeons();
@@ -51,7 +55,7 @@ export class GoModeService {
     } );
 
     if ( crystalAvailabilities.every( e => e === Availability.Available ) ) {
-      return items.silvers ? Availability.Available : Availability.Glitches;
+      return ( isGoalPedestal || items.silvers ) ? Availability.Available : Availability.Glitches;
     }
 
     if ( crystalAvailabilities.some(e => e === Availability.Unavailable ) ) {
@@ -74,12 +78,20 @@ export class GoModeService {
       return this._dungeons.allDungeons();
     }
 
+    if ( this._settings.isGoalPedestal() ) {
+      return this._dungeons.pendantDungeons();
+    }
+
     return this._dungeons.crystalDungeons();
   }
 
   private isDungeonCountCorrect( dungeons: Dungeon[] ): boolean {
     if ( this._settings.isGoalAllDungeons() ) {
       return true;
+    }
+
+    if ( this._settings.isGoalPedestal() ) {
+      return dungeons.length >= 3;
     }
 
     return dungeons.length >= 7;

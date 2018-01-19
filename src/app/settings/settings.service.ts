@@ -209,6 +209,10 @@ export class SettingsService {
     return this.goal === Goal.AllDungeons;
   }
 
+  isGoalPedestal(): boolean {
+    return this.goal === Goal.MasterSwordPedestal;
+  }
+
   isBossShuffleOn(): boolean {
     return this.enemy === Enemy.Boss;
   }

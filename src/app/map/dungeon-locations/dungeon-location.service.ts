@@ -1134,12 +1134,20 @@ export class DungeonLocationService {
       return this._dungeons.allDungeons();
     }
 
+    if ( this._settings.isGoalPedestal() ) {
+      return this._dungeons.pendantDungeons();
+    }
+
     return this._dungeons.crystalDungeons();
   }
 
   private isDungeonCountCorrect( dungeons: Dungeon[] ): boolean {
     if ( this._settings.isGoalAllDungeons() ) {
       return true;
+    }
+
+    if ( this._settings.isGoalPedestal() ) {
+      return dungeons.length >= 3;
     }
 
     return dungeons.length >= 7;
