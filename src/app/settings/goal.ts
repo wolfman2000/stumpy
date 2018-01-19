@@ -1,4 +1,5 @@
 export enum Goal {
   Ganon,
-  AllDungeons
+  AllDungeons,
+  MasterSwordPedestal
 }
