@@ -75,6 +75,10 @@ export class DungeonService {
       .filter( d => d.reward === Reward.StandardPendant || d.reward === Reward.GreenPendant );
   }
 
+  hasBigKey(id: number): boolean {
+    return id !== Location.CastleTower;
+  }
+
   private areAllRewardDungeonsBeaten(): boolean {
     return Array.from( this.dungeons.values() )
       .filter( d => d.reward !== Reward.None ).every( d => d.isBossDefeated );

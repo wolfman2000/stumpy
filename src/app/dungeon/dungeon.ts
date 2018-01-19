@@ -59,6 +59,9 @@ export class Dungeon {
   get smallKeyCount(): number {
     return this._smallKeyCount;
   }
+  get hasSmallKeys(): boolean {
+    return this.maxSmallKeys > 0;
+  }
   get hasBigKey(): boolean {
     return this._hasBigKey;
   }
@@ -67,6 +70,9 @@ export class Dungeon {
   }
   get entranceLock(): EntranceLock {
     return this._entranceLock;
+  }
+  get medallionName(): string {
+    return EntranceLock[this.entranceLock].toLowerCase();
   }
   get isBossDefeated(): boolean {
     return this._isBossDefeated;

@@ -4,9 +4,7 @@ import { DungeonService } from './dungeon.service';
 import { SettingsService } from '../settings/settings.service';
 
 import { Dungeon } from './dungeon';
-import { Location } from './location';
 import { Reward } from './reward';
-import { EntranceLock } from './entrance-lock';
 import { CamelCasePipe } from '../camel-case.pipe';
 
 @Component({
@@ -35,7 +33,7 @@ export class DungeonComponent implements OnInit {
       return false;
     }
 
-    return this.dungeonId !== Location.CastleTower;
+    return this.dungeonService.hasBigKey( this.dungeonId );
   }
 
   hasChests(): boolean {
@@ -102,7 +100,7 @@ export class DungeonComponent implements OnInit {
       medallion: true
     };
 
-    results[this.camelCasePipe.transform(EntranceLock[this.dungeon.entranceLock])] = true;
+    results[this.dungeon.medallionName] = true;
     return results;
   }
 
@@ -196,7 +194,7 @@ export class DungeonComponent implements OnInit {
       return false;
     }
 
-    return this.dungeonId !== Location.EasternPalace;
+    return this.dungeon.hasSmallKeys;
   }
 
   whenBossToggleClicked(evt: MouseEvent): void {
