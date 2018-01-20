@@ -1229,7 +1229,14 @@ export class DungeonLocationService {
   }
 
   getBossName(id: Location): string {
-    return this._dungeons.getDungeon(id).bossName;
+    const geographicDungeon = this._dungeons.getDungeon(id);
+    const bossId = geographicDungeon.bossId;
+    if ( bossId === id ) {
+      return geographicDungeon.bossName;
+    }
+
+    const bossDungeon = this._dungeons.getDungeon(bossId);
+    return bossDungeon.bossName;
   }
 
   hasChestsOrBossClaimed(id: Location): boolean {

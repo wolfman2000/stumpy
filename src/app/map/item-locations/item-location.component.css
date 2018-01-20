@@ -1,43 +1,18 @@
-:host {
-  cursor: pointer;
-}
-
-.available {
-  background-color: cyan;
-}
-
-.unavailable {
-  background-color: red;
-}
-
-.visible {
-  background-color: orange;
-}
-
-.possible {
-  background-color: gold;
-}
-
-.glitches {
-  background-color: cyan;
-  background-size: 8px 8px;
-}
-
-.glitchesVisible {
-  background-color: orange;
-  background-size: 8px 8px;
-}
-
-.claimed {
-  background-color: gray;
+.itemLocation {
+  fill: var(--availability-fill);
+  stroke: var(--availability-stroke);
 }
 
 div {
   position: absolute;
-  width: 24px;
-  height: 24px;
-  margin-left: -12px;
-  margin-top: -12px;
-  background-size: 100% 100%;
-  background-image: url('/assets/overlay/poi.png');
+  --total-size: 12px;
+  width: var(--total-size);
+  height: var(--total-size);
+  margin-left: calc(var(--total-size) / -2);
+  margin-top: calc(var(--total-size) / -2);
+}
+
+rect {
+  cursor: pointer;
+  stroke-width: 1.5rem;
 }

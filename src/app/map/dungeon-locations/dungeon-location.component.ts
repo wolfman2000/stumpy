@@ -41,6 +41,16 @@ export class DungeonLocationComponent implements OnInit {
     return results;
   }
 
+  getTreasureClasses(): any {
+    const results = {
+      claimed: this._dungeonLocationService.hasChestsOrBossClaimed(this.dungeonLocationId)
+    };
+
+    const availability = this._dungeonLocationService.getChestAvailability(this.dungeonLocationId);
+    results[this.camelCasePipe.transform(Availability[availability])] = true;
+    return results;
+  }
+
   getSurroundingStyle(): any {
     return {
       left: this._dungeonLocation.left + '%',
@@ -52,15 +62,14 @@ export class DungeonLocationComponent implements OnInit {
     const results = {
       claimed: this._dungeonLocationService.isBossDefeated(this.dungeonLocationId)
     };
-    results[this.camelCasePipe.transform(this._dungeonLocationService.getBossName(this.dungeonLocationId))] = true;
 
     const availability = this._dungeonLocationService.getBossAvailability(this.dungeonLocationId);
     results[this.camelCasePipe.transform(Availability[availability])] = true;
     return results;
   }
 
-  getBossStyle(): any {
-    return this.getSurroundingStyle();
+  getBossBackground(): string {
+    return 'url(#' + this.camelCasePipe.transform(this._dungeonLocationService.getBossName(this.dungeonLocationId)) + ')';
   }
 
   whenInside(evt: MouseEvent): void {

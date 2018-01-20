@@ -1,4 +1,15 @@
-<div (mouseover)="whenInside($event)" (mouseleave)="whenOutside($event)">
-  <div [ngClass]="getSurroundingClasses()" [ngStyle]="getSurroundingStyle()"></div>
-  <div class="boss" [ngClass]="getBossClasses()" [ngStyle]="getBossStyle()"></div>
+<div [ngStyle]="getSurroundingStyle()" [ngClass]="getSurroundingClasses()">
+  <svg viewBox="0 0 100 100" (mouseover)="whenInside($event)" (mouseleave)="whenOutside($event)">
+    <rect
+      width="100%" height="100%"
+      class="treasure" [ngClass]="getTreasureClasses()"></rect>
+    <rect
+      class="boss" [ngClass]="getBossClasses()"
+      x="25" y="25" width="50" height="50"></rect>
+    <rect
+      class="boss"
+      x="25" y="25" width="50" height="50"
+      [attr.fill]="getBossBackground()"
+    ></rect>
+  </svg>
 </div>

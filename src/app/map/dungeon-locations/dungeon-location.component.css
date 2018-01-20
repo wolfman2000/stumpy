@@ -1,101 +1,69 @@
-.available {
-  background-color: cyan;
-}
-
-.unavailable {
-  background-color: red;
-}
-
-.visible {
-  background-color: orange;
-}
-
-.possible {
-  background-color: gold;
-}
-
-.glitches {
-  background-color: cyan;
-}
-
-.glitchesVisible {
-  background-color: orange;
-}
-
-.boss.glitches,
-.boss.glitchesVisible {
-  background-size: 50% 50%;
-}
-
-.claimed {
-  background-color: gray;
-}
-
-.dungeon {
-  background-image: url('/assets/overlay/poi.png');
+:host > div {
   position: absolute;
-  background-size: 100% 100%;
-  width: 48px;
-  height: 48px;
-  margin-left: -24px;
-  margin-top: -24px;
+  --total-size: 36px;
+  width: var(--total-size);
+  height: var(--total-size);
+  margin-left: calc(var(--total-size) / -2);
+  margin-top: calc(var(--total-size) / -2);
 }
 
-.boss {
-  width: 24px;
-  height: 24px;
-  margin-left: -12px;
-  margin-top: -12px;
-  position: absolute;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 75% 75%;
+rect {
+  stroke-width: 1rem;
 }
 
-.agahnim {
-  background-image: url('/assets/bosses/agahnim0.png');
+rect:first-child, rect:first-child + rect {
+  fill: var(--availability-fill);
+  stroke: var(--availability-stroke);
 }
 
-.armosKnights {
-  background-image: url('/assets/bosses/armosKnights.png');
+rect.boss {
+  stroke-width: 0.25rem;
 }
 
-.arrghus {
-  background-image: url('/assets/bosses/arrghus.png');
+rect:first-child + rect + rect.agahnim {
+  fill: url(#agahnim);
 }
 
-.blind {
-  background-image: url('/assets/bosses/blind.png');
+rect:first-child + rect + rect.armosKnights {
+  fill: url(#armosKnights);
 }
 
-.helmasaurKing {
-  background-image: url('/assets/bosses/helmasaurKing.png');
+rect:first-child + rect + rect.arrghus {
+  fill: url(#arrghus);
 }
 
-.kholdstare {
-  background-image: url('/assets/bosses/kholdstare.png');
+rect:first-child + rect + rect.blind {
+  fill: url(#blind);
 }
 
-.lanmolas {
-  background-image: url('/assets/bosses/lanmolas.png');
+rect:first-child + rect + rect.helmasaurKing {
+  fill: url(#helmasaurKing);
 }
 
-.moldorm {
-  background-image: url('/assets/bosses/moldorm.png');
+rect:first-child + rect + rect.kholdstare {
+  fill: url(#kholdstare);
 }
 
-.mothula {
-  background-image: url('/assets/bosses/mothula.png');
+rect:first-child + rect + rect.lanmolas {
+  fill: url(#lanmolas);
 }
 
-.trinexx {
-  background-image: url('/assets/bosses/trinexx.png');
+rect:first-child + rect + rect.moldorm {
+  fill: url(#moldorm);
 }
 
-.vitreous {
-  background-image: url('/assets/bosses/vitreous.png');
+rect:first-child + rect + rect.mothula {
+  fill: url(#mothula);
 }
 
-.agahnim2 {
-  background-image: url('/assets/bosses/ganonTower.png');
+rect:first-child + rect + rect.trinexx {
+  fill: url(#trinexx);
+}
+
+rect:first-child + rect + rect.vitreous {
+  fill: url(#vitreous);
+}
+
+rect:first-child + rect + rect.agahnim2 {
+  fill: url(#agahnim2);
 }
