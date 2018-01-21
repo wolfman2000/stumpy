@@ -12,7 +12,11 @@ div {
   margin-top: calc(var(--total-size) / -2);
 }
 
-rect {
+svg > * {
   cursor: pointer;
   stroke-width: 1.5rem;
+}
+
+svg > polygon {
+  stroke-width: 1rem;
 }

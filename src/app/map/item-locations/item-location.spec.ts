@@ -1,11 +1,13 @@
 import { ItemLocation } from './item-location';
 import { Availability } from '../availability';
 
+import { LocationType } from '../location-type';
+
 describe( 'A generic item location', () => {
   let itemLocation: ItemLocation;
 
   beforeEach( () => {
-    itemLocation = new ItemLocation( 'Generic Location', 'Nothing yet', 40, 20.5 );
+    itemLocation = new ItemLocation( 'Generic Location', 'Nothing yet', LocationType.Single, 40, 20.5 );
   });
 
   it( 'can have its name validated.', () => {
