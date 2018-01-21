@@ -1,11 +1,13 @@
 import { ItemLocation } from './item-location';
 import { LocationKey } from './location-key';
+import { LocationType } from '../location-type';
 
-export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey, ItemLocation>(
+export const ItemLocations = new Map<LocationKey, ItemLocation>(
   [[
     LocationKey.KingsTomb, new ItemLocation(
       'King\'s Tomb',
       '{boots} and {glove2} or {mirror}',
+      LocationType.Single,
       61.6,
       29.6
     )
@@ -13,6 +15,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.LightWorldSwamp, new ItemLocation(
       'Light World Swamp',
       '',
+      LocationType.Single,
       46.8,
       93.4
     )
@@ -20,6 +23,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.LinksHouse, new ItemLocation(
       'Link\'s House',
       '',
+      LocationType.Single,
       54.8,
       67.9
     )
@@ -28,12 +32,14 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
       'Spiral Cave',
       'East Death Mountain Access',
       79.8,
+      LocationType.Multiple,
       9.3
     )
   ], [
     LocationKey.MimicCave, new ItemLocation(
       'Mimic Cave',
       '{mirror}',
+      LocationType.Single,
       85.2,
       9.3
     )
@@ -41,6 +47,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.Tavern, new ItemLocation(
       'Tavern',
       '',
+      LocationType.Single,
       16.2,
       57.8
     )
@@ -48,6 +55,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.ChickenHouse, new ItemLocation(
       'Chicken House',
       '{bomb}',
+      LocationType.Single,
       8.8,
       54.2
     )
@@ -55,6 +63,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.AginahsCave, new ItemLocation(
       'Aginah\'s Cave',
       '{bomb}',
+      LocationType.Single,
       20,
       82.6
     )
@@ -62,6 +71,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.SahasrahlasHut, new ItemLocation(
       'Sahasrahla\'s Hut',
       '',
+      LocationType.Single,
       81.4,
       41.4
     )
@@ -69,6 +79,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.KakarikoWell, new ItemLocation(
       'Kakariko Well',
       '{bomb} for one',
+      LocationType.Pit,
       3,
       41
     )
@@ -76,6 +87,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.BlindsHut, new ItemLocation(
       'Blind\'s Hut',
       '{bomb} for one',
+      LocationType.Single,
       12.8,
       41
     )
@@ -83,6 +95,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.ParadoxCave, new ItemLocation(
       'Paradox Cave',
       '{bomb} for two',
+      LocationType.Multiple,
       82.8,
       17.1
     )
@@ -90,6 +103,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.BonkRocks, new ItemLocation(
       'Bonk Rocks',
       '{boots}',
+      LocationType.Single,
       39,
       29.3
     )
@@ -97,6 +111,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.MiniMoldormCave, new ItemLocation(
       'Minimoldorm Cave',
       '{bomb}',
+      LocationType.Single,
       65.2,
       93.4
     )
@@ -104,6 +119,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.IceRodCave, new ItemLocation(
       'Ice Rod Cave',
       '{bomb}',
+      LocationType.Single,
       89.2,
       76.9
     )
@@ -111,6 +127,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.BottleVendor, new ItemLocation(
       'Bottle Vendor',
       '100 rupees',
+      LocationType.Outside,
       9,
       46.8
     )
@@ -118,6 +135,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.SahasrahlasReward, new ItemLocation(
       'Sahasrahla',
       'Green Pendant',
+      LocationType.Outside,
       81.4,
       46.7
     )
@@ -125,6 +143,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.SickKid, new ItemLocation(
       'Sick kid',
       'at least one {bottle0}',
+      LocationType.Single,
       15.6,
       52.1
     )
@@ -132,6 +151,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.BridgeHideout, new ItemLocation(
       'Hideout under the bridge',
       '{flippers}',
+      LocationType.Outside,
       70.8,
       69.7
     )
@@ -139,6 +159,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.EtherTablet, new ItemLocation(
       'Ether Tablet',
       '{sword2} and {book}',
+      LocationType.Outside,
       42,
       3
     )
@@ -147,12 +168,14 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
       'Bombos Tablet',
       '{sword2} and {book}',
       22,
+      LocationType.Outside,
       92.2
     )
   ], [
     LocationKey.KingZora, new ItemLocation(
       'King Zora',
       '500 rupees',
+      LocationType.Outside,
       96,
       12.1
     )
@@ -160,6 +183,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.LostOldMan, new ItemLocation(
       'Lost Old Man',
       '{lantern}',
+      LocationType.Multiple,
       41.6,
       20.4
     )
@@ -167,6 +191,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.PotionShop, new ItemLocation(
       'Witch outside Potion Shop',
       '{mushroom}',
+      LocationType.Single,
       81.6,
       32.5
     )
@@ -174,6 +199,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.ForestHideout, new ItemLocation(
       'Forest Hideout',
       '',
+      LocationType.Pit,
       18.8,
       13
     )
@@ -181,6 +207,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.LumberjackTree, new ItemLocation(
       'Lumberjack Tree',
       'agahnim and {boots}',
+      LocationType.Pit,
       30.4,
       7.6
     )
@@ -188,6 +215,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.SpectacleRockCave, new ItemLocation(
       'Spectacle Rock Cave',
       '{glove1} & {lantern}',
+      LocationType.Multiple,
       48.6,
       14.8
     )
@@ -195,6 +223,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.MirrorCave, new ItemLocation(
       'South of Grove (Mirror Cave)',
       '{mirror}',
+      LocationType.Single,
       28.2,
       84.1
     )
@@ -202,6 +231,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.GraveyardCliffCave, new ItemLocation(
       'Graveyard Cliff Cave',
       '{mirror}',
+      LocationType.Single,
       56.2,
       27
     )
@@ -209,6 +239,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.CheckerboardCave, new ItemLocation(
       'Checkerboard Cave',
       '{mirror}',
+      LocationType.Single,
       17.6,
       77.3
     )
@@ -216,6 +247,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.Library, new ItemLocation(
       'Library',
       '{boots}',
+      LocationType.Single,
       15.4,
       65.9
     )
@@ -223,6 +255,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.Mushroom, new ItemLocation(
       'Mushroom',
       '',
+      LocationType.Outside,
       12.4,
       8.6
     )
@@ -230,6 +263,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.SpectacleRock, new ItemLocation(
       'Spectacle Rock',
       '{mirror}',
+      LocationType.Outside,
       50.8,
       8.5
     )
@@ -237,6 +271,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.FloatingIsland, new ItemLocation(
       'Floating Island',
       '{mirror}',
+      LocationType.Outside,
       80.4,
       3
     )
@@ -244,6 +279,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.RaceMinigame, new ItemLocation(
       'Race minigame',
       '{bomb} or {boots}',
+      LocationType.Outside,
       3.6,
       69.8
     )
@@ -251,6 +287,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.DesertWestLedge, new ItemLocation(
       'Desert West Ledge',
       '{book} or {mirror}',
+      LocationType.Outside,
       3,
       91
     )
@@ -258,6 +295,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.LakeHyliaIsland, new ItemLocation(
       'Lake Hylia Island',
       '{mirror}',
+      LocationType.Outside,
       72.2,
       82.9
     )
@@ -265,6 +303,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.ZoraLedge, new ItemLocation(
       'Zora River Ledge',
       '{flippers}',
+      LocationType.Outside,
       95.4,
       17.3
     )
@@ -272,6 +311,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.BuriedItem, new ItemLocation(
       'Buried Item',
       '{shovel}',
+      LocationType.Outside,
       28.8,
       66.2
     )
@@ -279,6 +319,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.SewerEscapeSideRoom, new ItemLocation(
       'Escape Sewer Side Room',
       '{bomb} or {boots}',
+      LocationType.Multiple,
       53.6,
       32.4
     )
@@ -286,6 +327,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.CastleSecretEntrance, new ItemLocation(
       'Castle Secret Entrance',
       '',
+      LocationType.Pit,
       59.6,
       41.8
     )
@@ -293,6 +335,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.CastleDungeon, new ItemLocation(
       'Hyrule Castle Dungeon',
       '',
+      LocationType.Multiple,
       50,
       44.1
     )
@@ -300,6 +343,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.Sanctuary, new ItemLocation(
       'Sanctuary',
       '',
+      LocationType.Multiple,
       46,
       28
     )
@@ -307,13 +351,15 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.MadBatter, new ItemLocation(
       'Mad Batter',
       '{hammer} or {mirror}, plus {powder}',
-      32,
-      58
+      LocationType.Pit,
+      33,
+      56
     )
   ], [
     LocationKey.DwarfEscort, new ItemLocation(
       'Take the dwarf/frog home',
       '{mirror} or Save and Quit',
+      LocationType.Outside,
       30.4,
       51.8
     )
@@ -321,6 +367,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.MasterSwordPedestal, new ItemLocation(
       'Master Sword Pedestal',
       'All Three Pendants',
+      LocationType.Outside,
       5,
       3.2
     )
@@ -328,6 +375,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.SewerEscapeDarkRoom, new ItemLocation(
       'Escape Sewer Dark Room',
       '{lantern}',
+      LocationType.Multiple,
       51.2,
       38.2
     )
@@ -335,6 +383,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.WaterfallOfWishing, new ItemLocation(
       'Waterfall of Wishing',
       '{flippers}',
+      LocationType.Single,
       89.8,
       14.7
     )
@@ -342,6 +391,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.BombableHut, new ItemLocation(
       'Bombable Hut',
       '{bomb}',
+      LocationType.Single,
       10.8,
       57.8
     )
@@ -349,6 +399,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.CShapedHouse, new ItemLocation(
       'C-Shaped House',
       '',
+      LocationType.Single,
       21.6,
       47.9
     )
@@ -356,6 +407,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.MireHut, new ItemLocation(
       'Mire Hut',
       '{mirror} and {glove2}',
+      LocationType.Single,
       3.4,
       79.5
     )
@@ -363,6 +415,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.SuperBunnyCave, new ItemLocation(
       'SuperBunny Cave',
       '{glove2}',
+      LocationType.Multiple,
       85.6,
       14.7
     )
@@ -370,6 +423,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.SpikeCave, new ItemLocation(
       'Spike Cave',
       '{cape} or {byrna}',
+      LocationType.Single,
       57.2,
       14.9
     )
@@ -377,6 +431,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.HypeCave, new ItemLocation(
       'Hype Cave',
       '{bomb}',
+      LocationType.Single,
       60,
       77.1
     )
@@ -384,6 +439,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.HookshotCaveBottom, new ItemLocation(
       'Hookshot Cave (Boots Accessible)',
       '{hookshot} or {boots}',
+      LocationType.Multiple,
       83.2,
       8.6
     )
@@ -391,6 +447,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.HookshotCaveTop, new ItemLocation(
       'Hookshot Cave (Not Boots Accessible)',
       '{hookshot}',
+      LocationType.Multiple,
       83.2,
       3.4
     )
@@ -398,6 +455,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.TreasureChestMinigame, new ItemLocation(
       'Treasure Chest Mini-game',
       '',
+      LocationType.Single,
       4.2,
       46.4
     )
@@ -405,6 +463,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.StumpKid, new ItemLocation(
       'Stump Kid',
       '',
+      LocationType.Outside,
       31,
       68.6
     )
@@ -412,6 +471,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.PurpleChest, new ItemLocation(
       'Purple Chest',
       '',
+      LocationType.Outside,
       30.4,
       52.2
     )
@@ -419,6 +479,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.Catfish, new ItemLocation(
       'Catfish',
       '',
+      LocationType.Outside,
       92,
       17.2
     )
@@ -426,6 +487,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.HammerPegCave, new ItemLocation(
       'Hammer Peg Cave',
       '{hammer} and {glove2}',
+      LocationType.Single,
       31.6,
       60.1
     )
@@ -433,6 +495,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.BumperCave, new ItemLocation(
       'Bumper Cave',
       '{cape}',
+      LocationType.Multiple,
       34.2,
       15.2
     )
@@ -440,6 +503,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.Pyramid, new ItemLocation(
       'Pyramid Ledge',
       '',
+      LocationType.Outside,
       58,
       43.5
     )
@@ -447,6 +511,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.DiggingGame, new ItemLocation(
       'Digging Minigame',
       '',
+      LocationType.Outside,
       5.8,
       69.2
     )
@@ -454,6 +519,7 @@ export const ItemLocations: Map<LocationKey, ItemLocation> = new Map<LocationKey
     LocationKey.PyramidFairy, new ItemLocation(
       'Pyramid Fairy',
       'Crystals 5 and 6',
+      LocationType.Single,
       47,
       48.5
     )

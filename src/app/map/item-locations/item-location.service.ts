@@ -777,6 +777,22 @@ export class ItemLocationService {
     return this.itemLocations.get(id);
   }
 
+  isOutside(id: number): boolean {
+    return this.getItemLocation(id).isOutside();
+  }
+
+  isInPit(id: number): boolean {
+    return this.getItemLocation(id).isInPit();
+  }
+
+  isInSingleEntranceCave(id: number): boolean {
+    return this.getItemLocation(id).isInSingleEntranceCave();
+  }
+
+  isInMultipleEntranceCave(id: number): boolean {
+    return this.getItemLocation(id).isInMultipleEntranceCave();
+  }
+
   reset(): void {
     this._itemLocations.forEach( l => {
       if ( l.isOpened ) {

@@ -59,6 +59,22 @@ export class ItemLocationComponent implements OnInit {
     };
   }
 
+  isOutside(): boolean {
+    return this._itemLocationService.isOutside(this.itemLocationId);
+  }
+
+  isInPit(): boolean {
+    return this._itemLocationService.isInPit(this.itemLocationId);
+  }
+
+  isInSingleEntranceCave(): boolean {
+    return this._itemLocationService.isInSingleEntranceCave(this.itemLocationId);
+  }
+
+  isInMultipleEntranceCave(): boolean {
+    return this._itemLocationService.isInMultipleEntranceCave(this.itemLocationId);
+  }
+
   getClasses(): any {
     const results: any = {
       itemLocation: true,

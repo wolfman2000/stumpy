@@ -2,12 +2,34 @@
   [ngClass]="getClasses()"
   [ngStyle]="getStyle()"
 >
-  <svg
-  viewBox="0 0 100 100">
+  <svg viewBox="0 0 100 100">
     <rect
-    (click)="whenClicked($event)"
-    (mouseover)="whenInside($event)"
-    (mouseleave)="whenOutside($event)"
-    width="100%" height="100%"></rect>
+      width="100%" height="100%"
+      *ngIf="isInSingleEntranceCave()"
+      (click)="whenClicked($event)"
+      (mouseover)="whenInside($event)"
+      (mouseleave)="whenOutside($event)"
+    ></rect>
+    <circle
+      cx="50%" cy="50%" r="40%"
+      *ngIf="isOutside()"
+      (click)="whenClicked($event)"
+      (mouseover)="whenInside($event)"
+      (mouseleave)="whenOutside($event)"
+    ></circle>
+    <polygon
+      points="5,5 95,5 50,95"
+      *ngIf="isInPit()"
+      (click)="whenClicked($event)"
+      (mouseover)="whenInside($event)"
+      (mouseleave)="whenOutside($event)"
+    ></polygon>
+    <polygon
+      points="50,5 95,50 50,95 5,50"
+      *ngIf="isInMultipleEntranceCave()"
+      (click)="whenClicked($event)"
+      (mouseover)="whenInside($event)"
+      (mouseleave)="whenOutside($event)"
+    ></polygon>
   </svg>
 </div>
