@@ -1,40 +1,36 @@
 .available {
-  background-color: cyan;
-  background-size: 100% 100%;
+  --availability-fill: cyan;
 }
 
 .unavailable {
-  background-color: red;
-  background-size: 100% 100%;
+  --availability-fill: red;
 }
 
 .visible {
-  background-color: orange;
-  background-size: 100% 100%;
+  --availability-fill: orange;
 }
 
 .possible {
-  background-color: gold;
-  background-size: 100% 100%;
+  --availability-fill: gold;
 }
 
 .glitches {
-  background-color: cyan;
-  background-size: 14px 10px;
+  --availability-fill: cyan;
 }
 
 .glitchesVisible {
-  background-color: orange;
-  background-size: 14px 10px;
+  --availability-fill: orange;
 }
 
 .claimed {
-  background-color: gray;
-  background-size: 100% 100%;
+  --availability-fill: gray;
 }
 
 tr > td:first-child + td {
-  width: 12px;
-  height: 12px;
-  background-image: url('/assets/overlay/poi.png');
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+rect {
+  fill: var(--availability-fill);
 }

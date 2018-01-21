@@ -51,6 +51,16 @@
         for the dungeon. This is only sued in Keysanity seeds.
       </li>
     </ul>
+    <h6>Map</h6>
+    <p>
+      The map has many squares on it: these represent locations where
+      items are found. If it is an item outside of a dungeon, clicking
+      on the square marks it as found. Dungeons cannot be marked as such:
+      instead, refer to the boss guide above. Note that boss squares
+      are double squares: the outer square represents the possibility of taking
+      every treasure from the dungeon, while the inner square focuses solely on
+      the boss of the dungeon.
+    </p>
     <h5>Settings</h5>
     <p>If the settings are confusing, the explanations are here.</p>
     <h6>Mode</h6>
@@ -152,20 +162,36 @@
       </thead>
       <tbody>
         <tr>
-          <td>Available</td>
-          <td class="available"></td>
+          <td>Available: This can be grabbed now.</td>
+          <td class="available">
+            <svg viewBox="0 0 100 100">
+              <rect width="100%" height="100%"></rect>
+            </svg>
+          </td>
         </tr>
         <tr>
-          <td>Visible</td>
-          <td class="visible"></td>
+          <td>Visible: This can be seen, but not taken.</td>
+          <td class="visible">
+            <svg viewBox="0 0 100 100">
+              <rect width="100%" height="100%"></rect>
+            </svg>
+          </td>
         </tr>
         <tr>
-          <td>Possible</td>
-          <td class="possible"></td>
+          <td>Possible: This may be possible depending on other requirements.</td>
+          <td class="possible">
+            <svg viewBox="0 0 100 100">
+              <rect width="100%" height="100%"></rect>
+            </svg>
+          </td>
         </tr>
         <tr>
-          <td>Unavailable</td>
-          <td class="unavailable"></td>
+          <td>Unavailable: This cannot be gotten at all.</td>
+          <td class="unavailable">
+            <svg viewBox="0 0 100 100">
+              <rect width="100%" height="100%"></rect>
+            </svg>
+          </td>
         </tr>
         <!--
         <tr>
@@ -178,17 +204,18 @@
         </tr>
         -->
         <tr>
-          <td>Claimed</td>
-          <td class="claimed"></td>
+          <td>Claimed: This has already been marked off.</td>
+          <td class="claimed">
+            <svg viewBox="0 0 100 100">
+              <rect width="100%" height="100%"></rect>
+            </svg>
+          </td>
         </tr>
       </tbody>
     </table>
     <p>
-      If glitches or sequence breaks can be used to get items in the overworld,
-      the squares will be turned into tiny squares.
-    </p>
-    <p>
-      If bosses/dungeons can be broken with said breaks, then the boss character will be shrunk.
+      If glitches or sequence breaks can be used to get items prematurely,
+      the surrounding square color will be white instead of black.
     </p>
   </div>
   <div class="modal-footer">

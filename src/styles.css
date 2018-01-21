@@ -16,3 +16,44 @@ img.inline {
 .hidden {
   display: none;
 }
+
+.available {
+  --availability-fill: cyan;
+  --availability-stroke: black;
+}
+
+.unavailable {
+  --availability-fill: red;
+  --availability-stroke: black;
+}
+
+.visible {
+  --availability-fill: orange;
+  --availability-stroke: black;
+}
+
+.possible {
+  --availability-fill: gold;
+  --availability-stroke: black;
+}
+
+.glitches {
+  --availability-fill: cyan;
+  --availability-stroke: white;
+}
+
+.glitchesVisible {
+  --availability-fill: orange;
+  --availability-stroke: white;
+}
+
+.claimed {
+  --availability-fill: gray;
+  --availability-stroke: black;
+}
+
+body > svg {
+  display: block;
+  width: 0;
+  height: 0;
+}
