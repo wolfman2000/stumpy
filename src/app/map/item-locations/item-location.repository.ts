@@ -167,8 +167,8 @@ export const ItemLocations = new Map<LocationKey, ItemLocation>(
     LocationKey.BombosTablet, new ItemLocation(
       'Bombos Tablet',
       '{sword2} and {book}',
-      22,
       LocationType.Outside,
+      22,
       92.2
     )
   ], [
