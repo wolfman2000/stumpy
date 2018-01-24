@@ -31,8 +31,8 @@ export const ItemLocations = new Map<LocationKey, ItemLocation>(
     LocationKey.SpiralCave, new ItemLocation(
       'Spiral Cave',
       'East Death Mountain Access',
-      79.8,
       LocationType.Multiple,
+      79.8,
       9.3
     )
   ], [
