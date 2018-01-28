@@ -52,13 +52,19 @@ describe( 'The item location service', () => {
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
     });
 
-    it( 'can be made available with the gloves, a hammer, and a mirror, assuming glitches are used.', () => {
+    it( 'cannot be done even with the mitts, pearl, and mirror.', () => {
       itemService.setItemState(ItemKey.MoonPearl, 1);
       itemService.setItemState(ItemKey.Glove, 1);
       itemService.setItemState(ItemKey.Hammer, 1);
       itemService.setItemState(ItemKey.Mirror, 1);
 
-      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Glitches );
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'cannot be gotten with just the boots, though.', () => {
+      itemService.setItemState(ItemKey.Boots, 1);
+
+      expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
     });
 
     it( 'can cleanly be made available with gloves, hammer, mirror, and boots.', () => {
@@ -1468,6 +1474,29 @@ describe( 'The item location service', () => {
       dungeonService.dungeons.forEach( d => d.toggleDefeat() );
       itemService.setItemState(ItemKey.MoonPearl, 1);
       itemService.setItemState(ItemKey.Hammer, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
+    });
+  });
+
+  describe( 'set to the Village of Outcasts bombable hut', () => {
+    const location = LocationKey.BombableHut;
+
+    it( 'starts off as unavailable.', () => {
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires more than access to the village', () => {
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+
+      expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Unavailable );
+    });
+
+    it( 'requires bombs to enter.', () => {
+      itemService.setItemState(ItemKey.Glove, 2);
+      itemService.setItemState(ItemKey.MoonPearl, 1);
+      itemService.setItemState(ItemKey.Bomb, 1);
 
       expect( itemLocationService.getAvailability( location ) ).toBe( Availability.Available );
     });
