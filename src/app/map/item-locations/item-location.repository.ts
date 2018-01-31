@@ -79,7 +79,7 @@ export const ItemLocations = new Map<LocationKey, ItemLocation>(
     LocationKey.KakarikoWell, new ItemLocation(
       'Kakariko Well',
       '{bomb} for one',
-      LocationType.Pit,
+      LocationType.PitEntrance,
       3,
       41
     )
@@ -199,7 +199,7 @@ export const ItemLocations = new Map<LocationKey, ItemLocation>(
     LocationKey.ForestHideout, new ItemLocation(
       'Forest Hideout',
       '',
-      LocationType.Pit,
+      LocationType.PitEntrance,
       18.8,
       13
     )
@@ -207,7 +207,7 @@ export const ItemLocations = new Map<LocationKey, ItemLocation>(
     LocationKey.LumberjackTree, new ItemLocation(
       'Lumberjack Tree',
       'agahnim and {boots}',
-      LocationType.Pit,
+      LocationType.PitEntrance,
       30.4,
       7.6
     )
@@ -327,7 +327,7 @@ export const ItemLocations = new Map<LocationKey, ItemLocation>(
     LocationKey.CastleSecretEntrance, new ItemLocation(
       'Castle Secret Entrance',
       '',
-      LocationType.Pit,
+      LocationType.PitEntrance,
       59.6,
       41.8
     )
@@ -343,7 +343,7 @@ export const ItemLocations = new Map<LocationKey, ItemLocation>(
     LocationKey.Sanctuary, new ItemLocation(
       'Sanctuary',
       '',
-      LocationType.Multiple,
+      LocationType.PitExit,
       46,
       28
     )
@@ -351,7 +351,7 @@ export const ItemLocations = new Map<LocationKey, ItemLocation>(
     LocationKey.MadBatter, new ItemLocation(
       'Mad Batter',
       '{hammer} or {mirror}, plus {powder}',
-      LocationType.Pit,
+      LocationType.PitEntrance,
       33,
       56
     )

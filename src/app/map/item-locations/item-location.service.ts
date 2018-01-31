@@ -787,6 +787,10 @@ export class ItemLocationService {
     return this.getItemLocation(id).isInPit();
   }
 
+  isOutOfPit(id: number): boolean {
+    return this.getItemLocation(id).isOutOfPit();
+  }
+
   isInSingleEntranceCave(id: number): boolean {
     return this.getItemLocation(id).isInSingleEntranceCave();
   }
