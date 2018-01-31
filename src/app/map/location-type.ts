@@ -1,6 +1,7 @@
 export enum LocationType {
   Outside,
-  Pit,
+  PitEntrance,
+  PitExit,
   Single,
   Multiple
 }

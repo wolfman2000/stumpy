@@ -45,7 +45,11 @@ export class ItemLocation {
   }
 
   isInPit(): boolean {
-    return this._locationType === LocationType.Pit;
+    return this._locationType === LocationType.PitEntrance;
+  }
+
+  isOutOfPit(): boolean {
+    return this._locationType === LocationType.PitExit;
   }
 
   isInSingleEntranceCave(): boolean {

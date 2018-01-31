@@ -67,6 +67,10 @@ export class ItemLocationComponent implements OnInit {
     return this._itemLocationService.isInPit(this.itemLocationId);
   }
 
+  isOutOfPit(): boolean {
+    return this._itemLocationService.isOutOfPit(this.itemLocationId);
+  }
+
   isInSingleEntranceCave(): boolean {
     return this._itemLocationService.isInSingleEntranceCave(this.itemLocationId);
   }

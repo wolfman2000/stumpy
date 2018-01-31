@@ -25,6 +25,13 @@
       (mouseleave)="whenOutside($event)"
     ></polygon>
     <polygon
+      points="5,95 95,95 50,5"
+      *ngIf="isOutOfPit()"
+      (click)="whenClicked($event)"
+      (mouseover)="whenInside($event)"
+      (mouseleave)="whenOutside($event)"
+    ></polygon>
+    <polygon
       points="50,5 95,50 50,95 5,50"
       *ngIf="isInMultipleEntranceCave()"
       (click)="whenClicked($event)"
