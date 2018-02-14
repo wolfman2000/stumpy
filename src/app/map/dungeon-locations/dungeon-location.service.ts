@@ -324,6 +324,10 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
+    if ( !dungeon.hasBigKey ) {
+      return Availability.Unavailable;
+    }
+
     return items.hasDeathMountainLogicalAccess()
       ? Availability.Available
       : Availability.Glitches;
