@@ -60,20 +60,20 @@ describe( 'The dungeon location service', () => {
 
       describe( 'with a sword available', () => {
         it( 'starts off as unavailable.', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe( Availability.Unavailable );
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'can be made available with the master sword, with a sequence break.', () => {
           itemService.getItem(ItemKey.Sword).state = 2;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe( Availability.Glitches );
+          checkChestAvailability( location, Availability.Glitches );
         });
 
         it( 'can be made available with the master sword and the lantern.', () => {
           itemService.getItem(ItemKey.Sword).state = 2;
           itemService.getItem(ItemKey.Lantern).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe( Availability.Available );
+          checkChestAvailability( location, Availability.Available );
         });
       });
 
@@ -118,32 +118,32 @@ describe( 'The dungeon location service', () => {
 
       describe( '-- the boss --', () => {
         it( 'cannot be beaten at the start.', () => {
-          expect( dungeonLocationService.getBossAvailability(location)).toBe( Availability.Unavailable );
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'can be beaten with the bow, if dark rooms can be navigated.', () => {
           itemService.getItem(ItemKey.Bow).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe( Availability.Glitches );
+          checkBossAvailability( location, Availability.Glitches );
         });
 
         it( 'can be beaten easily with the bow and lantern.', () => {
           itemService.getItem(ItemKey.Bow).state = 1;
           itemService.getItem(ItemKey.Lantern).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe( Availability.Available );
+          checkBossAvailability( location, Availability.Available );
         });
       });
 
       describe( '-- the chests --', () => {
         it( 'starts off as available to get all.', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe( Availability.Available );
+          checkChestAvailability( location, Availability.Available );
         });
 
         it( 'may be possible, may not be if one chest is claimed and the lantern is not on hand.', () => {
           dungeonService.getDungeon(location).decrementItemChestCount();
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe( Availability.Possible );
+          checkChestAvailability( location, Availability.Possible );
         });
 
         it( 'may be possible, may not be if one chest is left and the bow is not on hand.', () => {
@@ -151,7 +151,7 @@ describe( 'The dungeon location service', () => {
           dungeonService.getDungeon(location).decrementItemChestCount();
           itemService.getItem(ItemKey.Lantern).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe( Availability.Possible );
+          checkChestAvailability( location, Availability.Possible );
         });
       });
     });
@@ -161,13 +161,13 @@ describe( 'The dungeon location service', () => {
 
       describe( '-- the boss --', () => {
         it( 'cannot be defeated without a melee weapon, bow, cane, or rod.', () => {
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than a weapon to approach the doorway.', () => {
           itemService.getItem(ItemKey.Sword).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires the book and glove to get into the doorway, with the boss still unavailable.', () => {
@@ -175,7 +175,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Book).state = 1;
           itemService.getItem(ItemKey.Glove).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'can be beaten with the fire rod, assuming boots were not required to get in.', () => {
@@ -184,7 +184,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Mirror).state = 1;
           itemService.getItem(ItemKey.FireRod).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Possible);
+          checkBossAvailability( location, Availability.Possible );
         });
 
         it( 'can be beaten with the fire rod cleanly if the boots were retrieved beforehand.', () => {
@@ -194,13 +194,13 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.FireRod).state = 1;
           itemService.getItem(ItemKey.Boots).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Available);
+          checkBossAvailability( location, Availability.Available );
         });
       });
 
       describe( '-- the chests --', () => {
         it( 'requires entry into the dungeon first.', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'can be fully raided with a glove, fire source, and boots.', () => {
@@ -208,18 +208,18 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 1;
           itemService.getItem(ItemKey.FireRod).state = 1;
           itemService.getItem(ItemKey.Boots).state = 1;
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
 
         it( 'is possible to raid with just the book, though it depends on luck.', () => {
           itemService.getItem(ItemKey.Book).state = 1;
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
 
         it( 'may appear doable if you only have the boots and both items to find.', () => {
           itemService.getItem(ItemKey.Book).state = 1;
           itemService.getItem(ItemKey.Boots).state = 1;
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
       });
     });
@@ -228,20 +228,20 @@ describe( 'The dungeon location service', () => {
       const location = Location.TowerOfHera;
 
       it( 'starts off as unavailable to reach.', () => {
-        expect( dungeonLocationService.getBossAvailability(location)).toBe( Availability.Unavailable );
+        checkBossAvailability( location, Availability.Unavailable );
       });
 
       it( 'can be boss-defeatable with a melee weapon, but the gates are not reachable yet.', () => {
         itemService.getItem(ItemKey.Hammer).state = 1;
 
-        expect( dungeonLocationService.getBossAvailability(location)).toBe( Availability.Unavailable );
+        checkBossAvailability( location, Availability.Unavailable );
       });
 
       it( 'requires access to death mountain to think about entering.', () => {
         itemService.getItem(ItemKey.Hammer).state = 1;
         itemService.getItem(ItemKey.Glove).state = 1;
 
-        expect( dungeonLocationService.getBossAvailability(location)).toBe( Availability.Unavailable );
+        checkBossAvailability( location, Availability.Unavailable );
       });
 
       it( 'is potentially completable if you are missing a fire source.', () => {
@@ -249,7 +249,7 @@ describe( 'The dungeon location service', () => {
         itemService.getItem(ItemKey.Glove).state = 1;
         itemService.getItem(ItemKey.Mirror).state = 1;
 
-        expect( dungeonLocationService.getBossAvailability(location)).toBe( Availability.Possible );
+        checkBossAvailability( location, Availability.Possible );
       });
 
       it( 'can be beaten with the fire rod for lighting torches, but the caves must be navigated in the dark first.', () => {
@@ -258,7 +258,7 @@ describe( 'The dungeon location service', () => {
         itemService.getItem(ItemKey.Mirror).state = 1;
         itemService.getItem(ItemKey.FireRod).state = 1;
 
-        expect( dungeonLocationService.getBossAvailability(location)).toBe( Availability.Glitches );
+        checkBossAvailability( location, Availability.Glitches );
       });
 
       it( 'can be beaten with the lantern for lighting torches, allowing the cave entrance to be lit.', () => {
@@ -267,7 +267,7 @@ describe( 'The dungeon location service', () => {
         itemService.getItem(ItemKey.Hookshot).state = 1;
         itemService.getItem(ItemKey.Lantern).state = 1;
 
-        expect( dungeonLocationService.getBossAvailability(location)).toBe( Availability.Available );
+        checkBossAvailability( location, Availability.Available );
       });
     });
 
@@ -276,20 +276,20 @@ describe( 'The dungeon location service', () => {
 
       describe( '-- the boss --', () => {
         it( 'cannot be beaten with no items.', () => {
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the moon pearl.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the bow to open the way.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Bow).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the hammer to pound the turtles.', () => {
@@ -297,7 +297,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Bow).state = 1;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs a glove to get in and finish the job, albiet with dark room navigation.', () => {
@@ -306,7 +306,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Glove).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Glitches);
+          checkBossAvailability( location, Availability.Glitches );
         });
 
         it( 'needs a lantern for a legit kill.', () => {
@@ -316,33 +316,33 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 1;
           itemService.getItem(ItemKey.Lantern).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Available);
+          checkBossAvailability( location, Availability.Available );
         });
       });
 
       describe( '-- the chests --', () => {
         it( 'cannot be robbed at the start of the game.', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the moon pearl.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the hammer to get in.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the powered gloves to get in.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Glove).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'can maybe get everything with the hammer and glove.', () => {
@@ -350,7 +350,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Glove).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
 
         it( 'can maybe get everything if not hammer locked on the boss.', () => {
@@ -366,7 +366,7 @@ describe( 'The dungeon location service', () => {
           dungeon.decrementItemChestCount();
           dungeon.decrementItemChestCount();
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
 
         it( 'can definitely get everything with the bow and lantern.', () => {
@@ -376,7 +376,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Bow).state = 1;
           itemService.getItem(ItemKey.Lantern).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
       });
     });
@@ -386,20 +386,20 @@ describe( 'The dungeon location service', () => {
 
       describe( '-- the boss --', () => {
         it( 'is not assailable at the start.', () => {
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the moon pearl.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the mirror.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Mirror).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the flippers.', () => {
@@ -407,7 +407,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Mirror).state = 1;
           itemService.getItem(ItemKey.Flippers).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the hammer.', () => {
@@ -416,7 +416,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Flippers).state = 1;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the hookshot.', () => {
@@ -426,7 +426,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'is available with a glove.', () => {
@@ -437,26 +437,26 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hookshot).state = 1;
           itemService.getItem(ItemKey.Glove).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Available);
+          checkBossAvailability( location, Availability.Available );
         });
       });
 
       describe( '-- the chests --', () => {
         it( 'starts off as not raidable.', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the moon pearl.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the mirror.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Mirror).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the flippers.', () => {
@@ -464,7 +464,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Mirror).state = 1;
           itemService.getItem(ItemKey.Flippers).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'may be fully raidable with the titan\'s mitts.', () => {
@@ -473,7 +473,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Flippers).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
 
         it( 'should be fully raidable with the titan\'s mitts and hammer.', () => {
@@ -483,7 +483,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
 
         it( 'is no longer fully raidable if the first chest does not have a hammer.', () => {
@@ -495,7 +495,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Flippers).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'is now fully raidable if the first chest does have a hammer.', () => {
@@ -508,7 +508,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
 
         it( 'is not fully raidable if the first two chests do not have a hammer.', () => {
@@ -521,7 +521,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Flippers).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'is potentially fully raidable if the first two chests do not have a hookshot.', () => {
@@ -535,7 +535,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
 
         it( 'is now fully raidable if the first two chests have a hookshot and hammer.', () => {
@@ -550,7 +550,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
 
         it( 'requires the hookshot and hammer for the last two chests.', () => {
@@ -565,7 +565,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Flippers).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'is fully raidable with the hookshot and hammer assuming there are only two chests left.', () => {
@@ -582,7 +582,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
       });
     });
@@ -592,7 +592,7 @@ describe( 'The dungeon location service', () => {
 
       describe('-- the boss --', () => {
         it( 'cannot be beaten right away.', () => {
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than outcast access.', () => {
@@ -601,7 +601,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Flippers).state = 1;
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the fire rod assuming a non swordless mode.', () => {
@@ -611,7 +611,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.FireRod).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the sword to cut the curtains assuming a non swordless mode.', () => {
@@ -622,13 +622,13 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.FireRod).state = 1;
           itemService.getItem(ItemKey.Sword).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Available);
+          checkBossAvailability( location, Availability.Available );
         });
       });
 
       describe( '-- the chests --', () => {
         it( 'starts off as unraidable.', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'is possible to get all of the chests without the fire rod.', () => {
@@ -636,7 +636,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Glove).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
 
         it( 'is fully raidable with the fire rod.', () => {
@@ -645,7 +645,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 1;
           itemService.getItem(ItemKey.FireRod).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
       });
     });
@@ -655,13 +655,13 @@ describe( 'The dungeon location service', () => {
 
       describe( '-- the boss --', () => {
         it( 'starts off as unavailable.', () => {
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than a weapon to take out Blind.', () => {
           itemService.getItem(ItemKey.Byrna).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires outcast access to actually finish the job.', () => {
@@ -669,20 +669,20 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Available);
+          checkBossAvailability( location, Availability.Available );
         });
       });
 
       describe('-- the chests --', () => {
         it( 'starts off as unraidable', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'is theoretically clearable just by getting there.', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
 
         it( 'becomes restricted to possible if down to one chest without the hammer.', () => {
@@ -694,7 +694,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
       });
     });
@@ -704,20 +704,20 @@ describe( 'The dungeon location service', () => {
 
       describe( '-- the boss --', () => {
         it( 'starts off as unavailable.', () => {
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the moon pearl.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the flippers.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Flippers).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the titan\'s mitts.', () => {
@@ -725,7 +725,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Flippers).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the hammer.', () => {
@@ -734,7 +734,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'is possible, with bomb jumping, assuming bombos is on hand.', () => {
@@ -744,7 +744,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Bombos).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Glitches);
+          checkBossAvailability( location, Availability.Glitches );
         });
 
         it( 'is possible, with bombos and hookshot is on hand.', () => {
@@ -755,26 +755,26 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Bombos).state = 1;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Available);
+          checkBossAvailability( location, Availability.Available );
         });
       });
 
       describe('-- the chests --', () => {
         it( 'starts off as unraidable.', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the moon pearl.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the flippers.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Flippers).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'needs more than the titan\'s mitts.', () => {
@@ -782,7 +782,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Flippers).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'is possible, with bomb jumping, assuming bombos is on hand.', () => {
@@ -792,7 +792,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Bombos).state = 1;
           itemService.getItem(ItemKey.Sword).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Glitches);
+          checkChestAvailability( location, Availability.Glitches );
         });
 
         it( 'is fully possible with bombos and hammer on hand.', () => {
@@ -802,7 +802,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Bombos).state = 1;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
       });
     });
@@ -812,20 +812,20 @@ describe( 'The dungeon location service', () => {
 
       describe('-- the boss --', () => {
         it( 'starts off as unavailable.', () => {
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the bow.', () => {
           itemService.getItem(ItemKey.Bow).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the moon pearl.', () => {
           itemService.getItem(ItemKey.Bow).state = 1;
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the titan\'s mitts.', () => {
@@ -833,7 +833,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the cane of somaria.', () => {
@@ -842,7 +842,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Somaria).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the hookshot.', () => {
@@ -852,7 +852,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Somaria).state = 1;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the flute to get there.', () => {
@@ -863,7 +863,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Somaria).state = 1;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires the medallions (and sword) to possibly finish the job.', () => {
@@ -878,7 +878,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Quake).state = 1;
           itemService.getItem(ItemKey.Sword).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Possible);
+          checkBossAvailability( location, Availability.Possible );
         });
 
         it( 'requires a fire source to finish the job...with a dark room', () => {
@@ -894,7 +894,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Sword).state = 1;
           itemService.getItem(ItemKey.FireRod).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Glitches);
+          checkBossAvailability( location, Availability.Glitches );
         });
 
         it( 'is better to use the lantern to finish the job', () => {
@@ -910,20 +910,20 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Sword).state = 1;
           itemService.getItem(ItemKey.Lantern).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Available);
+          checkBossAvailability( location, Availability.Available );
         });
       });
 
       describe('-- the chests --', () => {
         it( 'starts off as unavailable.', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the moon pearl and titan\'s mitts.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the hookshot.', () => {
@@ -931,7 +931,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the flute.', () => {
@@ -940,7 +940,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'becomes possible with the medallions.', () => {
@@ -953,7 +953,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Quake).state = 1;
           itemService.getItem(ItemKey.Sword).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
 
         it( 'becomes guaranteed with a lantern on hand.', () => {
@@ -967,7 +967,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Sword).state = 1;
           itemService.getItem(ItemKey.Lantern).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Available);
+          checkChestAvailability( location, Availability.Available );
         });
 
         it( 'may require the cane of somaria if Vitreous has the second item.', () => {
@@ -982,7 +982,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Lantern).state = 1;
           dungeonService.getDungeon(location).decrementItemChestCount();
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
       });
     });
@@ -992,20 +992,20 @@ describe( 'The dungeon location service', () => {
 
       describe( '-- the boss --', () => {
         it( 'starts off as unavailable.', () => {
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the moon pearl.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the hammer.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the titan\'s mitts.', () => {
@@ -1013,7 +1013,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the cane of somaria.', () => {
@@ -1022,7 +1022,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Somaria).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the hookshot.', () => {
@@ -1032,7 +1032,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Somaria).state = 1;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the ice rod.', () => {
@@ -1043,7 +1043,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hookshot).state = 1;
           itemService.getItem(ItemKey.IceRod).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the fire rod.', () => {
@@ -1055,7 +1055,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.IceRod).state = 1;
           itemService.getItem(ItemKey.FireRod).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Unavailable);
+          checkBossAvailability( location, Availability.Unavailable );
         });
 
         it( 'may be possible with the medallions at the risk of safety.', () => {
@@ -1071,7 +1071,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Quake).state = 1;
           itemService.getItem(ItemKey.Sword).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Possible);
+          checkBossAvailability( location, Availability.Possible );
         });
 
         it( 'can be done with the cape, but it requires dark room navigation.', () => {
@@ -1088,7 +1088,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Sword).state = 1;
           itemService.getItem(ItemKey.Cape).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Glitches);
+          checkBossAvailability( location, Availability.Glitches );
         });
 
         it( 'can be done with the cane of byrna and the lantern without breaks.', () => {
@@ -1106,26 +1106,26 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Byrna).state = 1;
           itemService.getItem(ItemKey.Lantern).state = 1;
 
-          expect( dungeonLocationService.getBossAvailability(location)).toBe(Availability.Available);
+          checkBossAvailability( location, Availability.Available );
         });
       });
 
       describe( '-- the chests --', () => {
         it( 'starts off as unavailable.', () => {
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the moon pearl.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the hammer.', () => {
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Hammer).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the titan\'s mitts.', () => {
@@ -1133,7 +1133,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the cane of somaria.', () => {
@@ -1142,7 +1142,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.Somaria).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'requires more than the hookshot.', () => {
@@ -1152,7 +1152,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Somaria).state = 1;
           itemService.getItem(ItemKey.Hookshot).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Unavailable);
+          checkChestAvailability( location, Availability.Unavailable );
         });
 
         it( 'may be possible with the medallions at the risk of safety.', () => {
@@ -1168,7 +1168,7 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Quake).state = 1;
           itemService.getItem(ItemKey.Sword).state = 1;
 
-          expect( dungeonLocationService.getChestAvailability(location)).toBe(Availability.Possible);
+          checkChestAvailability( location, Availability.Possible );
         });
       });
     });
@@ -1464,13 +1464,25 @@ describe( 'The dungeon location service', () => {
           itemService.setItemState(ItemKey.Hookshot, 1);
           itemService.setItemState(ItemKey.Hammer, 1);
 
+          checkBossAvailability(location, Availability.Unavailable);
+        });
+
+        it( 'requires the flute, hookshot, hammer, and big key to get to the top of the tower.', () => {
+          itemService.setItemState(ItemKey.Flute, 1);
+          itemService.setItemState(ItemKey.Hookshot, 1);
+          itemService.setItemState(ItemKey.Hammer, 1);
+          const dungeon = dungeonService.getDungeon(location);
+          dungeon.toggleBigKey();
+
           checkBossAvailability(location, Availability.Available);
         });
 
-        it( 'requires the glove, hookshot, and hammer to get up to the tower assuming dark room navigation.', () => {
+        it( 'requires the glove, hookshot, hammer, and big key to get up to the tower assuming dark room navigation.', () => {
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.Hookshot, 1);
           itemService.setItemState(ItemKey.Hammer, 1);
+          const dungeon = dungeonService.getDungeon(location);
+          dungeon.toggleBigKey();
 
           checkBossAvailability(location, Availability.Glitches);
         });
@@ -1865,7 +1877,7 @@ describe( 'The dungeon location service', () => {
           itemService.setItemState(ItemKey.Lantern, 1);
 
           checkChestAvailability(location, Availability.Available);
-        })
+        });
       });
     });
 
@@ -2247,7 +2259,7 @@ describe( 'The dungeon location service', () => {
 
           checkChestAvailability(location, Availability.Available);
         });
-      })
+      });
     });
 
     describe( 'set to the misery mire', () => {
