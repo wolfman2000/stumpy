@@ -1366,18 +1366,17 @@ describe( 'The dungeon location service', () => {
           checkChestAvailability(location, Availability.Possible);
         });
 
-        it( 'is possible to open a third chest with a fire source and big key.', () => {
+        it( 'cannot be raided if the first two chests do not provide progression.', () => {
           const dungeon = dungeonService.getDungeon(location);
-          dungeon.toggleBigKey();
           dungeon.decrementTotalChestCount();
           dungeon.decrementTotalChestCount();
           itemService.setItemState(ItemKey.Book, 1);
-          itemService.setItemState(ItemKey.FireRod, 1);
+          itemService.setItemState(ItemKey.Boots, 1);
 
-          checkChestAvailability(location, Availability.Possible);
+          checkChestAvailability(location, Availability.Unavailable);
         });
 
-        it( 'is possible to open a third chest with the big key and boots.', () => {
+        it( 'is possible to open a third chest with a book, boots, and big key.', () => {
           const dungeon = dungeonService.getDungeon(location);
           dungeon.toggleBigKey();
           dungeon.decrementTotalChestCount();
@@ -1386,6 +1385,18 @@ describe( 'The dungeon location service', () => {
           itemService.setItemState(ItemKey.Boots, 1);
 
           checkChestAvailability(location, Availability.Possible);
+        });
+
+        it( 'cannot be raided if the first three chests provide nothing.', () => {
+          const dungeon = dungeonService.getDungeon(location);
+          dungeon.toggleBigKey();
+          dungeon.decrementTotalChestCount();
+          dungeon.decrementTotalChestCount();
+          dungeon.decrementTotalChestCount();
+          itemService.setItemState(ItemKey.Book, 1);
+          itemService.setItemState(ItemKey.Boots, 1);
+
+          checkChestAvailability(location, Availability.Unavailable);
         });
 
         it( 'is possible to open a fourth chest with one small key and the boots.', () => {
@@ -1400,7 +1411,7 @@ describe( 'The dungeon location service', () => {
           checkChestAvailability(location, Availability.Possible);
         });
 
-        it( 'is possible to open a fourth chest with the big key, a fire source, and the boots.', () => {
+        it( 'is possible to open a fourth chest with the big key, a fire source, glove, and the boots.', () => {
           const dungeon = dungeonService.getDungeon(location);
           dungeon.toggleBigKey();
           dungeon.decrementTotalChestCount();
@@ -1409,6 +1420,7 @@ describe( 'The dungeon location service', () => {
           itemService.setItemState(ItemKey.Book, 1);
           itemService.setItemState(ItemKey.Boots, 1);
           itemService.setItemState(ItemKey.FireRod, 1);
+          itemService.setItemState(ItemKey.Glove, 1);
 
           checkChestAvailability(location, Availability.Possible);
         });

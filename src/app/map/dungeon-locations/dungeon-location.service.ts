@@ -222,85 +222,46 @@ export class DungeonLocationService {
   private isLanmolasRaidable(): Availability {
     const items = this._inventory;
     const dungeon = this._dungeons.getDungeon(Location.DesertPalace);
-    if ( this._settings.isKeysanity() ) {
-      if ( !this.canEnterDesertPalaceFront() ) {
-        return Availability.Unavailable;
-      }
-
-      const keys = dungeon.smallKeyCount;
-      const chests = dungeon.totalChestCount;
-
-      if ( dungeon.hasBigKey && keys === 1 && items.hasGlove() &&
-        items.hasFireSource() && items.boots ) {
-        return Availability.Available;
-      }
-
-      if ( chests === 6 ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 5 && (dungeon.hasBigKey || items.boots ) ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 4 ) {
-        if ( keys === 1 || (dungeon.hasBigKey && items.boots ) ) {
-          return Availability.Possible;
-        }
-        if ( dungeon.hasBigKey && items.hasFireSource() ) {
-          return Availability.Possible;
-        }
-      }
-
-      if ( chests >= 3 ) {
-        if ( keys === 1 && (dungeon.hasBigKey || items.boots)) {
-          return Availability.Possible;
-        }
-
-        if ( dungeon.hasBigKey && items.boots && items.hasFireSource() ) {
-          return Availability.Possible;
-        }
-      }
-
-      if ( chests >= 2 && dungeon.hasBigKey && keys === 1 && (items.hasGlove() && items.hasFireSource() ) || items.boots) {
-        return Availability.Possible;
-      }
-
-      return Availability.Unavailable;
-    }
 
     if ( !items.book && !items.hasDarkMireMirrorAccess()) {
       return Availability.Unavailable;
     }
 
-    if ( items.hasGlove() && items.hasFireSource() && items.boots ) {
+    if ( !this._settings.isKeysanity() ) {
+      if ( items.hasGlove() && items.hasFireSource() && items.boots ) {
+        return Availability.Available;
+      }
+
+      return dungeon.itemChestCount > 1 && items.boots ? Availability.Available : Availability.Possible;
+    }
+
+    const keys = dungeon.smallKeyCount;
+    if ( dungeon.hasBigKey && keys === 1 && items.hasGlove() &&
+      items.hasFireSource() && items.boots ) {
       return Availability.Available;
     }
 
-    return dungeon.itemChestCount > 1 && items.boots ? Availability.Available : Availability.Possible;
-  }
-
-  private canEnterDesertPalaceViaWarping(): boolean {
-    const items = this._inventory;
-    return !!items.flute && items.glove === Glove.Titan && !!items.mirror;
-  }
-
-  private canEnterDesertPalaceFront(): Availability {
-    const items = this._inventory;
-    if ( items.book ) {
-      return Availability.Available;
+    const remainingItems = dungeon.totalChestCount;
+    let availableItems = 1;
+    if ( !!items.boots ) {
+      availableItems += 1;
     }
 
-    return this.canEnterDesertPalaceViaWarping() ? Availability.Available : Availability.Unavailable;
-  }
-
-  private canEnterDesertPalaceBack(): Availability {
-    if ( this.canEnterDesertPalaceViaWarping()) {
-      return Availability.Available;
+    if ( keys === 1 ) {
+      // TODO: Ensure enemies can be defeated in this room.
+      availableItems += 2;
     }
 
-    const items = this._inventory;
-    return items.book && items.hasGlove() ? Availability.Available : Availability.Unavailable;
+    if ( dungeon.hasBigKey ) {
+      // TODO: Ensure enemies can be defeated in this far room.
+      availableItems += ( ( items.hasGlove() && items.hasFireSource() ) ? 2 : 1 );
+    }
+
+    if ( dungeon.totalChestCount > dungeon.maxTotalChests - availableItems) {
+      return Availability.Possible;
+    }
+
+    return Availability.Unavailable;
   }
 
   private isMoldormAvailable(): Availability {
