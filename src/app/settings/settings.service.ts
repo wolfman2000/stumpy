@@ -205,6 +205,10 @@ export class SettingsService {
     return this.itemShuffle === ItemShuffle.Keysanity;
   }
 
+  isRetro(): boolean {
+    return this.itemShuffle === ItemShuffle.Retro;
+  }
+
   isGoalAllDungeons(): boolean {
     return this.goal === Goal.AllDungeons;
   }

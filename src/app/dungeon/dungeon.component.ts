@@ -37,7 +37,7 @@ export class DungeonComponent implements OnInit {
   }
 
   hasChests(): boolean {
-    return this._settings.isKeysanity() || this.dungeon.maxItemChests > 0;
+    return this._settings.isKeysanity() || this._settings.isRetro() || this.dungeon.maxItemChests > 0;
   }
 
   hasReward(): boolean {
@@ -69,9 +69,11 @@ export class DungeonComponent implements OnInit {
       chest: true
     };
 
-    const count = !this._settings.isKeysanity()
-      ? this.dungeon.itemChestCount
-      : this.dungeon.totalChestCount;
+    const count = this._settings.isKeysanity()
+      ? this.dungeon.totalChestCount
+      : this._settings.isRetro()
+      ? this.dungeon.retroChestCount
+      : this.dungeon.itemChestCount;
 
     results['chest' + count] = true;
     results['items-remaining'] = count > 0;
@@ -79,9 +81,11 @@ export class DungeonComponent implements OnInit {
   }
 
   getChestResults(): string {
-    const count = !this._settings.isKeysanity()
-     ? this.dungeon.itemChestCount
-     : this.dungeon.totalChestCount;
+    const count = this._settings.isKeysanity()
+      ? this.dungeon.totalChestCount
+      : this._settings.isRetro()
+      ? this.dungeon.retroChestCount
+      : this.dungeon.itemChestCount;
 
     return count > 0 ? count + '' : '\xa0';
   }
@@ -140,6 +144,8 @@ export class DungeonComponent implements OnInit {
 
     if ( this._settings.isKeysanity() ) {
       this.dungeon.decrementTotalChestCount();
+    } else if ( this._settings.isRetro() ) {
+      this.dungeon.decrementRetroChestCount();
     } else {
       this.dungeon.decrementItemChestCount();
     }

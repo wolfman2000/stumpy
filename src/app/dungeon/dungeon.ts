@@ -20,11 +20,13 @@ export class Dungeon {
     this._isBossDefeated = false;
     this._hasBigKey = false;
     this._smallKeyCount = 0;
+    this._retroChestCount = this._maxItemChests + this._maxSmallKeys;
   }
 
   private _bossId: Location;
   private _itemChestCount: number;
   private _totalChestCount: number;
+  private _retroChestCount: number;
   private _smallKeyCount: number;
   private _isBossDefeated: boolean;
   private _hasBigKey: boolean;
@@ -50,8 +52,14 @@ export class Dungeon {
   get maxTotalChests(): number {
     return this._maxTotalChests;
   }
+  get maxRetroChests(): number {
+    return this.maxItemChests + this.maxSmallKeys;
+  }
   get totalChestCount(): number {
     return this._totalChestCount;
+  }
+  get retroChestCount(): number {
+    return this._retroChestCount;
   }
   get maxSmallKeys(): number {
     return this._maxSmallKeys;
@@ -94,6 +102,10 @@ export class Dungeon {
 
   decrementTotalChestCount(): void {
     this._totalChestCount = (this.totalChestCount === 0) ? this.maxTotalChests : this.totalChestCount - 1;
+  }
+
+  decrementRetroChestCount(): void {
+    this._retroChestCount = (this.retroChestCount === 0) ? this.maxRetroChests : this.retroChestCount - 1;
   }
 
   incrementSmallKeyCount(): void {

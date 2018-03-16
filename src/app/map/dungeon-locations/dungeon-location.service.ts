@@ -147,42 +147,50 @@ export class DungeonLocationService {
     return this._inventory.lantern ? Availability.Available : Availability.Glitches;
   }
 
+  private isArmosKnightsRaidableInKeysanity( dungeon: Dungeon, items: ItemService): Availability {
+    if ( dungeon.hasBigKey && items.bow && items.lantern ) {
+      return Availability.Available;
+    }
+
+    if ( dungeon.totalChestCount >= 4 ) {
+      return Availability.Possible;
+    }
+
+    if ( dungeon.totalChestCount >= 3 && !dungeon.hasBigKey && !items.lantern ) {
+      return Availability.Glitches;
+    }
+
+    if ( dungeon.totalChestCount >= 3 && ( dungeon.hasBigKey || items.lantern ) ) {
+      return Availability.Possible;
+    }
+
+    if ( dungeon.totalChestCount >= 2 && dungeon.hasBigKey ) {
+      return items.lantern ? Availability.Possible : Availability.Glitches;
+    }
+
+    if ( dungeon.hasBigKey && items.bow && !items.lantern ) {
+      return Availability.Glitches;
+    }
+
+    return Availability.Unavailable;
+  }
+
   private isArmosKnightsRaidable(): Availability {
     const dungeon = this._dungeons.getDungeon(Location.EasternPalace);
     const items = this._inventory;
     if ( this._settings.isKeysanity() ) {
-      if ( dungeon.hasBigKey && items.bow && items.lantern ) {
-        return Availability.Available;
-      }
-
-      if ( dungeon.totalChestCount >= 4 ) {
-        return Availability.Possible;
-      }
-
-      if ( dungeon.totalChestCount >= 3 && !dungeon.hasBigKey && !items.lantern ) {
-        return Availability.Glitches;
-      }
-
-      if ( dungeon.totalChestCount >= 3 && ( dungeon.hasBigKey || items.lantern ) ) {
-        return Availability.Possible;
-      }
-
-      if ( dungeon.totalChestCount >= 2 && dungeon.hasBigKey ) {
-        return items.lantern ? Availability.Possible : Availability.Glitches;
-      }
-
-      if ( dungeon.hasBigKey && items.bow && !items.lantern ) {
-        return Availability.Glitches;
-      }
-
-      return Availability.Unavailable;
+      return this.isArmosKnightsRaidableInKeysanity( dungeon, items );
     }
 
-    if ( dungeon.itemChestCount <= 2 && !items.lantern ) {
+    const count = this._settings.isRetro()
+      ? dungeon.retroChestCount
+      : dungeon.itemChestCount;
+
+    if ( count <= 2 && !items.lantern ) {
       return Availability.Possible;
     }
 
-    if ( dungeon.itemChestCount === 1 && !items.bow ) {
+    if ( count === 1 && !items.bow ) {
       return Availability.Possible;
     }
 
@@ -219,22 +227,7 @@ export class DungeonLocationService {
     return Availability.Possible;
   }
 
-  private isLanmolasRaidable(): Availability {
-    const items = this._inventory;
-    const dungeon = this._dungeons.getDungeon(Location.DesertPalace);
-
-    if ( !items.book && !items.hasDarkMireMirrorAccess()) {
-      return Availability.Unavailable;
-    }
-
-    if ( !this._settings.isKeysanity() ) {
-      if ( items.hasGlove() && items.hasFireSource() && items.boots ) {
-        return Availability.Available;
-      }
-
-      return dungeon.itemChestCount > 1 && items.boots ? Availability.Available : Availability.Possible;
-    }
-
+  private isLanmolasRaidableInkeysanity( dungeon: Dungeon, items: ItemService ): Availability {
     const keys = dungeon.smallKeyCount;
     if ( dungeon.hasBigKey && keys === 1 && items.hasGlove() &&
       items.hasFireSource() && items.boots ) {
@@ -262,6 +255,29 @@ export class DungeonLocationService {
     }
 
     return Availability.Unavailable;
+  }
+
+  private isLanmolasRaidable(): Availability {
+    const items = this._inventory;
+    const dungeon = this._dungeons.getDungeon(Location.DesertPalace);
+
+    if ( !items.book && !items.hasDarkMireMirrorAccess()) {
+      return Availability.Unavailable;
+    }
+
+    if ( this._settings.isKeysanity() ) {
+      return this.isLanmolasRaidableInkeysanity( dungeon, items );
+    }
+
+    if ( items.hasGlove() && items.hasFireSource() && items.boots ) {
+      return Availability.Available;
+    }
+
+    const count = this._settings.isRetro()
+      ? dungeon.retroChestCount
+      : dungeon.itemChestCount;
+
+    return count > 1 && items.boots ? Availability.Available : Availability.Possible;
   }
 
   private isMoldormAvailable(): Availability {
@@ -380,26 +396,7 @@ export class DungeonLocationService {
     return items.lantern ? Availability.Available : Availability.Glitches;
   }
 
-  private isHelmasaurKingRaidable(): Availability {
-    const items = this._inventory;
-    const dungeon = this._dungeons.getDungeon( Location.PalaceOfDarkness );
-
-    if ( !items.moonPearl ) {
-      return Availability.Unavailable;
-    }
-
-    const canAccessDarkWorldViaSwamp = items.hammer && items.hasGlove();
-    const canAccessDarkWorldViaForestSwim = items.glove === Glove.Titan && !!items.flippers;
-
-    if ( !this.isCastleTowerDefeated() && !canAccessDarkWorldViaSwamp && !canAccessDarkWorldViaForestSwim ) {
-      return Availability.Unavailable;
-    }
-
-    if ( !this._settings.isKeysanity()) {
-      return !(items.bow && !!items.lantern) || dungeon.itemChestCount === 1 && !items.hammer ?
-        Availability.Possible : Availability.Available;
-    }
-
+  private isHelmasaurKingRaidableInkeysanity( dungeon: Dungeon, items: ItemService ): Availability {
     if ( dungeon.smallKeyCount === 6 && dungeon.hasBigKey && items.hammer && items.bow && items.lantern ) {
       return Availability.Available;
     }
@@ -460,6 +457,33 @@ export class DungeonLocationService {
     return Availability.Unavailable;
   }
 
+  private isHelmasaurKingRaidable(): Availability {
+    const items = this._inventory;
+    const dungeon = this._dungeons.getDungeon( Location.PalaceOfDarkness );
+
+    if ( !items.moonPearl ) {
+      return Availability.Unavailable;
+    }
+
+    const canAccessDarkWorldViaSwamp = items.hammer && items.hasGlove();
+    const canAccessDarkWorldViaForestSwim = items.glove === Glove.Titan && !!items.flippers;
+
+    if ( !this.isCastleTowerDefeated() && !canAccessDarkWorldViaSwamp && !canAccessDarkWorldViaForestSwim ) {
+      return Availability.Unavailable;
+    }
+
+    if ( this._settings.isKeysanity() ) {
+      return this.isHelmasaurKingRaidableInkeysanity( dungeon, items );
+    }
+
+    const count = this._settings.isRetro()
+      ? dungeon.retroChestCount
+      : dungeon.itemChestCount;
+
+    return !(items.bow && !!items.lantern) || count === 1 && !items.hammer ?
+      Availability.Possible : Availability.Available;
+  }
+
   private isArgghusAvailable(): Availability {
     const items = this._inventory;
 
@@ -488,6 +512,37 @@ export class DungeonLocationService {
     return Availability.Available;
   }
 
+  private isArgghusRaidableInKeysanity( dungeon: Dungeon, items: ItemService ): Availability {
+    if ( dungeon.hasBigKey && dungeon.smallKeyCount === 1 && items.hammer && items.hookshot ) {
+      return Availability.Available;
+    }
+
+    const chests = dungeon.totalChestCount;
+    const keys = dungeon.smallKeyCount;
+
+    if ( chests === 10 ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 9 && keys === 1 ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 6 && keys === 1 && items.hammer ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 5 && dungeon.hasBigKey && keys === 1 && items.hammer ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 2 && keys === 1 && items.hammer && items.hookshot ) {
+      return Availability.Possible;
+    }
+
+    return Availability.Unavailable;
+  }
+
   private isArgghusRaidable(): Availability {
     const items = this._inventory;
     const dungeon = this._dungeons.getDungeon(Location.SwampPalace);
@@ -501,45 +556,22 @@ export class DungeonLocationService {
     }
 
     if ( this._settings.isKeysanity() ) {
-      if ( dungeon.hasBigKey && dungeon.smallKeyCount === 1 && items.hammer && items.hookshot ) {
-        return Availability.Available;
-      }
-
-      const chests = dungeon.totalChestCount;
-      const keys = dungeon.smallKeyCount;
-
-      if ( chests === 10 ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 9 && keys === 1 ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 6 && keys === 1 && items.hammer ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 5 && dungeon.hasBigKey && keys === 1 && items.hammer ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 2 && keys === 1 && items.hammer && items.hookshot ) {
-        return Availability.Possible;
-      }
-
-      return Availability.Unavailable;
+      return this.isArgghusRaidableInKeysanity( dungeon, items );
     }
 
-    if ( dungeon.itemChestCount <= 2) {
+    const count = this._settings.isRetro()
+      ? dungeon.retroChestCount
+      : dungeon.itemChestCount;
+
+    if ( count <= 2) {
       return !items.hammer || !items.hookshot ? Availability.Unavailable : Availability.Available;
     }
 
-    if ( dungeon.itemChestCount <= 4) {
+    if ( count <= 4) {
       return !items.hammer ? Availability.Unavailable : !items.hookshot ? Availability.Possible : Availability.Available;
     }
 
-    if ( dungeon.itemChestCount <= 5) {
+    if ( count <= 5) {
       return !items.hammer ? Availability.Unavailable : Availability.Available;
     }
 
@@ -614,8 +646,7 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    if ( this._settings.isKeysanity() &&
-      !dungeon.hasBigKey) {
+    if ( this._settings.isKeysanity() && !dungeon.hasBigKey) {
       return Availability.Unavailable;
     }
 
@@ -651,7 +682,11 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
-    return dungeon.itemChestCount === 1 && !items.hammer ?
+    const count = this._settings.isRetro()
+      ? dungeon.retroChestCount
+      : dungeon.itemChestCount;
+
+    return count === 1 && !items.hammer ?
       Availability.Possible : Availability.Available;
   }
 
@@ -747,9 +782,42 @@ export class DungeonLocationService {
     return items.lantern ? Availability.Available : Availability.Glitches;
   }
 
+  private isVitreousRaidableInKeysanity( dungeon: Dungeon, items: ItemService ): Availability {
+    const chests = dungeon.totalChestCount;
+    if ( items.lantern && items.somaria && dungeon.hasBigKey ) {
+      return Availability.Available;
+    }
+
+    if ( chests >= 5) {
+      return Availability.Possible;
+    }
+
+    const hasFire = items.hasFireSource();
+
+    if ( chests >= 3 ) {
+      if ( dungeon.hasBigKey || hasFire) {
+        return Availability.Possible;
+      }
+
+      if ( dungeon.hasBigKey && items.somaria && !hasFire) {
+        return Availability.Glitches;
+      }
+    }
+
+    if ( chests >= 2 && items.fireRod && dungeon.hasBigKey) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 1 && items.fireRod && !items.lantern && items.somaria && dungeon.hasBigKey) {
+      return Availability.Glitches;
+    }
+
+    return Availability.Unavailable;
+  }
+
   private isVitreousRaidable(): Availability {
     const items = this._inventory;
-
+    const dungeon = this._dungeons.getDungeon(Location.MiseryMire);
     if (!items.flute || !items.moonPearl || items.glove !== Glove.Titan) {
       return Availability.Unavailable;
     }
@@ -764,42 +832,15 @@ export class DungeonLocationService {
     }
 
     if ( this._settings.isKeysanity()) {
-      const dungeon = this._dungeons.getDungeon(Location.MiseryMire);
-      const chests = dungeon.totalChestCount;
-
-      if ( items.lantern && items.somaria && dungeon.hasBigKey ) {
-        return Availability.Available;
-      }
-
-      if ( chests >= 5) {
-        return Availability.Possible;
-      }
-
-      const hasFire = items.hasFireSource();
-
-      if ( chests >= 3 ) {
-        if ( dungeon.hasBigKey || hasFire) {
-          return Availability.Possible;
-        }
-
-        if ( dungeon.hasBigKey && items.somaria && !hasFire) {
-          return Availability.Glitches;
-        }
-      }
-
-      if ( chests >= 2 && items.fireRod && dungeon.hasBigKey) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 1 && items.fireRod && !items.lantern && items.somaria && dungeon.hasBigKey) {
-        return Availability.Glitches;
-      }
-
-      return Availability.Unavailable;
+      return this.isVitreousRaidableInKeysanity( dungeon, items );
     }
 
     let hasItems: boolean;
-    if ( this._dungeons.getDungeon( Location.MiseryMire ).itemChestCount > 1) {
+    const count = this._settings.isRetro()
+      ? dungeon.retroChestCount
+      : dungeon.itemChestCount;
+
+    if ( count > 1 ) {
       hasItems = items.hasFireSource();
     } else {
       hasItems = !!items.lantern && !!items.somaria;
@@ -851,6 +892,60 @@ export class DungeonLocationService {
     return items.lantern ? Availability.Available : Availability.Glitches;
   }
 
+  private isTrinexxRaidableInKeysanity( dungeon: Dungeon, items: ItemService ): Availability {
+    const chests = dungeon.totalChestCount;
+    const keys = dungeon.smallKeyCount;
+    const hasLaserSafety = this.hasLaserBridgeSafety();
+
+    if ( dungeon.hasBigKey && keys === 4 && items.fireRod && items.iceRod && items.lantern && hasLaserSafety ) {
+      return Availability.Available;
+    }
+
+    if ( chests >= 12) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 10 && ( items.fireRod || keys >= 2 ) ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 9 && ( ( keys >= 1 && items.fireRod ) || ( keys >= 2 && dungeon.hasBigKey ) ) ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 8 && keys >= 2 && items.fireRod ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 7 && dungeon.hasBigKey && keys >= 2 && items.fireRod ) {
+      return Availability.Possible;
+    }
+
+    if ( chests >= 5 && dungeon.hasBigKey && keys >= 2 && hasLaserSafety ) {
+      return items.lantern ? Availability.Possible : Availability.Glitches;
+    }
+
+    if ( chests >= 4 && dungeon.hasBigKey && keys >= 3 && hasLaserSafety ) {
+      return items.lantern ? Availability.Possible : Availability.Glitches;
+    }
+
+    if ( chests >= 3 && dungeon.hasBigKey) {
+      if ( keys >= 2 && items.fireRod && hasLaserSafety ) {
+        return items.lantern ? Availability.Possible : Availability.Glitches;
+      }
+
+      if ( keys === 4 && items.fireRod && items.iceRod) {
+        return items.lantern ? Availability.Possible : Availability.Glitches;
+      }
+    }
+
+    if ( chests >= 2 && dungeon.hasBigKey && keys >= 3 && items.fireRod && hasLaserSafety ) {
+      return items.lantern ? Availability.Possible : Availability.Glitches;
+    }
+
+    return Availability.Unavailable;
+  }
+
   private isTrinexxRaidable(): Availability {
     const items = this._inventory;
     if (!items.moonPearl || !items.hammer || items.glove !== Glove.Titan || !items.somaria) {
@@ -870,68 +965,23 @@ export class DungeonLocationService {
     const hasLaserSafety = this.hasLaserBridgeSafety();
 
     if ( this._settings.isKeysanity() ) {
-      const chests = dungeon.totalChestCount;
-      const keys = dungeon.smallKeyCount;
-
-      if ( dungeon.hasBigKey && keys === 4 && items.fireRod && items.iceRod && items.lantern && hasLaserSafety ) {
-        return Availability.Available;
-      }
-
-      if ( chests >= 12) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 10 && ( items.fireRod || keys >= 2 ) ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 9 && ( ( keys >= 1 && items.fireRod ) || ( keys >= 2 && dungeon.hasBigKey ) ) ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 8 && keys >= 2 && items.fireRod ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 7 && dungeon.hasBigKey && keys >= 2 && items.fireRod ) {
-        return Availability.Possible;
-      }
-
-      if ( chests >= 5 && dungeon.hasBigKey && keys >= 2 && hasLaserSafety ) {
-        return items.lantern ? Availability.Possible : Availability.Glitches;
-      }
-
-      if ( chests >= 4 && dungeon.hasBigKey && keys >= 3 && hasLaserSafety ) {
-        return items.lantern ? Availability.Possible : Availability.Glitches;
-      }
-
-      if ( chests >= 3 && dungeon.hasBigKey) {
-        if ( keys >= 2 && items.fireRod && hasLaserSafety ) {
-          return items.lantern ? Availability.Possible : Availability.Glitches;
-        }
-
-        if ( keys === 4 && items.fireRod && items.iceRod) {
-          return items.lantern ? Availability.Possible : Availability.Glitches;
-        }
-      }
-
-      if ( chests >= 2 && dungeon.hasBigKey && keys >= 3 && items.fireRod && hasLaserSafety ) {
-        return items.lantern ? Availability.Possible : Availability.Glitches;
-      }
-
-      return Availability.Unavailable;
+      return this.isTrinexxRaidableInKeysanity( dungeon, items );
     }
 
     const darkAvailability = items.lantern ? Availability.Available : Availability.Glitches;
 
-    if ( dungeon.itemChestCount <= 1) {
+    const count = this._settings.isRetro()
+      ? dungeon.retroChestCount
+      : dungeon.itemChestCount;
+
+    if ( count <= 1) {
       return !hasLaserSafety ? Availability.Unavailable : items.fireRod && items.iceRod ? darkAvailability : Availability.Possible;
     }
-    if ( dungeon.itemChestCount <= 2) {
+    if ( count <= 2) {
       return !hasLaserSafety ? Availability.Unavailable : items.fireRod ? darkAvailability : Availability.Possible;
     }
 
-    if ( dungeon.itemChestCount <= 4) {
+    if ( count <= 4) {
       return hasLaserSafety && items.fireRod && items.lantern ? Availability.Available : Availability.Possible;
     }
 
@@ -1212,7 +1262,10 @@ export class DungeonLocationService {
     }
 
     if ( dungeon.hasDungeonEndingReward ) {
-      return dungeon.itemChestCount === 0;
+      const count = this._settings.isRetro()
+        ? dungeon.retroChestCount
+        : dungeon.itemChestCount;
+      return count === 0;
     }
 
     return dungeon.isBossDefeated;
