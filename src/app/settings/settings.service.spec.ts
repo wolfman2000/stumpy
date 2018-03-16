@@ -52,6 +52,6 @@ describe( 'The settings service', () => {
     expect( service.showGoModeKeys.length ).toBe( 2 );
     expect( service.difficultyKeys.length ).toBe( 5 );
     expect( service.goalKeys.length ).toBe( 3 );
-    expect( service.itemShuffleKeys.length ).toBe( 2 );
+    expect( service.itemShuffleKeys.length ).toBe( 3 );
   });
 });
