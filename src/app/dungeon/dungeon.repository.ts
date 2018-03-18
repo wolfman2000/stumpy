@@ -134,7 +134,7 @@ export const Dungeons = new Map<Location, Dungeon>(
       'Ganon\'s Tower',
       'Agahnim 2',
       Reward.None,
-      0,
+      20,
       27,
       4
     )

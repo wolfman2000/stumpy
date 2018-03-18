@@ -10,7 +10,7 @@ import { SettingsService } from './settings.service';
 import { WordSpacingPipe } from '../word-spacing.pipe';
 import { LocalStorageService } from '../local-storage.service';
 
-import { Mode } from './mode';
+import { SwordLogic } from './sword-logic';
 import { Difficulty } from './difficulty';
 
 describe( 'The settings component', () => {
@@ -25,7 +25,7 @@ describe( 'The settings component', () => {
 
   beforeAll( () => {
     settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
-    spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Open );
+    spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Randomized );
     spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
   });
 

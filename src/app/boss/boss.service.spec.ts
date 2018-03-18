@@ -7,7 +7,7 @@ import { WordSpacingPipe } from '../word-spacing.pipe';
 
 import { ItemKey } from '../items/item-key';
 
-import { Mode } from '../settings/mode';
+import { SwordLogic } from '../settings/sword-logic';
 
 import { Location } from '../dungeon/location';
 
@@ -27,7 +27,7 @@ describe( 'The boss service', () => {
   describe( 'when not in swordless mode', () => {
     beforeAll(() => {
       settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
-      spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Open );
+      spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Randomized );
 
       itemService = new ItemService(settingsService);
       bossService = new BossService(settingsService, itemService);
@@ -131,7 +131,7 @@ describe( 'The boss service', () => {
   describe( 'when in swordless mode', () => {
     beforeAll(() => {
       settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
-      spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Swordless );
+      spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Swordless );
 
       itemService = new ItemService(settingsService);
       bossService = new BossService(settingsService, itemService);

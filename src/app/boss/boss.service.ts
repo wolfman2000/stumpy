@@ -32,11 +32,8 @@ export class BossService {
   private _bossMap: Map<Location, () => boolean>;
 
   private canDefeatAgahnim(): boolean {
-    if ( this._items.net ) {
-      return true;
-    }
-
-    return this._items.hasPrimaryMelee();
+    return !!this._items.net || !!this._items.hammer
+      || this._items.hasSword();
   }
 
   private canDefeatArmosKnights(): boolean {

@@ -15,7 +15,7 @@ import { BossService } from '../boss/boss.service';
 
 import { ItemKey } from '../items/item-key';
 
-import { Mode } from '../settings/mode';
+import { SwordLogic } from '../settings/sword-logic';
 import { Difficulty } from '../settings/difficulty';
 
 describe( 'The reset component', () => {
@@ -33,7 +33,7 @@ describe( 'The reset component', () => {
 
   beforeAll( () => {
     settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
-    spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Open );
+    spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Randomized );
     spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
   });
 

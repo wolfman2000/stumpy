@@ -28,8 +28,12 @@ export class SettingsComponent implements OnInit {
     this._modalService.open( content );
   }
 
-  saveMode( evt: Event, value: any ): void {
-    this._options.mode = value;
+  saveStartState( evt: Event, value: any ): void {
+    this._options.startState = value;
+  }
+
+  saveSwordLogic( evt: Event, value: any ): void {
+    this._options.swordLogic = value;
   }
 
   saveGoal( evt: Event, value: any ): void {

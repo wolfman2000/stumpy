@@ -601,4 +601,11 @@ export class ItemService {
 
     return this.hasGlove() && !!this.lantern;
   }
+
+  hasReliableWeapon(): boolean {
+    return this.hasMeleeOrBow()
+      || this.hasCane()
+      || !!this.fireRod
+      || !!this.bomb;
+  }
 }

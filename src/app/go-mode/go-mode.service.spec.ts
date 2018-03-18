@@ -15,7 +15,7 @@ import { Location } from '../dungeon/location';
 import { ItemKey } from '../items/item-key';
 
 import { Goal } from '../settings/goal';
-import { Mode } from '../settings/mode';
+import { SwordLogic } from '../settings/sword-logic';
 import { Availability } from '../map/availability';
 import { settings } from 'cluster';
 
@@ -29,7 +29,7 @@ describe( 'The Go Mode service', () => {
 
   beforeAll(() => {
     settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
-    spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Standard );
+    spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.UncleAssured );
   });
 
   function reset() {

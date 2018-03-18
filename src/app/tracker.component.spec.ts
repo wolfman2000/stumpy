@@ -20,7 +20,7 @@ import { DungeonLocationService } from './map/dungeon-locations/dungeon-location
 import { CaptionService } from './caption/caption.service';
 import { BossService } from './boss/boss.service';
 
-import { Mode } from './settings/mode';
+import { SwordLogic } from './settings/sword-logic';
 import { Difficulty } from './settings/difficulty';
 
 import { WordSpacingPipe } from './word-spacing.pipe';
@@ -36,7 +36,7 @@ describe( 'The main tracking component', () => {
 
   beforeAll( () => {
     settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
-    spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Open );
+    spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Randomized );
     spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
   });
 
