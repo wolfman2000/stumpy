@@ -2,16 +2,16 @@
 
 [![Build Status](https://travis-ci.org/wolfman2000/stumpy.svg?branch=master)](https://travis-ci.org/wolfman2000/stumpy)
 
-This is version 3.4.0 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
+This is version 3.5.0 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
 
 ## Features
 
-* Ability to track via the mode. Do you dare take on Swordless Mode?
+* Ability to track via the starting state and sword logic. Do you dare take on Swordless Mode?
 * Ability to set the difficulty. No need to worry about accidentally setting the golden sword here.
 * Ability to set the goal. Do you want to take on all of the dungeons and bosses?
-* Ability to set the Keysanity item shuffle. Do you want to explore the land for keys?
+* Ability to set the different item shuffles. Do you want to explore the land for keys?
 * Ability to turn on a Go Mode indicator for when you can rush through dungeons.
 
 ### Planned Features

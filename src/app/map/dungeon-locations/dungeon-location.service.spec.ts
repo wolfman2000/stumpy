@@ -14,7 +14,7 @@ import { Location } from '../../dungeon/location';
 import { ItemKey } from '../../items/item-key';
 
 import { ItemShuffle } from '../../settings/item-shuffle';
-import { Mode } from '../../settings/mode';
+import { SwordLogic } from '../../settings/sword-logic';
 import { settings } from 'cluster';
 
 describe( 'The dungeon location service', () => {
@@ -26,7 +26,7 @@ describe( 'The dungeon location service', () => {
 
   beforeAll(() => {
     settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
-    spyOnProperty( settingsService, 'mode', 'get').and.returnValue( Mode.Standard );
+    spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.UncleAssured );
   });
 
   function reset() {
@@ -82,7 +82,7 @@ describe( 'The dungeon location service', () => {
         let tempService: DungeonLocationService;
 
         beforeEach( () => {
-          spyOnProperty(tempSettings, 'mode', 'get').and.returnValue(Mode.Swordless);
+          spyOnProperty(tempSettings, 'swordLogic', 'get').and.returnValue( SwordLogic.Swordless);
           tempService = new DungeonLocationService( itemService, dungeonService, tempSettings, bossService );
         });
 
@@ -96,17 +96,35 @@ describe( 'The dungeon location service', () => {
           expect( tempService.getChestAvailability(location)).toBe( Availability.Unavailable );
         });
 
-        it( 'can be beaten with the net, though is tricky without the lamp.', () => {
-          itemService.getItem(ItemKey.Cape).state = 1;
-          itemService.getItem(ItemKey.Net).state = 1;
+        it( 'can be beaten with the net and bow, though is tricky without the lamp.', () => {
+          itemService.setItemState(ItemKey.Bow, 1);
+          itemService.setItemState(ItemKey.Cape, 1);
+          itemService.setItemState(ItemKey.Net, 1);
 
           expect( tempService.getChestAvailability(location)).toBe( Availability.Glitches );
         });
 
-        it( 'can be beaten cleanly with the net and lantern.', () => {
+        it( 'can be beaten cleanly with the cape, lantern, and hammer.', () => {
+          itemService.setItemState( ItemKey.Cape, 1);
+          itemService.setItemState( ItemKey.Lantern, 1);
+          itemService.setItemState( ItemKey.Hammer, 1);
+
+          expect( tempService.getChestAvailability( location ) ).toBe( Availability.Available );
+        });
+
+        it( 'cannot be beaten cleanly with the net and lantern: trap rooms prevent death.', () => {
           itemService.getItem(ItemKey.Cape).state = 1;
           itemService.getItem(ItemKey.Net).state = 1;
           itemService.getItem(ItemKey.Lantern).state = 1;
+
+          expect( tempService.getChestAvailability(location)).toBe( Availability.Unavailable );
+        });
+
+        it( 'can be beaten cleanly with the net and lantern.', () => {
+          itemService.setItemState(ItemKey.Cape, 1);
+          itemService.setItemState(ItemKey.Net, 1);
+          itemService.setItemState(ItemKey.Bomb, 1);
+          itemService.setItemState(ItemKey.Lantern, 1);
 
           expect( tempService.getChestAvailability(location)).toBe( Availability.Available );
         });

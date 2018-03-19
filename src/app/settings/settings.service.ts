@@ -6,7 +6,8 @@ import { WordSpacingPipe } from '../word-spacing.pipe';
 import { Difficulty } from './difficulty';
 import { Goal } from './goal';
 import { ItemShuffle } from './item-shuffle';
-import { Mode } from './mode';
+import { StartState } from './start-state';
+import { SwordLogic } from './sword-logic';
 import { GlitchLogic } from './glitch-logic';
 import { Enemy } from './enemy';
 
@@ -25,10 +26,16 @@ export class SettingsService {
     private localStorageService: LocalStorageService,
     private wordSpacingPipe: WordSpacingPipe
   ) {
-    if ( !this.localStorageService.hasItem( 'mode' ) ) {
-      this.mode = Mode.Standard;
+    if ( !this.localStorageService.hasItem( 'startState' ) ) {
+      this.startState = StartState.Standard;
     } else {
-      this._mode = parseInt( localStorage.getItem( 'mode' ), 10 );
+      this._startState = parseInt( localStorage.getItem( 'startState'), 10 );
+    }
+
+    if ( !this.localStorageService.hasItem( 'swordLogic' ) ) {
+      this.swordLogic = SwordLogic.Randomized;
+    } else {
+      this._swordLogic = parseInt( localStorage.getItem( 'swordLogic' ), 10 );
     }
 
     if ( !this.localStorageService.hasItem( 'difficulty' ) ) {
@@ -68,7 +75,8 @@ export class SettingsService {
     }
   }
 
-  private _mode: Mode;
+  private _startState: StartState;
+  private _swordLogic: SwordLogic;
   private _logic: GlitchLogic;
   private _difficulty: Difficulty;
   private _showGoMode: number;
@@ -76,16 +84,28 @@ export class SettingsService {
   private _itemShuffle: ItemShuffle;
   private _enemy: Enemy;
 
-  get mode(): Mode {
-    return this._mode;
+  get startState(): StartState {
+    return this._startState;
   }
-  set mode(mode: Mode) {
-    this._mode = parseInt( mode + '', 10 );
-    this.localStorageService.setItem( 'mode', this.mode + '' );
+  set startState(startState: StartState) {
+    this._startState = parseInt( startState + '', 10 );
+    this.localStorageService.setItem( 'startState', this.startState + '' );
   }
 
-  get modeKeys(): any {
-    return this.getDropDownPairs( enumToArray(Mode));
+  get startStateKeys(): any {
+    return this.getDropDownPairs(enumToArray(StartState));
+  }
+
+  get swordLogic(): SwordLogic {
+    return this._swordLogic;
+  }
+  set swordLogic(swordLogic: SwordLogic) {
+    this._swordLogic = parseInt( swordLogic + '', 10 );
+    this.localStorageService.setItem( 'swordLogic', this.swordLogic + '' );
+  }
+
+  get swordLogicKeys(): any {
+    return this.getDropDownPairs(enumToArray(SwordLogic));
   }
 
   get difficulty(): Difficulty {
@@ -194,11 +214,11 @@ export class SettingsService {
   }
 
   isSwordless(): boolean {
-    return this.mode === Mode.Swordless;
+    return this.swordLogic === SwordLogic.Swordless;
   }
 
   isStandard(): boolean {
-    return this.mode === Mode.Standard;
+    return this.startState === StartState.Standard;
   }
 
   isKeysanity(): boolean {

@@ -8,15 +8,30 @@
   <div class="modal-body">
     <form>
       <div class="form-group">
-        <span class="label-header">Select your mode.</span>
+        <span class="label-header">Select your start state.</span>
         <ul>
-          <li *ngFor="let opt of options.modeKeys; let idx = index">
-            <label (click)="saveMode($event, idx)">
+          <li *ngFor="let opt of options.startStateKeys; let idx = index">
+            <label (click)="saveStartState($event, idx)">
               <input
                 type="radio"
-                name="stumpy-mode"
+                name="stumpy-start-state"
                 [value]="opt.value"
-                [checked]="idx === options.mode"
+                [checked]="idx === options.startState"
+              >{{opt.label}}
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div class="form-group">
+        <span class="label-header">Select your sword logic.</span>
+        <ul>
+          <li *ngFor="let opt of options.swordLogicKeys; let idx = index">
+            <label (click)="saveSwordLogic($event, idx)">
+              <input
+                type="radio"
+                name="stumpy-sword-logic"
+                [value]="opt.value"
+                [checked]="idx === options.swordLogic"
               >{{opt.label}}
             </label>
           </li>

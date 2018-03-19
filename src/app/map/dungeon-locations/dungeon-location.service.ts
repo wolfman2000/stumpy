@@ -65,30 +65,23 @@ export class DungeonLocationService {
   private _chestAvailability: Map<Location, () => Availability>;
   private _dungeonLocations: Map<Location, DungeonLocation>;
 
-  private isCastleTowerSwordlessAvailable(): Availability {
-    if ( !(this._inventory.hammer || this._inventory.cape) ) {
-      return Availability.Unavailable;
-    }
-
-    if ( !this._inventory.net ) {
-      return Availability.Unavailable;
-    }
-
-    return this._inventory.lantern ? Availability.Available : Availability.Glitches;
-  }
-
   private isCastleTowerAvailable(): Availability {
-    if ( this._settings.isSwordless() ) {
-      return this.isCastleTowerSwordlessAvailable();
-    }
-
     const items = this._inventory;
 
-    const canEnter = items.cape || ( items.sword !== Sword.None && items.sword !== Sword.Wooden );
+    let canEnter = !!items.cape;
+    if ( !canEnter ) {
+      if ( this._settings.isSwordless() ) {
+        canEnter = !!items.hammer;
+      } else {
+        canEnter = items.sword !== Sword.None && items.sword !== Sword.Wooden;
+      }
+    }
+
+    const canNavigateDungeon = items.hasReliableWeapon();
 
     const canBeatAgahnim = this._boss.canDefeatBoss(Location.CastleTower);
 
-    if ( !canEnter || !canBeatAgahnim ) {
+    if ( !canEnter || !canNavigateDungeon || !canBeatAgahnim ) {
       return Availability.Unavailable;
     }
 

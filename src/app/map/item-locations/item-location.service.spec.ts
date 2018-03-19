@@ -12,7 +12,7 @@ import { ItemKey } from '../../items/item-key';
 import { WordSpacingPipe } from '../../word-spacing.pipe';
 
 import { Location } from '../../dungeon/location';
-import { Mode } from '../../settings/mode';
+import { StartState } from '../../settings/start-state';
 
 describe( 'The item location service', () => {
   let itemLocationService: ItemLocationService;
@@ -119,9 +119,9 @@ describe( 'The item location service', () => {
     const tempSettings = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
     let tempService: ItemLocationService;
 
-    describe( 'in open mode', () => {
+    describe( 'in the open start state', () => {
       beforeEach( () => {
-        spyOnProperty( tempSettings, 'mode', 'get').and.returnValue(Mode.Open);
+        spyOnProperty( tempSettings, 'startState', 'get').and.returnValue(StartState.Open);
         tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
       });
 
@@ -131,9 +131,9 @@ describe( 'The item location service', () => {
       });
     });
 
-    describe( 'in standard mode', () => {
+    describe( 'in the standard start state', () => {
       beforeEach( () => {
-        spyOnProperty( tempSettings, 'mode', 'get').and.returnValue(Mode.Standard);
+        spyOnProperty( tempSettings, 'startState', 'get').and.returnValue(StartState.Standard);
         tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
       });
 
@@ -969,7 +969,7 @@ describe( 'The item location service', () => {
     let tempService: ItemLocationService;
 
     beforeEach( () => {
-      spyOnProperty(tempSettings, 'mode', 'get').and.returnValue(Mode.Open);
+      spyOnProperty(tempSettings, 'startState', 'get').and.returnValue(StartState.Open);
       tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
     });
 
@@ -997,7 +997,7 @@ describe( 'The item location service', () => {
     let tempService: ItemLocationService;
 
     beforeEach( () => {
-      spyOnProperty(tempSettings, 'mode', 'get').and.returnValue(Mode.Open);
+      spyOnProperty(tempSettings, 'startState', 'get').and.returnValue(StartState.Open);
       tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
     });
 
