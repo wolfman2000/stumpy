@@ -682,10 +682,19 @@ describe( 'The dungeon location service', () => {
           checkBossAvailability( location, Availability.Unavailable );
         });
 
+        it( 'requires bombs to blow the roof to the room.', () => {
+          itemService.setItemState(ItemKey.Byrna, 1);
+          itemService.setItemState(ItemKey.Glove, 2);
+          itemService.setItemState(ItemKey.MoonPearl, 1);
+
+          checkBossAvailability( location, Availability.Unavailable );
+        });
+
         it( 'requires outcast access to actually finish the job.', () => {
           itemService.getItem(ItemKey.Byrna).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
           itemService.getItem(ItemKey.MoonPearl).state = 1;
+          itemService.setItemState(ItemKey.Bomb, 1);
 
           checkBossAvailability( location, Availability.Available );
         });
@@ -1077,6 +1086,7 @@ describe( 'The dungeon location service', () => {
         });
 
         it( 'may be possible with the medallions at the risk of safety.', () => {
+          itemService.setItemState(ItemKey.Bomb, 1);
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
@@ -1093,6 +1103,7 @@ describe( 'The dungeon location service', () => {
         });
 
         it( 'can be done with the cape, but it requires dark room navigation.', () => {
+          itemService.setItemState(ItemKey.Bomb, 1);
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
@@ -1110,6 +1121,7 @@ describe( 'The dungeon location service', () => {
         });
 
         it( 'can be done with the cane of byrna and the lantern without breaks.', () => {
+          itemService.setItemState(ItemKey.Bomb, 1);
           itemService.getItem(ItemKey.MoonPearl).state = 1;
           itemService.getItem(ItemKey.Hammer).state = 1;
           itemService.getItem(ItemKey.Glove).state = 2;
@@ -2506,6 +2518,7 @@ describe( 'The dungeon location service', () => {
           dungeon.incrementSmallKeyCount();
           dungeon.incrementSmallKeyCount();
           dungeon.incrementSmallKeyCount();
+          itemService.setItemState(ItemKey.Bomb, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Sword, 3);
@@ -2527,6 +2540,7 @@ describe( 'The dungeon location service', () => {
           dungeon.incrementSmallKeyCount();
           dungeon.incrementSmallKeyCount();
           dungeon.incrementSmallKeyCount();
+          itemService.setItemState(ItemKey.Bomb, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Sword, 3);
@@ -2550,6 +2564,7 @@ describe( 'The dungeon location service', () => {
           dungeon.incrementSmallKeyCount();
           dungeon.incrementSmallKeyCount();
           dungeon.incrementSmallKeyCount();
+          itemService.setItemState(ItemKey.Bomb, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Sword, 3);
@@ -2572,6 +2587,7 @@ describe( 'The dungeon location service', () => {
           dungeon.incrementSmallKeyCount();
           dungeon.incrementSmallKeyCount();
           dungeon.incrementSmallKeyCount();
+          itemService.setItemState(ItemKey.Bomb, 1);
           itemService.setItemState(ItemKey.Glove, 2);
           itemService.setItemState(ItemKey.MoonPearl, 1);
           itemService.setItemState(ItemKey.Sword, 3);

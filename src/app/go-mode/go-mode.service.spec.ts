@@ -127,6 +127,7 @@ describe( 'The Go Mode service', () => {
     });
 
     function setMostGoModeItems() {
+      itemService.setItemState(ItemKey.Bomb, 1);
       itemService.setItemState(ItemKey.Bow, 1);
       itemService.setItemState(ItemKey.Hammer, 1);
       itemService.setItemState(ItemKey.FireRod, 1);
