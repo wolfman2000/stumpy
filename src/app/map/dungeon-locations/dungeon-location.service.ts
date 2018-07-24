@@ -87,7 +87,7 @@ export class DungeonLocationService {
   private canNavigateCastleTower(): Availability {
     const items = this._inventory;
 
-    let canEnter = this.canEnterCastleTower();
+    const canEnter = this.canEnterCastleTower();
     if ( canEnter !== Availability.Available ) {
       return canEnter;
     }
@@ -568,7 +568,7 @@ export class DungeonLocationService {
     }
 
     // Start at Skull Woods area.
-    if ( items.glove == Glove.Titan ) {
+    if ( items.glove === Glove.Titan ) {
       return Availability.Available;
     }
 
@@ -694,7 +694,7 @@ export class DungeonLocationService {
     }
 
     // Use the Skull Woods warp.
-    if ( items.glove == Glove.Titan ) {
+    if ( items.glove === Glove.Titan ) {
       return Availability.Available;
     }
 
@@ -863,16 +863,18 @@ export class DungeonLocationService {
       return Availability.Unavailable;
     }
 
+    let tmp: Availability;
+
     if ( this._settings.isKeysanity() ) {
       const keys = dungeon.smallKeyCount;
       const hasRightKeys = keys > 0 && !!items.somaria || keys > 1;
-      const tmp = hasRightKeys ? Availability.Available : Availability.Possible;
+      tmp = hasRightKeys ? Availability.Available : Availability.Possible;
       return canAvoidBunnyRevival && canEnter === Availability.Available
         ? tmp
         : Availability.Glitches;
     }
 
-    const tmp = items.hookshot || items.somaria ? Availability.Available : Availability.Glitches;
+    tmp = items.hookshot || items.somaria ? Availability.Available : Availability.Glitches;
     return canAvoidBunnyRevival && canEnter === Availability.Available
       ? tmp
       : Availability.Glitches;
@@ -921,7 +923,7 @@ export class DungeonLocationService {
 
   private canEnterMiseryMire(): Availability {
     const items = this._inventory;
-    
+
     // We must flute to 6.
     if ( !items.flute ) {
       return Availability.Unavailable;
