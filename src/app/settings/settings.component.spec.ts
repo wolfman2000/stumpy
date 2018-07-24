@@ -38,7 +38,7 @@ describe( 'The settings component', () => {
         LocalStorageService,
         SettingsService
       ],
-      imports: [NgbModule.forRoot(),FormsModule]
+      imports: [NgbModule.forRoot(), FormsModule]
     }).compileComponents();
 
     modalService = TestBed.get(NgbModal);

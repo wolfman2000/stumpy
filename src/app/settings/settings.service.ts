@@ -68,7 +68,7 @@ export class SettingsService {
       this._itemShuffle = parseInt( localStorage.getItem( 'itemShuffle' ), 10 );
     }
 
-    if( !this.localStorageService.hasItem( 'enemy' ) ) {
+    if ( !this.localStorageService.hasItem( 'enemy' ) ) {
       this.enemy = Enemy.Normal;
     } else {
       this._enemy = parseInt( localStorage.getItem( 'enemy' ) , 10 );
