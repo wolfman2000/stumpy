@@ -7,7 +7,6 @@ import { BossService } from '../../boss/boss.service';
 
 import { WordSpacingPipe } from '../../word-spacing.pipe';
 
-import { DungeonLocation } from './dungeon-location';
 import { Availability } from '../availability';
 
 import { Location } from '../../dungeon/location';
@@ -15,7 +14,6 @@ import { ItemKey } from '../../items/item-key';
 
 import { ItemShuffle } from '../../settings/item-shuffle';
 import { SwordLogic } from '../../settings/sword-logic';
-import { settings } from 'cluster';
 
 describe( 'The dungeon location service', () => {
   let dungeonLocationService: DungeonLocationService;
@@ -1199,6 +1197,66 @@ describe( 'The dungeon location service', () => {
           itemService.getItem(ItemKey.Sword).state = 1;
 
           checkChestAvailability( location, Availability.Possible );
+        });
+
+        it( 'is not possible if you have Ether and you need Quake.', () => {
+          itemService.getItem(ItemKey.MoonPearl).state = 1;
+          itemService.getItem(ItemKey.Hammer).state = 1;
+          itemService.getItem(ItemKey.Glove).state = 2;
+          itemService.getItem(ItemKey.Somaria).state = 1;
+          itemService.getItem(ItemKey.Hookshot).state = 1;
+          itemService.getItem(ItemKey.IceRod).state = 1;
+          itemService.getItem(ItemKey.FireRod).state = 1;
+          itemService.getItem(ItemKey.Ether).state = 1;
+          itemService.getItem(ItemKey.Sword).state = 1;
+          itemService.getItem(ItemKey.Cape).state = 1;
+
+          const dungeon = dungeonService.getDungeon(location);
+          dungeon.cycleEntranceLock();
+          dungeon.cycleEntranceLock();
+          dungeon.cycleEntranceLock();
+
+          checkChestAvailability( location, Availability.Unavailable );
+        });
+
+        it( 'is possible if you have Ether but do not have the lantern for the dark room.', () => {
+          itemService.getItem(ItemKey.MoonPearl).state = 1;
+          itemService.getItem(ItemKey.Hammer).state = 1;
+          itemService.getItem(ItemKey.Glove).state = 2;
+          itemService.getItem(ItemKey.Somaria).state = 1;
+          itemService.getItem(ItemKey.Hookshot).state = 1;
+          itemService.getItem(ItemKey.IceRod).state = 1;
+          itemService.getItem(ItemKey.FireRod).state = 1;
+          itemService.getItem(ItemKey.Ether).state = 1;
+          itemService.getItem(ItemKey.Sword).state = 1;
+          itemService.getItem(ItemKey.Cape).state = 1;
+
+          const dungeon = dungeonService.getDungeon(location);
+          dungeon.cycleEntranceLock();
+          dungeon.cycleEntranceLock();
+
+          checkChestAvailability( location, Availability.Possible );
+        });
+
+        it( 'is fully doable if you have Ether, the lantern, and the bombs.', () => {
+          itemService.getItem(ItemKey.Bomb).state = 1;
+          itemService.getItem(ItemKey.MoonPearl).state = 1;
+          itemService.getItem(ItemKey.Hammer).state = 1;
+          itemService.getItem(ItemKey.Glove).state = 2;
+          itemService.getItem(ItemKey.Somaria).state = 1;
+          itemService.getItem(ItemKey.Hookshot).state = 1;
+          itemService.getItem(ItemKey.IceRod).state = 1;
+          itemService.getItem(ItemKey.FireRod).state = 1;
+          itemService.getItem(ItemKey.Ether).state = 1;
+          itemService.getItem(ItemKey.Sword).state = 1;
+          itemService.getItem(ItemKey.Cape).state = 1;
+          itemService.getItem(ItemKey.Lantern).state = 1;
+
+          const dungeon = dungeonService.getDungeon(location);
+          dungeon.cycleEntranceLock();
+          dungeon.cycleEntranceLock();
+
+          checkChestAvailability( location, Availability.Available );
         });
       });
     });
