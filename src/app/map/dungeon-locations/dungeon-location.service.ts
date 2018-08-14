@@ -1070,7 +1070,7 @@ export class DungeonLocationService {
     }
 
     // We must have the right weapon and the right medallion.
-    const medallionState = this.medallionState( Location.MiseryMire );
+    const medallionState = this.medallionState( Location.TurtleRock );
 
     if ( medallionState === Availability.Unavailable ) {
       return medallionState;
