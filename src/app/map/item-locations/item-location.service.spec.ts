@@ -85,11 +85,11 @@ describe( 'The item location service', () => {
       expect( itemLocationService.getAvailability(LocationKey.KingsTomb) ).toBe( Availability.Unavailable );
     });
 
-    it( 'can be available if you defeated Agahnim and have the hookshot, a hammer, and boots.', () => {
+    it( 'can be available if you defeated Agahnim and have the hookshot, some flippers, and boots.', () => {
       dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
       itemService.setItemState(ItemKey.Hookshot, 1);
       itemService.setItemState(ItemKey.MoonPearl, 1);
-      itemService.setItemState(ItemKey.Hammer, 1);
+      itemService.setItemState(ItemKey.Flippers, 1);
       itemService.setItemState(ItemKey.Mirror, 1);
       itemService.setItemState(ItemKey.Boots, 1);
 
