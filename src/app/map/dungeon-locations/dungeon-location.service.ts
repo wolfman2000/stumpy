@@ -553,12 +553,12 @@ export class DungeonLocationService {
     }
 
     // Travel counter-clockwise while staying dry.
-    if ( this.isCastleTowerDefeated() && !!items.moonPearl && !!items.hookshot ) {
+    if ( this.isCastleTowerDefeated() && !!items.moonPearl && !!items.hookshot && items.hasGlove() ) {
       return Availability.Available;
     }
 
     // Travel counter-clockwise while getting wet.
-    if ( this.isCastleTowerDefeated() && !!items.moonPearl && !!items.flippers ) {
+    if ( this.isCastleTowerDefeated() && !!items.moonPearl && !!items.hookshot && !!items.flippers ) {
       return Availability.Available;
     }
 
@@ -679,12 +679,12 @@ export class DungeonLocationService {
     const items = this._inventory;
 
     // Defeat Agahnim, then travel counter-clockwise while staying dry.
-    if ( this.isCastleTowerDefeated() && !!items.moonPearl && !!items.hookshot ) {
+    if ( this.isCastleTowerDefeated() && !!items.moonPearl && items.hasGlove() && !!items.hookshot ) {
       return Availability.Available;
     }
 
     // Defeat Agahnim, then travel counter-clockwise while getting wet.
-    if ( this.isCastleTowerDefeated() && !!items.moonPearl && !!items.flippers ) {
+    if ( this.isCastleTowerDefeated() && !!items.moonPearl && !!items.flippers && !!items.hookshot ) {
       return Availability.Available;
     }
 

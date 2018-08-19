@@ -83,13 +83,13 @@ export class ItemLocationService {
         [LocationKey.HookshotCaveBottom, this.getHookshotCaveBottomAvailability],
         [LocationKey.HookshotCaveTop, this.getHookshotCaveTopAvailability],
         [LocationKey.TreasureChestMinigame, this.getOutcastAvailability],
-        [LocationKey.StumpKid, this.getHypeCaveAvailability],
+        [LocationKey.StumpKid, this.getDiggingGameAvailability],
         [LocationKey.PurpleChest, this.getPurpleChestAvailability],
         [LocationKey.Catfish, this.getCatfishAvailability],
         [LocationKey.HammerPegCave, this.getHammerCaveAvailability],
         [LocationKey.BumperCave, this.getBumperCaveAvailability],
         [LocationKey.Pyramid, this.getPyramidAvailability],
-        [LocationKey.DiggingGame, this.getHypeCaveAvailability],
+        [LocationKey.DiggingGame, this.getDiggingGameAvailability],
         [LocationKey.PyramidFairy, this.getFatFairyAvailability]
       ]
     );
@@ -186,13 +186,23 @@ export class ItemLocationService {
       return false;
     }
 
-    return (
-      inventory.glove === Glove.Titan ||
-      inventory.hasGlove() && !!inventory.hammer ||
-      this.isAgahnimDefeated() && !!inventory.hookshot && (
-        !!inventory.hammer || inventory.hasGlove() || !!inventory.flippers
-      )
-    );
+    // Forest warp, front entrance.
+    if ( inventory.glove === Glove.Titan ) {
+      return true;
+    }
+
+    // Forest warp, back entrance.
+    if ( inventory.hasGlove() && !!inventory.hammer ) {
+      return true;
+    }
+
+    // Agahnim defeated.
+    if ( this.isAgahnimDefeated() && !!inventory.hookshot ) {
+      // Wet or dry path.
+      return inventory.hasGlove() || !!inventory.flippers;
+    }
+
+    return false;
   }
 
   private getKingsTombAvailability(): Availability {
@@ -604,6 +614,15 @@ export class ItemLocationService {
     }
 
     return Availability.Unavailable;
+  }
+
+  private getDiggingGameAvailability(): Availability {
+    if ( this.canReachOutcast()) {
+      return Availability.Available;
+    }
+
+    return this.hasSouthDarkWorldFromPyramidAccess() ?
+      Availability.Available : Availability.Unavailable;
   }
 
   private getHypeCaveAvailability(): Availability {

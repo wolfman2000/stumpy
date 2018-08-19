@@ -611,6 +611,15 @@ describe( 'The dungeon location service', () => {
           checkBossAvailability( location, Availability.Unavailable );
         });
 
+        it( 'needs a way to get to get to the other side of the world.', () => {
+          dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
+          itemService.getItem(ItemKey.Glove).state = 1;
+          itemService.getItem(ItemKey.Flippers).state = 1;
+          itemService.getItem(ItemKey.MoonPearl).state = 1;
+
+          checkBossAvailability( location, Availability.Unavailable );
+        });
+
         it( 'needs more than outcast access.', () => {
           dungeonService.getDungeon(Location.CastleTower).toggleDefeat();
           itemService.getItem(ItemKey.Hookshot).state = 1;
