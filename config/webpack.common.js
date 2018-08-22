@@ -1,12 +1,12 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var helpers = require('./helpers');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const helpers = require('./helpers');
 
 module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
+    // 'vendor': './src/vendor.ts',
     'app': './src/main.ts'
   },
 
@@ -30,12 +30,28 @@ module.exports = {
     }, {
       test: /\.css$/,
       exclude: helpers.root('src', 'app'),
-      loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
+      use: [
+        'style-loader',
+        MiniCssExtractPlugin.loader,
+        'css-loader'
+      ]
     }, {
       test: /\.css$/,
       include: helpers.root('src', 'app'),
       loader: 'raw-loader'
     } ]
+  },
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all'
+        }
+      }
+    }
   },
 
   plugins: [
@@ -46,13 +62,14 @@ module.exports = {
       helpers.root('./src'), // location of your src
       {} // a map of your routes
     ),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfills']
+    new MiniCssExtractPlugin({
+      filename: 'style.[contenthash].css'
     }),
-
     new HtmlWebpackPlugin({
-      template: 'src/index.html'
+      template: 'src/index.html',
+      filename: 'index.html',
+      chunksSortMode: 'manual',
+      chunks: ['polyfills', 'vendor', 'app']
     })
   ]
 };
