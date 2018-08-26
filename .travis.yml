@@ -18,4 +18,4 @@ before_script:
   - npm install
   - ng build
 
-script: ng test --karma-config ./karma.conf.js
+script: ng test --karma-config ./karma.conf.js --watch=false
