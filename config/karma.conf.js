@@ -35,7 +35,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     flags: [
-      '--no-sandbox',
       '--headless',
       '--disable-gpu'
     ],
