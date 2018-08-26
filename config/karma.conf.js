@@ -34,6 +34,11 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    flags: [
+      '--no-sandbox',
+      '--headless',
+      '--disable-gpu'
+    ],
     singleRun: false
   });
 };
