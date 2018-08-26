@@ -15,6 +15,7 @@ describe( 'The settings service', () => {
 
   beforeEach(() => {
     service.swordLogic = SwordLogic.Randomized;
+    service.logic = GlitchLogic.None;
 
     const store: any = {};
 

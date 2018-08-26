@@ -43,6 +43,7 @@ describe( 'The dungeon component', () => {
       de = fixture.debugElement;
       el = de.nativeElement;
       service = de.injector.get( DungeonService );
+      service.reset();
     });
 
     it( 'should be created successfully.', () => {
@@ -92,6 +93,7 @@ describe( 'The dungeon component', () => {
       de = fixture.debugElement;
       el = de.nativeElement;
       service = de.injector.get( DungeonService );
+      service.reset();
     });
 
     it( 'should be created successfully.', () => {

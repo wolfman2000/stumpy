@@ -51,6 +51,7 @@ describe( 'The item component', () => {
       de = fixture.debugElement;
       el = de.nativeElement;
       itemService = de.injector.get( ItemService );
+      itemService.reset();
     });
 
     it( 'should be created successfully.', () => {
