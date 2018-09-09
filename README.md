@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/wolfman2000/stumpy.svg?branch=master)](https://travis-ci.org/wolfman2000/stumpy)
 
-This is version 3.6.0 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
+This is version 3.7.0 of the tracker, meant to be inspired by crossproduct's excellent tracker. Please see & support his work at [twitch.tv/crossproduct](https://twitch.tv/crossproduct).
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
 
 ## Features
 
@@ -16,7 +16,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ### Planned Features
 
-* More variation compatibility.
+* More variation compatibility. V30's upcoming Inverted Mode will be a pain to implement properly.
 * Pedestal indicators.
 * Saving and resetting the tracker without refreshing the browser.
 * Flexible tracker layouts, whether through presets or full custom functionality.
