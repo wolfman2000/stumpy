@@ -4,6 +4,7 @@ import { ItemService } from '../items/item.service';
 import { ItemLocationService } from '../map/item-locations/item-location.service';
 import { DungeonService } from '../dungeon/dungeon.service';
 import { DungeonLocationService } from '../map/dungeon-locations/dungeon-location.service';
+import { SaveService } from '../save.service';
 
 @Component( {
   providers: [],
@@ -17,7 +18,8 @@ export class ResetComponent {
     private _itemService: ItemService,
     private _itemLocationService: ItemLocationService,
     private _dungeonService: DungeonService,
-    private _dungeonLocationService: DungeonLocationService
+    private _dungeonLocationService: DungeonLocationService,
+    private _saveService: SaveService
   ) {}
 
   whenClicked(evt: MouseEvent): void {
@@ -28,5 +30,6 @@ export class ResetComponent {
     this._itemLocationService.reset();
     this._dungeonService.reset();
     this._dungeonLocationService.reset();
+    this._saveService.reset();
   }
 }

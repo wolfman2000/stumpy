@@ -3,6 +3,7 @@ import { DebugElement } from '@angular/core';
 import { CaptionService } from './caption.service';
 import { CaptionComponent } from './caption.component';
 import { TextToImage } from './text-to-image.pipe';
+import { SaveService } from '../save.service';
 
 describe( 'The caption component', () => {
   let comp: CaptionComponent;
@@ -14,7 +15,7 @@ describe( 'The caption component', () => {
   beforeEach( () => {
     TestBed.configureTestingModule({
       declarations: [CaptionComponent],
-      providers: [CaptionService, TextToImage]
+      providers: [CaptionService, TextToImage, SaveService]
     }).compileComponents();
 
     fixture = TestBed.createComponent( CaptionComponent );

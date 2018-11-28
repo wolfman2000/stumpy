@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { LocalStorageService } from '../local-storage.service';
 import { WordSpacingPipe } from '../word-spacing.pipe';
 
 import { Difficulty } from './difficulty';
@@ -10,6 +9,7 @@ import { StartState } from './start-state';
 import { SwordLogic } from './sword-logic';
 import { GlitchLogic } from './glitch-logic';
 import { Enemy } from './enemy';
+import { SaveKey, SaveService } from '../save.service';
 
 interface EnumItem<E> {
   value: E;
@@ -23,55 +23,55 @@ function enumToArray<E>(Enum: any): EnumItem<E>[] {
 @Injectable()
 export class SettingsService {
   constructor(
-    private localStorageService: LocalStorageService,
+    private saveService: SaveService,
     private wordSpacingPipe: WordSpacingPipe
   ) {
-    if ( !this.localStorageService.hasItem( 'startState' ) ) {
+    if ( !this.saveService.has( SaveKey.StartState ) ) {
       this.startState = StartState.Standard;
     } else {
-      this._startState = parseInt( localStorage.getItem( 'startState'), 10 );
+      this._startState = parseInt( saveService.restore( SaveKey.StartState), 10 );
     }
 
-    if ( !this.localStorageService.hasItem( 'swordLogic' ) ) {
+    if ( !this.saveService.has( SaveKey.SwordLogic ) ) {
       this.swordLogic = SwordLogic.Randomized;
     } else {
-      this._swordLogic = parseInt( localStorage.getItem( 'swordLogic' ), 10 );
+      this._swordLogic = parseInt( saveService.restore( SaveKey.SwordLogic ), 10 );
     }
 
-    if ( !this.localStorageService.hasItem( 'difficulty' ) ) {
+    if ( !this.saveService.has( SaveKey.Difficulty ) ) {
       this.difficulty = Difficulty.Normal;
     } else {
-      this._difficulty = parseInt( localStorage.getItem( 'difficulty' ), 10 );
+      this._difficulty = parseInt( saveService.restore( SaveKey.Difficulty ), 10 );
     }
 
-    if ( !this.localStorageService.hasItem( 'logic' ) ) {
+    if ( !this.saveService.has( SaveKey.Logic ) ) {
       this.logic = GlitchLogic.None;
     } else {
-      this._logic = parseInt( localStorage.getItem( 'logic' ), 10 );
+      this._logic = parseInt( saveService.restore( SaveKey.Logic ), 10 );
     }
 
-    if ( !this.localStorageService.hasItem( 'showGoMode' ) ) {
+    if ( !this.saveService.has( SaveKey.ShowGoMode ) ) {
       this.showGoMode = 0;
     } else {
-      this._showGoMode = parseInt( localStorage.getItem( 'showGoMode' ), 10 );
+      this._showGoMode = parseInt( saveService.restore( SaveKey.ShowGoMode ), 10 );
     }
 
-    if ( !this.localStorageService.hasItem( 'goal' ) ) {
+    if ( !this.saveService.has( SaveKey.Goal ) ) {
       this.goal = Goal.Ganon;
     } else {
-      this._goal = parseInt( localStorage.getItem( 'goal' ), 10 );
+      this._goal = parseInt( saveService.restore( SaveKey.Goal ), 10 );
     }
 
-    if ( !this.localStorageService.hasItem( 'itemShuffle' ) ) {
+    if ( !this.saveService.has( SaveKey.ItemShuffle ) ) {
       this.itemShuffle = ItemShuffle.Normal;
     } else {
-      this._itemShuffle = parseInt( localStorage.getItem( 'itemShuffle' ), 10 );
+      this._itemShuffle = parseInt( saveService.restore( SaveKey.ItemShuffle ), 10 );
     }
 
-    if ( !this.localStorageService.hasItem( 'enemy' ) ) {
+    if ( !this.saveService.has( SaveKey.Enemy ) ) {
       this.enemy = Enemy.Normal;
     } else {
-      this._enemy = parseInt( localStorage.getItem( 'enemy' ) , 10 );
+      this._enemy = parseInt( saveService.restore( SaveKey.Enemy ) , 10 );
     }
   }
 
@@ -89,7 +89,7 @@ export class SettingsService {
   }
   set startState(startState: StartState) {
     this._startState = parseInt( startState + '', 10 );
-    this.localStorageService.setItem( 'startState', this.startState + '' );
+    this.saveService.save( SaveKey.StartState, this.startState );
   }
 
   get startStateKeys(): any {
@@ -101,7 +101,7 @@ export class SettingsService {
   }
   set swordLogic(swordLogic: SwordLogic) {
     this._swordLogic = parseInt( swordLogic + '', 10 );
-    this.localStorageService.setItem( 'swordLogic', this.swordLogic + '' );
+    this.saveService.save( SaveKey.SwordLogic, this.swordLogic );
   }
 
   get swordLogicKeys(): any {
@@ -113,7 +113,7 @@ export class SettingsService {
   }
   set difficulty(difficulty: Difficulty) {
     this._difficulty = parseInt( difficulty + '', 10 );
-    this.localStorageService.setItem( 'difficulty', this.difficulty + '' );
+    this.saveService.save( SaveKey.Difficulty, this.difficulty );
   }
 
   get difficultyKeys(): any {
@@ -125,7 +125,7 @@ export class SettingsService {
   }
   set logic(logic: GlitchLogic) {
     this._logic = parseInt( logic + '', 10 );
-    this.localStorageService.setItem( 'logic', this.logic + '' );
+    this.saveService.save( SaveKey.Logic, this.logic );
   }
 
   get logicKeys(): any {
@@ -137,7 +137,7 @@ export class SettingsService {
   }
   set showGoMode(goMode: number) {
     this._showGoMode = goMode;
-    this.localStorageService.setItem( 'showGoMode', this.showGoMode + '' );
+    this.saveService.save( SaveKey.ShowGoMode, this.showGoMode );
   }
 
   get showGoModeKeys(): any {
@@ -153,7 +153,7 @@ export class SettingsService {
   }
   set goal(goal: Goal) {
     this._goal = parseInt( goal + '', 10 );
-    this.localStorageService.setItem( 'goal', this.goal + '' );
+    this.saveService.save( SaveKey.Goal, this.goal );
   }
 
   get goalKeys(): any {
@@ -165,7 +165,7 @@ export class SettingsService {
   }
   set itemShuffle(itemShuffle: ItemShuffle) {
     this._itemShuffle = parseInt( itemShuffle + '', 10 );
-    this.localStorageService.setItem( 'itemShuffle', this.itemShuffle + '' );
+    this.saveService.save( SaveKey.ItemShuffle, this.itemShuffle );
   }
 
   get itemShuffleKeys(): any {
@@ -177,7 +177,7 @@ export class SettingsService {
   }
   set enemy(enemy: Enemy) {
     this._enemy = parseInt( enemy + '', 10 );
-    this.localStorageService.setItem( 'enemy', this.enemy + '' );
+    this.saveService.save( SaveKey.Enemy, this.enemy );
   }
 
   get enemyKeys(): any {

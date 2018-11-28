@@ -18,6 +18,7 @@ import { Goal } from '../settings/goal';
 import { SwordLogic } from '../settings/sword-logic';
 import { Availability } from '../map/availability';
 import { settings } from 'cluster';
+import { SaveService } from '../save.service';
 
 describe( 'The Go Mode service', () => {
   let dungeonLocationService: DungeonLocationService;
@@ -26,16 +27,18 @@ describe( 'The Go Mode service', () => {
   let settingsService: SettingsService;
   let goModeService: GoModeService;
   let bossService: BossService;
+  let saveService: SaveService;
 
   beforeAll(() => {
-    settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+    saveService = new SaveService();
+    settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
     spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.UncleAssured );
   });
 
   function reset() {
-    itemService = new ItemService( settingsService );
+    itemService = new ItemService( settingsService, saveService );
     itemService.reset();
-    dungeonService = new DungeonService();
+    dungeonService = new DungeonService( saveService );
     dungeonService.reset();
     bossService = new BossService( settingsService, itemService );
     dungeonLocationService = new DungeonLocationService( itemService, dungeonService, settingsService, bossService );

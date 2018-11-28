@@ -11,6 +11,7 @@ import { WordSpacingPipe } from '../word-spacing.pipe';
 import { Location } from './location';
 import { EntranceLock } from './entrance-lock';
 import { Reward } from './reward';
+import { SaveService } from '../save.service';
 
 describe( 'The dungeon component', () => {
   let comp: DungeonComponent;
@@ -29,7 +30,8 @@ describe( 'The dungeon component', () => {
         SettingsService,
         LocalStorageService,
         CamelCasePipe,
-        WordSpacingPipe
+        WordSpacingPipe,
+        SaveService
       ]
     }).compileComponents();
   }));

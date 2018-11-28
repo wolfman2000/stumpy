@@ -4,7 +4,6 @@ import { DungeonService } from '../../dungeon/dungeon.service';
 import { SettingsService } from '../../settings/settings.service';
 import { LocalStorageService } from '../../local-storage.service';
 
-import { ItemLocation } from './item-location';
 import { Availability } from '../availability';
 import { LocationKey } from './location-key';
 import { ItemKey } from '../../items/item-key';
@@ -13,23 +12,26 @@ import { WordSpacingPipe } from '../../word-spacing.pipe';
 
 import { Location } from '../../dungeon/location';
 import { StartState } from '../../settings/start-state';
+import { SaveService } from '../../save.service';
 
 describe( 'The item location service', () => {
   let itemLocationService: ItemLocationService;
   let itemService: ItemService;
   let dungeonService: DungeonService;
   let settingsService: SettingsService;
+  let saveService: SaveService;
 
   beforeAll(() => {
-    settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+    saveService = new SaveService();
+    settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
   });
 
   beforeEach( () => {
-    itemService = new ItemService( settingsService );
+    itemService = new ItemService( settingsService, saveService );
     itemService.reset();
-    dungeonService = new DungeonService();
+    dungeonService = new DungeonService( saveService );
     dungeonService.reset();
-    itemLocationService = new ItemLocationService( itemService, dungeonService, settingsService );
+    itemLocationService = new ItemLocationService( itemService, dungeonService, settingsService, saveService );
     itemLocationService.reset();
   });
 
@@ -116,13 +118,13 @@ describe( 'The item location service', () => {
 
   describe( 'set to Link\'s house', () => {
     const location = LocationKey.LinksHouse;
-    const tempSettings = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
+    const tempSettings = new SettingsService( new SaveService(), new WordSpacingPipe() );
     let tempService: ItemLocationService;
 
     describe( 'in the open start state', () => {
       beforeEach( () => {
         spyOnProperty( tempSettings, 'startState', 'get').and.returnValue(StartState.Open);
-        tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
+        tempService = new ItemLocationService( itemService, dungeonService, tempSettings, saveService );
       });
 
       it( 'starts off as available.', () => {
@@ -134,7 +136,7 @@ describe( 'The item location service', () => {
     describe( 'in the standard start state', () => {
       beforeEach( () => {
         spyOnProperty( tempSettings, 'startState', 'get').and.returnValue(StartState.Standard);
-        tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
+        tempService = new ItemLocationService( itemService, dungeonService, tempSettings, saveService );
       });
 
       xit( 'starts off as claimed.', () => {
@@ -965,12 +967,12 @@ describe( 'The item location service', () => {
 
   describe( 'set to the three chests in the side of the escape', () => {
     const location = LocationKey.SewerEscapeSideRoom;
-    const tempSettings = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
+    const tempSettings = new SettingsService( new SaveService(), new WordSpacingPipe() );
     let tempService: ItemLocationService;
 
     beforeEach( () => {
       spyOnProperty(tempSettings, 'startState', 'get').and.returnValue(StartState.Open);
-      tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
+      tempService = new ItemLocationService( itemService, dungeonService, tempSettings, saveService );
     });
 
     it( 'starts off as unavailable since boots and bombs are required.', () => {
@@ -993,12 +995,12 @@ describe( 'The item location service', () => {
 
   describe( 'set to the lone chest in the dark of the sewer escape', () => {
     const location = LocationKey.SewerEscapeDarkRoom;
-    const tempSettings = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
+    const tempSettings = new SettingsService( new SaveService(), new WordSpacingPipe() );
     let tempService: ItemLocationService;
 
     beforeEach( () => {
       spyOnProperty(tempSettings, 'startState', 'get').and.returnValue(StartState.Open);
-      tempService = new ItemLocationService( itemService, dungeonService, tempSettings );
+      tempService = new ItemLocationService( itemService, dungeonService, tempSettings, saveService );
     });
 
     it( 'starts off as available through skipping the lantern.', () => {

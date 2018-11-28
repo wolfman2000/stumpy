@@ -36,6 +36,8 @@ export class ItemLocationComponent implements OnInit {
 
     if ( this._itemLocationService.canToggleOpened(this.itemLocationId)) {
       this.itemLocation.toggleOpened();
+
+      this._itemLocationService.saveState();
     }
   }
 

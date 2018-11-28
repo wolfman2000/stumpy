@@ -10,11 +10,13 @@ import { Tunic } from './tunic';
 import { Shield } from './shield';
 
 import { SettingsService } from '../settings/settings.service';
+import { SaveKey, SaveService } from '../save.service';
 
 @Injectable()
 export class ItemService {
   constructor(
-    private _settings: SettingsService
+    private _settings: SettingsService,
+    private _saveService: SaveService
   ) {
     this._items = Items;
 
@@ -66,6 +68,8 @@ export class ItemService {
         [ItemKey.BowAndArrows, this.getBowAndArrowClasses]
       ]
     );
+
+    this.deserialize(this._saveService.restore<number[]>(SaveKey.Items, []));
   }
 
   private _items: Map<ItemKey, Item>;
@@ -607,5 +611,31 @@ export class ItemService {
       || this.hasCane()
       || !!this.fireRod
       || !!this.bomb;
+  }
+
+  saveState() {
+    this._saveService.save<number[]>(SaveKey.Items, this.serialize());
+  }
+
+  private serialize(): number[] {
+    return Object.values(ItemKey).map((key: ItemKey) => {
+      if (!Number.isInteger(key)) {
+        return null;
+      }
+
+      const item: Item = this._items.get(key);
+
+      return item ? item.state : -1;
+    }).filter(item => item !== null);
+  }
+
+  private deserialize(serialized: number[]): void {
+    serialized.forEach((state: number, key: number) => {
+      if (state === -1) {
+        return;
+      }
+
+      this.setItemState(key, state);
+    });
   }
 }

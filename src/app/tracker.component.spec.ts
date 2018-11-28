@@ -25,6 +25,7 @@ import { Difficulty } from './settings/difficulty';
 
 import { WordSpacingPipe } from './word-spacing.pipe';
 import { CamelCasePipe } from './camel-case.pipe';
+import { SaveService } from './save.service';
 
 describe( 'The main tracking component', () => {
   let comp: RandomizerTrackerComponent;
@@ -35,7 +36,7 @@ describe( 'The main tracking component', () => {
   let settingsService: SettingsService;
 
   beforeAll( () => {
-    settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+    settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
     spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Randomized );
     spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
   });
@@ -55,7 +56,8 @@ describe( 'The main tracking component', () => {
         ItemLocationService,
         DungeonLocationService,
         CaptionService,
-        BossService
+        BossService,
+        SaveService
       ],
       imports: [
         NgbModule.forRoot(),

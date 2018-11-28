@@ -12,6 +12,7 @@ import { LocalStorageService } from '../local-storage.service';
 
 import { SwordLogic } from './sword-logic';
 import { Difficulty } from './difficulty';
+import { SaveService } from '../save.service';
 
 describe( 'The settings component', () => {
   let comp: SettingsComponent;
@@ -24,7 +25,7 @@ describe( 'The settings component', () => {
 //  let modalRef: NgbModalRef;
 
   beforeAll( () => {
-    settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+    settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
     spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Randomized );
     spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
   });
@@ -36,7 +37,8 @@ describe( 'The settings component', () => {
         NgbModal,
         WordSpacingPipe,
         LocalStorageService,
-        SettingsService
+        SettingsService,
+        SaveService
       ],
       imports: [NgbModule.forRoot(), FormsModule]
     }).compileComponents();

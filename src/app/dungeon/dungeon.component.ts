@@ -121,6 +121,8 @@ export class DungeonComponent implements OnInit {
     }
 
     this.dungeon.cycleBossForward();
+
+    this.dungeonService.saveState();
   }
 
   whenBossRightClicked( evt: MouseEvent ) {
@@ -136,6 +138,8 @@ export class DungeonComponent implements OnInit {
     }
 
     this.dungeon.cycleBossBackward();
+
+    this.dungeonService.saveState();
   }
 
   whenChestClicked(evt: MouseEvent): void {
@@ -149,6 +153,8 @@ export class DungeonComponent implements OnInit {
     } else {
       this.dungeon.decrementItemChestCount();
     }
+
+    this.dungeonService.saveState();
   }
 
   whenRewardClicked(evt: MouseEvent): void {
@@ -156,6 +162,8 @@ export class DungeonComponent implements OnInit {
     evt.preventDefault();
 
     this.dungeon.cycleReward();
+
+    this.dungeonService.saveState();
   }
 
   whenMedallionClicked(evt: MouseEvent): void {
@@ -163,6 +171,8 @@ export class DungeonComponent implements OnInit {
     evt.preventDefault();
 
     this.dungeon.cycleEntranceLock();
+
+    this.dungeonService.saveState();
   }
 
   whenBigKeyClicked(evt: MouseEvent): void {
@@ -170,6 +180,8 @@ export class DungeonComponent implements OnInit {
     evt.preventDefault();
 
     this.dungeon.toggleBigKey();
+
+    this.dungeonService.saveState();
   }
 
   getBigKeyClasses(): any {
@@ -193,6 +205,8 @@ export class DungeonComponent implements OnInit {
     evt.preventDefault();
 
     this.dungeon.incrementSmallKeyCount();
+
+    this.dungeonService.saveState();
   }
 
   hasSmallKeys(): any {
@@ -208,6 +222,8 @@ export class DungeonComponent implements OnInit {
     evt.preventDefault();
 
     this.dungeon.toggleDefeat();
+
+    this.dungeonService.saveState();
   }
 
   getBossToggleClasses(): any {

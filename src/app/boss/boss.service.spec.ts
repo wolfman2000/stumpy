@@ -10,14 +10,18 @@ import { ItemKey } from '../items/item-key';
 import { SwordLogic } from '../settings/sword-logic';
 
 import { Location } from '../dungeon/location';
+import { SaveService } from '../save.service';
 
 describe( 'The boss service', () => {
   let bossService: BossService;
   let itemService: ItemService;
   let settingsService: SettingsService;
+  let saveService: SaveService;
 
   function reset() {
-    itemService.reset();
+    if (itemService) {
+      itemService.reset();
+    }
   }
 
   function validate(location: Location, value: any) {
@@ -26,10 +30,11 @@ describe( 'The boss service', () => {
 
   describe( 'when not in swordless mode', () => {
     beforeAll(() => {
-      settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+      saveService = new SaveService();
+      settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
       spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Randomized );
 
-      itemService = new ItemService(settingsService);
+      itemService = new ItemService(settingsService, saveService);
       bossService = new BossService(settingsService, itemService);
     });
 
@@ -130,10 +135,11 @@ describe( 'The boss service', () => {
 
   describe( 'when in swordless mode', () => {
     beforeAll(() => {
-      settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+      saveService = new SaveService();
+      settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
       spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Swordless );
 
-      itemService = new ItemService(settingsService);
+      itemService = new ItemService(settingsService, saveService);
       bossService = new BossService(settingsService, itemService);
     });
 

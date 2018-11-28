@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -24,6 +25,7 @@ import { RandomizerTrackerComponent } from './tracker.component';
 
 import { CamelCasePipe } from './camel-case.pipe';
 import { WordSpacingPipe } from './word-spacing.pipe';
+import { SaveService } from './save.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import { WordSpacingPipe } from './word-spacing.pipe';
     DungeonLocationService,
     LocalStorageService,
     SettingsService,
-    BossService
+    BossService,
+    SaveService
   ],
   bootstrap: [AppComponent]
 })

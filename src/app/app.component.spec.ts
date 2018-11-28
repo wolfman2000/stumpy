@@ -25,6 +25,7 @@ import { CaptionService } from './caption/caption.service';
 
 import { WordSpacingPipe } from './word-spacing.pipe';
 import { CamelCasePipe } from './camel-case.pipe';
+import { SaveService } from './save.service';
 
 describe( 'The application component', () => {
   let comp: AppComponent;
@@ -62,7 +63,8 @@ describe( 'The application component', () => {
         {
           provide: ComponentFixtureAutoDetect,
           useValue: true
-        }
+        },
+        SaveService
       ]
     }).compileComponents();
   }));

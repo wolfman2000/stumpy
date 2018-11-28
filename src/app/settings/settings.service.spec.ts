@@ -1,35 +1,21 @@
 import { SettingsService } from './settings.service';
-import { LocalStorageService } from '../local-storage.service';
 
 import { WordSpacingPipe } from '../word-spacing.pipe';
 
 import { SwordLogic } from './sword-logic';
 import { GlitchLogic } from './glitch-logic';
+import { SaveService } from '../save.service';
 
 describe( 'The settings service', () => {
   let service: SettingsService;
 
   beforeAll(() => {
-    service = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+    service = new SettingsService( new SaveService(), new WordSpacingPipe() );
   });
 
   beforeEach(() => {
     service.swordLogic = SwordLogic.Randomized;
     service.logic = GlitchLogic.None;
-
-    const store: any = {};
-
-    spyOn( localStorage, 'getItem' ).and.callFake( (key: string): string => {
-      return store[key] || null;
-    });
-
-    spyOn( localStorage, 'removeItem' ).and.callFake( (key: string): void => {
-      delete store[key];
-    });
-
-    spyOn( localStorage, 'setItem' ).and.callFake( (key: string, value: string): void => {
-      store[key] = value;
-    });
   });
 
   it( 'should start with default settings.', () => {
@@ -41,7 +27,7 @@ describe( 'The settings service', () => {
     service.swordLogic = SwordLogic.UncleAssured;
     service.logic = GlitchLogic.Overworld;
 
-    const secondService = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
+    const secondService = new SettingsService(new SaveService(), new WordSpacingPipe() );
 
     expect( secondService.swordLogic ).toBe( service.swordLogic );
     expect( secondService.logic ).toBe( service.logic );

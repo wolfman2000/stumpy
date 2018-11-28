@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 
-import { EntranceLock } from './entrance-lock';
 import { Location } from './location';
 import { Dungeon } from './dungeon';
 import { Reward } from './reward';
 
 import { Dungeons } from './dungeon.repository';
+import { SaveKey, SaveService } from '../save.service';
 
 @Injectable()
 export class DungeonService {
-  constructor() {
+  constructor(
+    private _saveService: SaveService
+  ) {
     this._dungeons = Dungeons;
+
+    this.deserialize(this._saveService.restore<number[][]>(SaveKey.Dungeons, []));
   }
 
   private _dungeons: Map<Location, Dungeon>;
@@ -79,8 +83,57 @@ export class DungeonService {
     return id !== Location.CastleTower;
   }
 
+  saveState() {
+    this._saveService.save<number[][]>(SaveKey.Dungeons, this.serialize());
+  }
+
   private areAllRewardDungeonsBeaten(): boolean {
     return Array.from( this.dungeons.values() )
       .filter( d => d.reward !== Reward.None ).every( d => d.isBossDefeated );
+  }
+
+  private serialize(): number[][] {
+    return Object.values(Location).map((key: Location) => {
+      if (!Number.isInteger(key)) {
+        return null;
+      }
+
+      const dungeon: Dungeon = this._dungeons.get(key);
+
+      return !dungeon ? [] : [
+        dungeon.itemChestCount,
+        dungeon.totalChestCount,
+        dungeon.bossId,
+        dungeon.isBossDefeated ? 1 : 0,
+        dungeon.hasBigKey ? 1 : 0,
+        dungeon.smallKeyCount,
+        dungeon.retroChestCount,
+        dungeon.reward,
+        dungeon.entranceLock,
+      ];
+    }).filter(item => item !== null);
+  }
+
+  private deserialize(serialized: number[][]): void {
+    serialized.forEach((states: number[], key: number) => {
+      if (states.length === 0) {
+        return;
+      }
+
+      const dungeon: Dungeon = this._dungeons.get(key);
+
+      // TODO create setters?
+      dungeon['_itemChestCount'] = states[0];
+      dungeon['_totalChestCount'] = states[1];
+      dungeon['_bossId'] = states[2];
+      dungeon['_isBossDefeated'] = !!states[3];
+      dungeon['_hasBigKey'] = !!states[4];
+      dungeon['_smallKeyCount'] = states[5];
+      dungeon['_retroChestCount'] = states[6];
+      dungeon['_reward'] = states[7];
+      dungeon['_entranceLock'] = states[8];
+
+      this._dungeons.set(key, dungeon);
+    });
   }
 }

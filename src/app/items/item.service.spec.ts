@@ -9,21 +9,23 @@ import { SwordLogic } from '../settings/sword-logic';
 import { Difficulty } from '../settings/difficulty';
 
 import { Sword } from './sword';
-import { Item } from './item';
 import { ItemKey } from './item-key';
+import { SaveService } from '../save.service';
 
 describe( 'The item service', () => {
   let itemService: ItemService;
   let settingsService: SettingsService;
+  let saveService: SaveService;
 
   function reset() {
-    itemService = new ItemService( settingsService );
+    saveService = new SaveService();
+    itemService = new ItemService( settingsService, saveService );
     itemService.reset();
   }
 
   describe( '-- in swordless mode --', () => {
     beforeAll(() => {
-      settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+      settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
       spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Swordless );
       spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
     });
@@ -72,7 +74,7 @@ describe( 'The item service', () => {
 
   describe( '-- in expert open uncle assured mode --', () => {
     beforeAll(() => {
-      settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+      settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
       spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.UncleAssured );
       spyOn( settingsService, 'isExpertOrInsane' ).and.returnValue( true );
       spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Expert );
@@ -192,7 +194,7 @@ describe( 'The item service', () => {
 
   describe( '-- in hard randomized sword mode --', () => {
     beforeAll(() => {
-      settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+      settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
       spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Randomized );
       spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Hard );
     });

@@ -17,6 +17,7 @@ import { ItemKey } from '../items/item-key';
 
 import { SwordLogic } from '../settings/sword-logic';
 import { Difficulty } from '../settings/difficulty';
+import { SaveService } from '../save.service';
 
 describe( 'The reset component', () => {
   let comp: ResetComponent;
@@ -32,7 +33,7 @@ describe( 'The reset component', () => {
   let dungeonLocationService: DungeonLocationService;
 
   beforeAll( () => {
-    settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+    settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
     spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.Randomized );
     spyOnProperty( settingsService, 'difficulty', 'get').and.returnValue( Difficulty.Normal );
   });
@@ -49,7 +50,8 @@ describe( 'The reset component', () => {
         DungeonService,
         ItemLocationService,
         DungeonLocationService,
-        BossService
+        BossService,
+        SaveService
       ]
     }).compileComponents();
 

@@ -9,6 +9,7 @@ import { SettingsService } from '../settings/settings.service';
 import { LocalStorageService } from '../local-storage.service';
 
 import { ItemKey } from './item-key';
+import { SaveService } from '../save.service';
 
 describe( 'The item component', () => {
   let comp: ItemComponent;
@@ -37,7 +38,7 @@ describe( 'The item component', () => {
   beforeEach( async(() => {
     TestBed.configureTestingModule({
       declarations: [ItemComponent],
-      providers: [WordSpacingPipe, ItemService, SettingsService, LocalStorageService]
+      providers: [WordSpacingPipe, ItemService, SettingsService, LocalStorageService, SaveService]
     }).compileComponents();
   }));
 

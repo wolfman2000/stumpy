@@ -15,13 +15,15 @@ import { ItemLocations } from './item-location.repository';
 
 import { EntranceLock } from '../../dungeon/entrance-lock';
 import { Location } from '../../dungeon/location';
+import { SaveKey, SaveService } from '../../save.service';
 
 @Injectable()
 export class ItemLocationService {
   constructor(
     private _inventory: ItemService,
     private _dungeons: DungeonService,
-    private _settings: SettingsService
+    private _settings: SettingsService,
+    private _saveService: SaveService
   ) {
     this._itemLocations = ItemLocations;
     this._availabilityMap = new Map<LocationKey, () => Availability>(
@@ -93,6 +95,8 @@ export class ItemLocationService {
         [LocationKey.PyramidFairy, this.getFatFairyAvailability]
       ]
     );
+
+    this.deserialize(this._saveService.restore<number[]>(SaveKey.ItemLocations, []));
   }
 
   private _itemLocations: Map<LocationKey, ItemLocation>;
@@ -823,6 +827,40 @@ export class ItemLocationService {
       if ( l.isOpened ) {
         l.toggleOpened();
       }
+    });
+  }
+  saveState() {
+    this._saveService.save<number[]>(SaveKey.ItemLocations, this.serialize());
+  }
+
+  private serialize(): number[] {
+    return Object.values(LocationKey).map((key: LocationKey) => {
+      if (!Number.isInteger(key)) {
+        return null;
+      }
+
+      const location: ItemLocation = this._itemLocations.get(key);
+
+      if (!location) {
+        return -1;
+      }
+
+      return location.isOpened ? 1 : 0;
+    }).filter(item => item !== null);
+  }
+
+  private deserialize(serializable: number[]): void {
+    serializable.forEach((state: number, key: number) => {
+      if (state === -1) {
+        return;
+      }
+
+      const location: ItemLocation = this._itemLocations.get(key);
+
+      // TODO create setter?
+      location['_isOpened'] = !!state;
+
+      this._itemLocations.set(key, location);
     });
   }
 }

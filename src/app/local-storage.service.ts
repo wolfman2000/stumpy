@@ -6,12 +6,12 @@ export class LocalStorageService {
     return this.getItem( key ) !== null;
   }
 
-  getItem( key: string ): string {
-    return localStorage.getItem( key );
+  getItem<T = any>( key: string ): T {
+    return JSON.parse(localStorage.getItem( key ));
   }
 
-  setItem( key: string, value: string ): void {
-    localStorage.setItem( key, value );
+  setItem<T = any>( key: string, value: T ): void {
+    localStorage.setItem( key, JSON.stringify(value) );
   }
 
   removeItem( key: string ): void {

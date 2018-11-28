@@ -21,6 +21,8 @@ export class ItemComponent {
     evt.preventDefault();
 
     this._itemService.setItemState(this.itemId, this._itemService.getItem(this.itemId).state + 1);
+
+    this._itemService.saveState();
   }
 
   getClasses(): any {

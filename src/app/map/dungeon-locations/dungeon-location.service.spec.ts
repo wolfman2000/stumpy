@@ -14,6 +14,7 @@ import { ItemKey } from '../../items/item-key';
 
 import { ItemShuffle } from '../../settings/item-shuffle';
 import { SwordLogic } from '../../settings/sword-logic';
+import { SaveService } from '../../save.service';
 
 describe( 'The dungeon location service', () => {
   let dungeonLocationService: DungeonLocationService;
@@ -21,16 +22,18 @@ describe( 'The dungeon location service', () => {
   let dungeonService: DungeonService;
   let settingsService: SettingsService;
   let bossService: BossService;
+  let saveService: SaveService;
 
   beforeAll(() => {
-    settingsService = new SettingsService( new LocalStorageService(), new WordSpacingPipe() );
+    saveService = new SaveService();
+    settingsService = new SettingsService( new SaveService(), new WordSpacingPipe() );
     spyOnProperty( settingsService, 'swordLogic', 'get').and.returnValue( SwordLogic.UncleAssured );
   });
 
   function reset() {
-    itemService = new ItemService( settingsService );
+    itemService = new ItemService( settingsService, saveService );
     itemService.reset();
-    dungeonService = new DungeonService();
+    dungeonService = new DungeonService( saveService );
     dungeonService.reset();
     bossService = new BossService( settingsService, itemService );
     dungeonLocationService = new DungeonLocationService( itemService, dungeonService, settingsService, bossService );
@@ -76,7 +79,7 @@ describe( 'The dungeon location service', () => {
       });
 
       describe( 'in swordless mode', () => {
-        const tempSettings = new SettingsService(new LocalStorageService(), new WordSpacingPipe() );
+        const tempSettings = new SettingsService( new SaveService(), new WordSpacingPipe() );
         let tempService: DungeonLocationService;
 
         beforeEach( () => {
