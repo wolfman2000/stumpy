@@ -1,4 +1,4 @@
-# Stumpy, a Link to the Past Item Tracker by Wolfman2000
+# Stumpy, a Link to the Past Item Tracker by Wolfman2000 (ABANDONED)
 
 [![Build Status](https://travis-ci.org/wolfman2000/stumpy.svg?branch=master)](https://travis-ci.org/wolfman2000/stumpy)
 
